@@ -1,0 +1,13 @@
+﻿<#+
+// <copyright file="ComponentGenerator.tt" company="">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+public class ComponentGenerator : Generator
+{
+	protected override void RunCore()
+    {
+		
+	}
+}
+#>

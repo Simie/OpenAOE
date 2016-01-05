@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAOE", "OpenAOE\OpenAOE.csproj", "{511E2C3A-48B9-4BC7-AAF6-AAD603DB0A29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAOE.Games.AGE2", "OpenAOE.Games.AGE2\OpenAOE.Games.AGE2.csproj", "{C2E92F20-A0E4-4FE3-A218-635472861275}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAOE.Shared", "OpenAOE.Shared\OpenAOE.Shared.csproj", "{17732572-A1C6-4956-8024-9C20DC5DFAC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAOE.Tests", "OpenAOE.Tests\OpenAOE.Tests.csproj", "{A91085FD-8137-4EA2-A22E-27EAB4C99702}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAOE.Engine", "OpenAOE.Engine\OpenAOE.Engine.csproj", "{5B2ADB68-6E82-4230-99B7-CD031E60AD3D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{511E2C3A-48B9-4BC7-AAF6-AAD603DB0A29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{511E2C3A-48B9-4BC7-AAF6-AAD603DB0A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{511E2C3A-48B9-4BC7-AAF6-AAD603DB0A29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{511E2C3A-48B9-4BC7-AAF6-AAD603DB0A29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2E92F20-A0E4-4FE3-A218-635472861275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2E92F20-A0E4-4FE3-A218-635472861275}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2E92F20-A0E4-4FE3-A218-635472861275}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2E92F20-A0E4-4FE3-A218-635472861275}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17732572-A1C6-4956-8024-9C20DC5DFAC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17732572-A1C6-4956-8024-9C20DC5DFAC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17732572-A1C6-4956-8024-9C20DC5DFAC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17732572-A1C6-4956-8024-9C20DC5DFAC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A91085FD-8137-4EA2-A22E-27EAB4C99702}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A91085FD-8137-4EA2-A22E-27EAB4C99702}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A91085FD-8137-4EA2-A22E-27EAB4C99702}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A91085FD-8137-4EA2-A22E-27EAB4C99702}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B2ADB68-6E82-4230-99B7-CD031E60AD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B2ADB68-6E82-4230-99B7-CD031E60AD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B2ADB68-6E82-4230-99B7-CD031E60AD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B2ADB68-6E82-4230-99B7-CD031E60AD3D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

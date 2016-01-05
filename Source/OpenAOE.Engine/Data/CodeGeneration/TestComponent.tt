@@ -1,0 +1,13 @@
+<#@ template language="C#" debug="True" #>
+<#@ output extension="cs" #>
+<#@ include file="ComponentTemplate.tt" #>
+<#
+var t = new ComponentTemplate(typeof(ITestComponent));
+t.Render();
+#>
+<#+
+public interface ITestComponent 
+{
+	string TestString { get; set; }
+}
+#>

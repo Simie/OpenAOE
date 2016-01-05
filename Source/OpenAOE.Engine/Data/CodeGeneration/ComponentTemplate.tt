@@ -1,0 +1,34 @@
+﻿<#@ include file="T4Toolbox.tt" #>
+<#@ import namespace="System" #>
+<#+
+// <copyright file="ComponentTemplate.tt" company="">
+//  Copyright © . All Rights Reserved.
+// </copyright>
+
+public class ComponentTemplate : CSharpTemplate
+{
+	private System.Type _componentType;
+
+	public ComponentTemplate(Type componentInterface)
+	{
+		_componentType = componentInterface;
+	}
+
+	public override string TransformText()
+	{
+		base.TransformText();
+#>
+namespace <#= DefaultNamespace #>
+{
+	public class <#= Identifier("Sample Class") #>
+	{
+		private string <#= FieldName("Sample Field") #>;
+
+		public string <#= PropertyName("Sample Property") #> { get; set; }
+	}
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>
