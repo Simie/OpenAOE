@@ -57,6 +57,12 @@ namespace OpenAOE.Engine.Utility
         public readonly int Id;
 
         /// <summary>
+        /// Returns the Type object representing the interface of the component this
+        /// accessor accesses.
+        /// </summary>
+        public Type ComponentType { get { return ComponentAccessorFactory.GetType(this); } }
+
+        /// <summary>
         /// Indicates whether this instance and a specified object are equal.
         /// </summary>
         public override bool Equals(Object obj)

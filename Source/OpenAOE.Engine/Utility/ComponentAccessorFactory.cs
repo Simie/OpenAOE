@@ -83,5 +83,15 @@ namespace OpenAOE.Engine.Utility
 
             return _ids[type];
         }
+
+        public static Type GetType(ComponentAccessor accessor)
+        {
+            if (!_ids.ContainsValue(accessor.Id))
+            {
+                throw new InvalidOperationException();
+            }
+
+            return _ids.Single(p => p.Value == accessor.Id).Key;
+        }
     }
 }

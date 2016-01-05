@@ -67,5 +67,12 @@ namespace OpenAOE.Engine.Tests
                 new ComponentAccessor(typeof (IWriteableComponent<ISimpleComponent>));
             });
         }
+
+        [Test]
+        public void ComponentAccessorReturnsCorrectType()
+        {
+            ComponentMap<ISimpleComponent>.Accessor.ComponentType.ShouldBe(typeof (ISimpleComponent));
+            WriteableComponentMap<IWriteableSimpleComponent>.Accessor.ComponentType.ShouldBe(typeof (ISimpleComponent));
+        }
     }
 }

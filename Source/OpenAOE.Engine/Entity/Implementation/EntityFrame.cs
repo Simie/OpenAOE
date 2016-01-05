@@ -10,14 +10,14 @@ namespace OpenAOE.Engine.Entity.Implementation
     {
         private readonly EntityDirtyTracker _dirtyTracker = new EntityDirtyTracker();
 
-        public void SetIsDirty<T>() where T : IComponent
+        public void SetIsDirty(ComponentAccessor accessor)
         {
-            _dirtyTracker.SetDirty<T>();
+            _dirtyTracker.SetDirty(accessor);
         }
 
-        public bool WasModified<T>() where T : IComponent
+        public bool WasModified<T>(ComponentAccessor accessor)
         {
-            return _dirtyTracker.IsDirty<T>();
+            return _dirtyTracker.IsDirty(accessor);
         }
     }
 }
