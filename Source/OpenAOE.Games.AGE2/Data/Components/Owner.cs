@@ -7,12 +7,12 @@ namespace OpenAOE.Games.AGE2.Data.Components
         uint PlayerId { get; }
     }
 
-    public interface IWriteableOwner : IOwner
+    public interface IWriteableOwner : IWriteableComponent
     {
-        new uint PlayerId { get; set; }
+        uint PlayerId { set; }
     }
 
-    class Owner : Component<Owner>, IWriteableOwner
+    class Owner : Component<Owner, IOwner, IWriteableOwner>, IOwner, IWriteableOwner
     {
         public uint PlayerId { get; set; }
 

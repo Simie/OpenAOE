@@ -2,7 +2,25 @@
 
 namespace OpenAOE.Games.AGE2.Data.Components
 {
-    public class Player : Component<Player>
+    public interface IPlayer : IComponent
+    {
+        string Name { get; }
+
+        byte Team { get; }
+
+        byte ColourIndex { get; }
+    }
+
+    public interface IWriteablePlayer : IWriteableComponent<IPlayer>
+    {
+        string Name { set; }
+
+        byte Team { set; }
+
+        byte ColourIndex { set; }
+    }
+
+    class Player : Component<Player, IPlayer, IWriteablePlayer>, IPlayer, IWriteablePlayer
     {
         /// <summary>
         /// Name displayed in UI to refer to this player.
@@ -10,7 +28,7 @@ namespace OpenAOE.Games.AGE2.Data.Components
         public string Name { get; set; }
 
         public byte Team { get; set; }
-
+        
         public byte ColourIndex { get; set; }
 
         public override void CopyTo(Player other)

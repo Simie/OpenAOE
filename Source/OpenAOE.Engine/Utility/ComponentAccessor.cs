@@ -16,8 +16,9 @@
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// Modified for use with OpenAOE by Simon Moles
+//
+// Modified and stripped down for use with OpenAOE by Simon Moles
+// ReSharper disable StaticMemberInGenericType
 
 using System;
 using OpenAOE.Engine.Data;
@@ -27,38 +28,27 @@ namespace OpenAOE.Engine.Utility
     /// <summary>
     /// Provides a convenient and efficient way to access a type of Data.
     /// </summary>
-    public struct DataAccessor
+    public struct ComponentAccessor
     {
         /// <summary>
-        /// Creates a new DataAccessor that accesses the specified Data type.
+        /// Creates a new ComponentAccessor that accesses the specified Data type.
         /// </summary>
         /// <param name="dataType">The type of Data to retrieve; note that this parameter must be a
         /// subtype of Data</param>
-        public DataAccessor(Type dataType)
+        public ComponentAccessor(Type dataType)
             : this()
         {
-            Id = DataAccessorFactory.GetId(dataType);
+            Id = ComponentAccessorFactory.GetId(dataType);
         }
 
         /// <summary>
-        /// Directly construct a DataAccessor with the given id.
+        /// Directly construct a ComponentAccessor with the given id.
         /// </summary>
         /// <param name="id">The id of the DataAccessor</param>
-        internal DataAccessor(int id)
+        internal ComponentAccessor(int id)
             : this()
         {
             Id = id;
-        }
-
-        /// <summary>
-        /// Helper method to get the type of data that this given DataAccessor maps back to.
-        /// </summary>
-        public Type DataType
-        {
-            get
-            {
-                return DataAccessorFactory.GetTypeFromAccessor(this);
-            }
         }
 
         /// <summary>
@@ -71,7 +61,7 @@ namespace OpenAOE.Engine.Utility
         /// </summary>
         public override bool Equals(Object obj)
         {
-            return obj is DataAccessor && this == (DataAccessor)obj;
+            return obj is ComponentAccessor && this == (ComponentAccessor)obj;
         }
         /// <summary>
         /// Returns a hash code for this instance.
@@ -83,34 +73,55 @@ namespace OpenAOE.Engine.Utility
         /// <summary>
         /// Indicates whether this instance and a specified object are equal.
         /// </summary>
-        public static bool operator ==(DataAccessor x, DataAccessor y)
+        public static bool operator ==(ComponentAccessor x, ComponentAccessor y)
         {
             return x.Id == y.Id;
         }
         /// <summary>
         /// Indicates whether this instance and a specified object are not equal.
         /// </summary>
-        public static bool operator !=(DataAccessor x, DataAccessor y)
+        public static bool operator !=(ComponentAccessor x, ComponentAccessor y)
         {
             return !(x == y);
         }
     }
 
     /// <summary>
-    /// Map a data type to its respective accessor, at compile time.
+    /// Map a component interface to its respective accessor, at compile time.
     /// </summary>
     /// <typeparam name="T">The type of Data to map.</typeparam>
-    public class DataMap<T> where T : IComponent
+    public static class ComponentMap<T> where T : IComponent
     {
-        static DataMap()
+        static ComponentMap()
         {
-            Accessor = new DataAccessor(typeof(T));
+            Accessor = new ComponentAccessor(typeof(T));
         }
 
         /// <summary>
         /// Gets the accessor for the specified data type.
         /// </summary>
-        public static DataAccessor Accessor
+        public static ComponentAccessor Accessor
+        {
+            get;
+            private set;
+        }
+    }
+
+    /// <summary>
+    /// Map a writeable component interface to its respective accessor, at compile time.
+    /// </summary>
+    /// <typeparam name="T">The type of Data to map.</typeparam>
+    public static class WriteableComponentMap<T> where T : IWriteableComponent
+    {
+        static WriteableComponentMap()
+        {
+            Accessor = new ComponentAccessor(typeof(T));
+        }
+
+        /// <summary>
+        /// Gets the accessor for the specified data type.
+        /// </summary>
+        public static ComponentAccessor Accessor
         {
             get;
             private set;

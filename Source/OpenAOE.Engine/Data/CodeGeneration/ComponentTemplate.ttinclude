@@ -1,0 +1,82 @@
+﻿<#@ include file="T4Toolbox.tt"#>
+<#@ assembly name="T4Toolbox.dll" #>
+<#@ assembly name="System.Core"#>
+<#@ include file="ComponentProperty.ttinclude" #>
+<#@ import namespace="T4Toolbox" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#+
+public class ComponentTemplate : CSharpTemplate
+{
+    public static ComponentTemplate FromInterface<T>() where T : class
+    {
+        return FromInterface(typeof (T));
+    }
+
+    static ComponentTemplate FromInterface(Type interfaceType)
+    {
+		if(!interfaceType.IsInterface)
+			throw new ArgumentException("interfaceType should be an interface");
+
+        var name = interfaceType.Name;
+        if (name[0] == 'I')
+            name = name.Substring(1);
+
+        return new ComponentTemplate(name,
+            interfaceType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                         .Select(ComponentProperty.FromPropertyInfo));
+    }
+
+    private readonly string _name;
+    private readonly List<ComponentProperty> _properties;
+
+	ComponentTemplate(string name, IEnumerable<ComponentProperty> components)
+	{
+	    _name = name;
+	    _properties = components.ToList();
+	}
+
+    public override string TransformText()
+	{
+		base.TransformText();
+#>
+namespace <#= DefaultNamespace #>
+{
+	public interface <#= Identifier("I" + _name) #>
+	{
+<#+		
+		PushIndent("\t");
+
+		PushIndent("\t");
+
+		foreach (var prop in _properties)
+		{
+			WriteLine(prop.GetReadOnly());
+		}
+
+		PopIndent();
+#>
+	}
+
+	public interface <#= Identifier("IWriteable" + _name) #>
+	{
+<#+
+		PushIndent("\t");
+
+		foreach (var prop in _properties)
+		{
+			WriteLine(prop.GetWriteable());
+		}
+
+		PopIndent();
+
+        PopIndent();
+#>
+	}
+}
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

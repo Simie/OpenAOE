@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using OpenAOE.Engine.System;
 using OpenAOE.Engine.Utility;
+using Shouldly;
 
-namespace OpenAOE.Tests
+namespace OpenAOE.Engine.Tests
 {
     /// <summary>
     /// Tests for the <see cref="ExecuteOrderSorter"/> class.
@@ -51,7 +52,9 @@ namespace OpenAOE.Tests
 
             var list = new List<object>() {afterBeforeTest1, test1, beforeTest1, afterTest1, unspecified};
             var sorted = ExecuteOrderSorter.Sort(list);
-            
+
+            sorted.Count.ShouldBe(list.Count);
+
             foreach (var o in sorted)
             {
                 Console.WriteLine(o);
@@ -64,6 +67,9 @@ namespace OpenAOE.Tests
 
         void AssertOrder(object before, object after, IList<object> list)
         {
+            list.ShouldContain(before);
+            list.ShouldContain(after);
+
             foreach (var t in list)
             {
                 if (t == before)

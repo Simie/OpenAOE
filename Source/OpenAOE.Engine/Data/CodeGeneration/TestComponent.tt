@@ -1,8 +1,8 @@
 <#@ template language="C#" debug="True" #>
 <#@ output extension="cs" #>
-<#@ include file="ComponentTemplate.tt" #>
+<#@ include file="ComponentTemplate.ttinclude" #>
 <#
-var t = new ComponentTemplate(typeof(ITestComponent));
+var t = ComponentTemplate.FromInterface<ITestComponent>();
 t.Render();
 #>
 <#+
