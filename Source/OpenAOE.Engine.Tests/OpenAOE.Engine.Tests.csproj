@@ -59,6 +59,7 @@
     <Compile Include="ExecuteOrderSorterTest.cs" />
     <Compile Include="RuntimeEntityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestData\Components\Bad\IAmNotComponent.cs" />
     <Compile Include="TestData\Components\Bad\MultiInheritingComponent.cs" />
     <Compile Include="TestData\Components\OtherSimpleComponent.cs" />
     <Compile Include="TestData\Components\SimpleComponent.cs" />

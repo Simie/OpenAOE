@@ -17,7 +17,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-// Modified and stripped down for use with OpenAOE by Simon Moles
+// Modified and adapted for use with OpenAOE by Simon Moles
 // ReSharper disable StaticMemberInGenericType
 
 using System;

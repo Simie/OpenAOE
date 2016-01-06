@@ -74,5 +74,11 @@ namespace OpenAOE.Engine.Tests
             ComponentMap<ISimpleComponent>.Accessor.ComponentType.ShouldBe(typeof (ISimpleComponent));
             WriteableComponentMap<IWriteableSimpleComponent>.Accessor.ComponentType.ShouldBe(typeof (ISimpleComponent));
         }
+
+        [Test]
+        public void ComponentAccessorFactoryRejectsNonComponent()
+        {
+            Should.Throw<ArgumentException>(() => new ComponentAccessor(typeof (IAmNotComponent)));
+        }
     }
 }
