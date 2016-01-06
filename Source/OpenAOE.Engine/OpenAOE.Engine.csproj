@@ -69,6 +69,7 @@
     <Compile Include="Data\Command.cs" />
     <Compile Include="Data\Component.cs" />
     <Compile Include="Entity\EntityFactory.cs" />
+    <Compile Include="Entity\IComponentFactory.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\IEntityService.cs" />
     <Compile Include="Entity\Implementation\EntityFrame.cs" />
@@ -82,7 +83,7 @@
     <Compile Include="System\ISystem.cs" />
     <Compile Include="System\SystemController.cs" />
     <Compile Include="System\SystemTriggers.cs" />
-    <Compile Include="Utility\ComponentFactory.cs" />
+    <Compile Include="Entity\Implementation\ComponentFactory.cs" />
     <Compile Include="Utility\ComponentAccessor.cs" />
     <Compile Include="Utility\ComponentAccessorFactory.cs" />
     <Compile Include="Utility\EntityDirtyTracker.cs" />

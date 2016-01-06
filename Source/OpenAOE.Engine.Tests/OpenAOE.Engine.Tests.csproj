@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -55,6 +59,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ComponentAccessorTests.cs" />
+    <Compile Include="ComponentFactoryTests.cs" />
     <Compile Include="EntityDirtyTrackerTests.cs" />
     <Compile Include="ExecuteOrderSorterTest.cs" />
     <Compile Include="RuntimeEntityTests.cs" />
@@ -63,6 +68,7 @@
     <Compile Include="TestData\Components\Bad\MultiInheritingComponent.cs" />
     <Compile Include="TestData\Components\OtherSimpleComponent.cs" />
     <Compile Include="TestData\Components\SimpleComponent.cs" />
+    <Compile Include="TestData\TestComponentModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenAOE.Engine\OpenAOE.Engine.csproj">

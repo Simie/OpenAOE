@@ -1,4 +1,8 @@
-﻿using Ninject.Modules;
+﻿using Ninject.Extensions.NamedScope;
+using Ninject.Modules;
+using OpenAOE.Engine.Entity;
+using OpenAOE.Engine.Entity.Implementation;
+using OpenAOE.Engine.Utility;
 
 namespace OpenAOE.Engine
 {
@@ -12,6 +16,7 @@ namespace OpenAOE.Engine
         public override void Load()
         {
             // TODO: Use Context Preservation to enable factories to use the correctly scoped services if constructed post-SimulationInstance request
+            Bind<IComponentFactory>().To<ComponentFactory>().InNamedScope(SimulationScope);
 
             /*Bind<ISimulationInstance>().To<SimulationInstance>().DefinesNamedScope(SimulationScope);
 
