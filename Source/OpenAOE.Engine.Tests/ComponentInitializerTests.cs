@@ -14,12 +14,12 @@ namespace OpenAOE.Engine.Tests
         {
             public override void CopyTo(InvalidComponentInterface other)
             {
-                throw new global::System.NotImplementedException();
+                throw new NotImplementedException();
             }
 
             public int Value
             {
-                set { throw new global::System.NotImplementedException(); }
+                set { throw new NotImplementedException(); }
             }
         }
 

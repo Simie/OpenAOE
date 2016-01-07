@@ -16,6 +16,24 @@ namespace OpenAOE.Engine.Tests
     public class ComponentAccessorTests
     {
         [Test]
+        public void TestEquality()
+        {
+            var a1 = new ComponentAccessor(typeof(ISimpleComponent));
+            var a2 = new ComponentAccessor(typeof(ISimpleComponent));
+
+            (a1 == a2).ShouldBeTrue();
+        }
+
+        [Test]
+        public void TestInequality()
+        {
+            var a1 = new ComponentAccessor(typeof(ISimpleComponent));
+            var a2 = new ComponentAccessor(typeof(IOtherSimpleComponent));
+
+            (a1 != a2).ShouldBeTrue();
+        }
+
+        [Test]
         public void ReturnsUniqueIdForEachComponent()
         {
             var accessor1 = ComponentMap<ISimpleComponent>.Accessor;

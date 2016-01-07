@@ -36,10 +36,7 @@ namespace OpenAOE.Engine.Utility
         /// <param name="dataType">The type of Data to retrieve; note that this parameter must be a
         /// subtype of Data</param>
         public ComponentAccessor(Type dataType)
-            : this()
-        {
-            Id = ComponentAccessorFactory.GetId(dataType);
-        }
+            : this(ComponentAccessorFactory.GetId(dataType)) {}
 
         /// <summary>
         /// Directly construct a ComponentAccessor with the given id.
