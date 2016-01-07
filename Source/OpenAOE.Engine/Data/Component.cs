@@ -46,12 +46,20 @@ namespace OpenAOE.Engine.Data
     {
         static Component()
         {
-            if(typeof(TRead) == typeof(IComponent))
+            VerifyGenericParameters(typeof(TRead), typeof(TWrite));
+        }
+
+        /// <summary>
+        /// Ensures that the TRead and TWrite arguments are not just the interfaces they should be inheriting from.
+        /// </summary>
+        internal static void VerifyGenericParameters(Type read, Type write)
+        {
+            if (read == typeof(IComponent))
                 throw new NotSupportedException("TRead must be an interface that inherits from IComponent, but not be IComponent");
 
-            if (typeof(TWrite) == typeof(IWriteableComponent))
+            if (write == typeof(IWriteableComponent))
                 throw new NotSupportedException("TWrite must be an interface that inherits from IWriteableComponent, but not be IWriteableComponent");
-        }  
+        }
 
         public abstract void CopyTo(TThis other);
 
@@ -62,7 +70,7 @@ namespace OpenAOE.Engine.Data
             return t;
         }
 
-        public void CopyTo(IComponent component)
+        void IComponent.CopyTo(IComponent component)
         {
             if(!(component is TThis))
                 throw new ArgumentException("component must be of same type to copy", nameof(component));
