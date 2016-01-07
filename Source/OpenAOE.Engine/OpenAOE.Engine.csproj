@@ -64,7 +64,6 @@
     </Compile>
     <Compile Include="Data\Command.cs" />
     <Compile Include="Data\Component.cs" />
-    <Compile Include="Entity\EntityFactory.cs" />
     <Compile Include="Entity\IComponentFactory.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\IEntityService.cs" />
@@ -82,6 +81,7 @@
     <Compile Include="Entity\Implementation\ComponentFactory.cs" />
     <Compile Include="Utility\ComponentAccessor.cs" />
     <Compile Include="Utility\ComponentAccessorFactory.cs" />
+    <Compile Include="Utility\ComponentReflectionUtility.cs" />
     <Compile Include="Utility\EntityDirtyTracker.cs" />
     <Compile Include="Utility\ExecuteOrderSorter.cs" />
   </ItemGroup>

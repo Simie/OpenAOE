@@ -11,7 +11,7 @@ namespace OpenAOE.Engine.Utility
         private readonly ConcurrentDictionary<int, bool> _dirtyComponents = new ConcurrentDictionary<int, bool>();
 
         /// <summary>
-        /// Set the component with <paramref name="accessor"/> to be dirty. 
+        /// Set the component with <paramref name="accessor"/> to be dirty.
         /// </summary>
         /// <param name="accessor">Component accessor to mark as dirty.</param>
         /// <returns>True if successfully marked component as dirty. False if component is already dirty.</returns>
