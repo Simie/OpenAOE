@@ -68,5 +68,18 @@ namespace OpenAOE.Engine.Tests
 
             mock.Verify(poster => poster.Post(It.IsAny<EntityComponentModified>()), Times.AtLeastOnce);
         }
+
+        [Test]
+        public void EntityCommitsChangesToDirtyComponents()
+        {
+            var entity = new RuntimeEntity(0, new IComponent[] { new SimpleComponent() }, Mock.Of<IEventPoster>());
+
+            var initialValue = entity.Current<ISimpleComponent>().Value;
+
+            entity.Modify<IWriteableSimpleComponent>().Value = 5;
+            entity.Current<ISimpleComponent>().Value.ShouldBe(initialValue);
+            entity.Commit();
+            entity.Current<ISimpleComponent>().Value.ShouldBe(5);
+        }
     }
 }

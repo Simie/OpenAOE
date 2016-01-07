@@ -65,5 +65,21 @@ namespace OpenAOE.Engine.Entity.Implementation
             _eventPoster.Post(new EntityComponentModified(Id, accessor));
             return (T)_components[accessor].Next;
         }
+
+        /// <summary>
+        /// Commit all changes to dirty components.
+        /// </summary>
+        public void Commit()
+        {
+            foreach (var kv in _components)
+            {
+                if (!_dirtyTracker.TrySetDirty(kv.Key))
+                {
+                    kv.Value.CommitChanges();
+                }
+            }
+
+            _dirtyTracker.Reset();
+        }
     }
 }
