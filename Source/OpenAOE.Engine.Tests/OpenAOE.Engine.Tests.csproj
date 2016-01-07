@@ -65,6 +65,7 @@
     <Compile Include="ComponentAccessorTests.cs" />
     <Compile Include="ComponentContainerTests.cs" />
     <Compile Include="ComponentFactoryTests.cs" />
+    <Compile Include="ComponentInitializerTests.cs" />
     <Compile Include="ComponentReflectionUtilityTests.cs" />
     <Compile Include="EntityDirtyTrackerTests.cs" />
     <Compile Include="ExecuteOrderSorterTest.cs" />
