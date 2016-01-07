@@ -1,4 +1,6 @@
-﻿namespace OpenAOE.Engine.Data
+﻿using System;
+
+namespace OpenAOE.Engine.Data
 {
     /// <summary>
     /// Interface to support type-erasure for components.
@@ -6,6 +8,7 @@
     public interface IComponent
     {
         IComponent Clone();
+        void CopyTo(IComponent component);
     }
 
     /// <summary>
@@ -48,6 +51,15 @@
             var t = new TThis();
             CopyTo(t);
             return t;
+        }
+
+        public void CopyTo(IComponent component)
+        {
+            if(!(component is TThis))
+                throw new ArgumentException("component must be of same type to copy", nameof(component));
+
+            var c = ((TThis) component);
+            CopyTo(c);
         }
 
         IComponent IComponent.Clone()

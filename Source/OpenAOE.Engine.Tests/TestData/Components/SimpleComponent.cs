@@ -12,6 +12,7 @@ namespace OpenAOE.Engine.Tests.TestData.Components
         int Value { set; }
     }
 
+    // TODO: Throw errors when inheriting from IWriteableComponent instead of IWriteableSimpleComponent
     class SimpleComponent : Component<SimpleComponent, ISimpleComponent, IWriteableComponent>, ISimpleComponent, IWriteableSimpleComponent
     {
         public int Value { get; set; }

@@ -46,10 +46,6 @@
       <HintPath>..\packages\Ninject.Extensions.NamedScope.3.2.0.0\lib\net45-full\Ninject.Extensions.NamedScope.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Shouldly, Version=2.6.0.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
-      <HintPath>..\packages\Shouldly.2.6.0\lib\net40\Shouldly.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -72,6 +68,7 @@
     <Compile Include="Entity\IComponentFactory.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\IEntityService.cs" />
+    <Compile Include="Entity\Implementation\ComponentContainer.cs" />
     <Compile Include="Entity\Implementation\EntityFrame.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntity.cs" />
     <Compile Include="Exceptions\ComponentNotFoundException.cs" />

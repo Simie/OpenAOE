@@ -28,15 +28,6 @@ namespace OpenAOE.Engine.Entity
         bool WasModified<T>() where T : class, IComponent;*/
 
         /// <summary>
-        /// Returns the component of type <typeparamref name="T"/> from the previous tick.
-        /// </summary>
-        /// <exception cref="ComponentAccessException">Thrown if the component does not exist on the entity.</exception>
-        /// <typeparam name="T">The interface type of the component you wish to fetch.</typeparam>
-        /// <returns>The component of type <typeparamref name="T"/> from the previous tick.</returns>
-        [CanBeNull]
-        T Previous<T>() where T : class, IComponent;
-
-        /// <summary>
         /// Returns the component of type <typeparamref name="T"/> from the current tick.
         /// </summary>
         /// <exception cref="ComponentAccessException">Thrown if the component does not exist on the entity.</exception>
