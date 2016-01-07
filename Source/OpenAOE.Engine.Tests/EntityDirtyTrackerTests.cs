@@ -11,26 +11,13 @@ namespace OpenAOE.Engine.Tests
     public class EntityDirtyTrackerTests
     {
         [Test]
-        public void TestIsDirtyReturnsTrueAfterSetDirtyCall()
+        public void TrySetDirtyShouldReturnFalseAfterFirstCall()
         {
             var dirtyTracker = new EntityDirtyTracker();
 
-            dirtyTracker.IsDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeFalse();
-            dirtyTracker.SetDirty(ComponentMap<ISimpleComponent>.Accessor);
-            dirtyTracker.IsDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeTrue();
-        }
-
-        [Test]
-        public void TestExceptionThrownAfterSecondSetDirtyCall()
-        {
-            var dirtyTracker = new EntityDirtyTracker();
-
-            dirtyTracker.SetDirty(ComponentMap<ISimpleComponent>.Accessor);
-
-            Should.Throw<InvalidOperationException>(() =>
-            {
-                dirtyTracker.SetDirty(ComponentMap<ISimpleComponent>.Accessor);
-            });
+            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeTrue();
+            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeFalse();
+            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeFalse();
         }
 
         [Test]
@@ -38,19 +25,12 @@ namespace OpenAOE.Engine.Tests
         {
             var dirtyTracker = new EntityDirtyTracker();
 
-            dirtyTracker.SetDirty(ComponentMap<ISimpleComponent>.Accessor);
-
-            Should.Throw<InvalidOperationException>(() =>
-            {
-                dirtyTracker.SetDirty(ComponentMap<ISimpleComponent>.Accessor);
-            });
+            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeTrue();
+            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeFalse();
 
             dirtyTracker.Reset(ComponentMap<ISimpleComponent>.Accessor);
 
-            Should.NotThrow(() =>
-            {
-                dirtyTracker.SetDirty(ComponentMap<ISimpleComponent>.Accessor);
-            });
+            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeTrue();
         }
 
         [Test]
@@ -58,21 +38,16 @@ namespace OpenAOE.Engine.Tests
         {
             var dirtyTracker = new EntityDirtyTracker();
 
-            dirtyTracker.SetDirty(ComponentMap<ISimpleComponent>.Accessor);
-            dirtyTracker.SetDirty(ComponentMap<IOtherSimpleComponent>.Accessor);
+            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeTrue();
+            dirtyTracker.TrySetDirty(ComponentMap<IOtherSimpleComponent>.Accessor).ShouldBeTrue();
 
-            Should.Throw<InvalidOperationException>(() =>
-            {
-                dirtyTracker.SetDirty(ComponentMap<ISimpleComponent>.Accessor);
-            });
+            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeFalse();
+            dirtyTracker.TrySetDirty(ComponentMap<IOtherSimpleComponent>.Accessor).ShouldBeFalse();
 
             dirtyTracker.Reset();
 
-            Should.NotThrow(() =>
-            {
-                dirtyTracker.SetDirty(ComponentMap<ISimpleComponent>.Accessor);
-                dirtyTracker.SetDirty(ComponentMap<IOtherSimpleComponent>.Accessor);
-            });
+            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeTrue();
+            dirtyTracker.TrySetDirty(ComponentMap<IOtherSimpleComponent>.Accessor).ShouldBeTrue();
         }
     }
 }

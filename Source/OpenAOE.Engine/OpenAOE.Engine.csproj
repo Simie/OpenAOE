@@ -69,7 +69,6 @@
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\IEntityService.cs" />
     <Compile Include="Entity\Implementation\ComponentContainer.cs" />
-    <Compile Include="Entity\Implementation\EntityFrame.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntity.cs" />
     <Compile Include="Exceptions\ComponentNotFoundException.cs" />
     <Compile Include="Exceptions\ComponentAccessException.cs" />
@@ -85,7 +84,6 @@
     <Compile Include="Utility\ComponentAccessorFactory.cs" />
     <Compile Include="Utility\EntityDirtyTracker.cs" />
     <Compile Include="Utility\ExecuteOrderSorter.cs" />
-    <Compile Include="Entity\Implementation\VersionedEntityAccessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenAOE.Shared\OpenAOE.Shared.csproj">

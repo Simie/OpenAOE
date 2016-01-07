@@ -7,17 +7,12 @@ namespace OpenAOE.Engine.Entity.Implementation
     {
         public uint Id { get; }
 
-        public RuntimeEntity(uint id, VersionedEntityAccessor entityAccessor)
+        public RuntimeEntity(uint id)
         {
             Id = id;
         }
 
         public bool HasComponent<T>() where T : class, IComponent
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Previous<T>() where T : class, IComponent
         {
             throw new NotImplementedException();
         }
