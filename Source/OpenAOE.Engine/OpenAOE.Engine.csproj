@@ -56,6 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Event.cs" />
+    <Compile Include="Data\Events\EntityComponentModified.cs" />
     <Compile Include="EngineModule.cs" />
     <Compile Include="Data\CodeGeneration\TestComponent.cs">
       <AutoGen>True</AutoGen>
@@ -67,9 +69,9 @@
     <Compile Include="Entity\IComponentFactory.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\IEntityService.cs" />
+    <Compile Include="Entity\IEventPoster.cs" />
     <Compile Include="Entity\Implementation\ComponentContainer.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntity.cs" />
-    <Compile Include="Exceptions\ComponentNotFoundException.cs" />
     <Compile Include="Exceptions\ComponentAccessException.cs" />
     <Compile Include="Exceptions\SystemExecuteOrderException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

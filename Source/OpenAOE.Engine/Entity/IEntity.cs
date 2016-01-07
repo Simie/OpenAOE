@@ -1,10 +1,12 @@
-﻿using JetBrains.Annotations;
-using OpenAOE.Engine.Data;
+﻿using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Exceptions;
 
 namespace OpenAOE.Engine.Entity
 {
-    public interface IEntity
+    /// <summary>
+    /// Read-only interface to an entity. This is the only interface that should leak from the Engine to the rendering/host application.
+    /// </summary>
+    public interface IReadOnlyEntity
     {
         /// <summary>
         /// Unique ID used to refer to this entity.
@@ -18,15 +20,6 @@ namespace OpenAOE.Engine.Entity
         /// <returns>True if the entity has a component of type <typeparamref name="T"/>.</returns>
         bool HasComponent<T>() where T : class, IComponent;
 
-        /*/// <summary>
-        /// Check if component of type <typeparamref name="T"/> has already been modified during this tick.
-        /// WARNING: Do not base any logic off this method, as it is not deterministic (system order of execution may be different on another machine).
-        /// </summary>
-        /// <typeparam name="T">A component interface inheriting from <see cref="IComponent"/>.</typeparam>
-        /// <returns>True if the component of type <typeparamref name="T"/> was modified during this tick.</returns>
-        // TODO: Consider removing this. Is it required to be part of the IEntity interface?
-        bool WasModified<T>() where T : class, IComponent;*/
-
         /// <summary>
         /// Returns the component of type <typeparamref name="T"/> from the current tick.
         /// </summary>
@@ -34,7 +27,10 @@ namespace OpenAOE.Engine.Entity
         /// <typeparam name="T">The interface type of the component you wish to fetch.</typeparam>
         /// <returns>The component of type <typeparamref name="T"/> from the current tick.</returns>
         T Current<T>() where T : class, IComponent;
+    }
 
+    public interface IEntity : IReadOnlyEntity
+    {
         /// <summary>
         /// Returns the writeable component of type <typeparamref name="TWrite"/> for the next tick.
         /// </summary>
