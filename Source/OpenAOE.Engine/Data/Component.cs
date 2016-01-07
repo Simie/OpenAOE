@@ -44,6 +44,15 @@ namespace OpenAOE.Engine.Data
         where TRead : IComponent
         where TWrite : IWriteableComponent
     {
+        static Component()
+        {
+            if(typeof(TRead) == typeof(IComponent))
+                throw new NotSupportedException("TRead must be an interface that inherits from IComponent, but not be IComponent");
+
+            if (typeof(TWrite) == typeof(IWriteableComponent))
+                throw new NotSupportedException("TWrite must be an interface that inherits from IWriteableComponent, but not be IWriteableComponent");
+        }  
+
         public abstract void CopyTo(TThis other);
 
         public TThis Clone()
