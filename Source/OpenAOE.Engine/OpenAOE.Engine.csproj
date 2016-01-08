@@ -57,7 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Event.cs" />
+    <Compile Include="Data\Events\EntityAdded.cs" />
     <Compile Include="Data\Events\EntityComponentModified.cs" />
+    <Compile Include="Data\Events\EntityRemoved.cs" />
     <Compile Include="EngineModule.cs" />
     <Compile Include="Data\CodeGeneration\TestComponent.cs">
       <AutoGen>True</AutoGen>
@@ -66,12 +68,14 @@
     </Compile>
     <Compile Include="Data\Command.cs" />
     <Compile Include="Data\Component.cs" />
+    <Compile Include="Entity\EntityTemplate.cs" />
     <Compile Include="Entity\IComponentFactory.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\IEntityService.cs" />
     <Compile Include="Entity\IEventPoster.cs" />
     <Compile Include="Entity\Implementation\ComponentContainer.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntity.cs" />
+    <Compile Include="Entity\Implementation\RuntimeEntityService.cs" />
     <Compile Include="Exceptions\ComponentAccessException.cs" />
     <Compile Include="Exceptions\SystemExecuteOrderException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,6 +90,8 @@
     <Compile Include="Utility\ComponentReflectionUtility.cs" />
     <Compile Include="Utility\EntityDirtyTracker.cs" />
     <Compile Include="Utility\ExecuteOrderSorter.cs" />
+    <Compile Include="Utility\IAccessGate.cs" />
+    <Compile Include="Utility\UniqueIdProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenAOE.Shared\OpenAOE.Shared.csproj">
