@@ -9,18 +9,21 @@ namespace OpenAOE.Engine.Tests
     [TestFixture]
     public class ComponentInitializerTests
     {
+        [Test]
         public void EnsureStaticInitalizerThrowsForInvalidComponentInterface()
         {
             Assert.Throws<NotSupportedException>(
                 () => SimpleComponent.VerifyGenericParameters(typeof (IComponent), typeof (IWriteableSimpleComponent)));
         }
 
+        [Test]
         public void EnsureStaticInitalizerThrowsForInvalidWriteableComponentInterface()
         {
             Assert.Throws<NotSupportedException>(
                 () => SimpleComponent.VerifyGenericParameters(typeof (ISimpleComponent), typeof (IWriteableComponent)));
         }
 
+        [Test]
         public void EnsureStaticInitializerDoesNotThrowForValidType()
         {
             Assert.DoesNotThrow(
