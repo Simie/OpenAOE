@@ -24,9 +24,7 @@ namespace OpenAOE.Engine.Entity.Implementation
             _components =
                 components.Select(p => new ComponentContainer(p))
                           .ToDictionary(
-                              k =>
-                                  new ComponentAccessor(
-                                      ComponentReflectionUtility.GetReadOnlyComponentInterface(k.Current.GetType())),
+                              k => new ComponentAccessor(k.Current.Type),
                               v => v);
         }
 

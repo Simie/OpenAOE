@@ -7,7 +7,22 @@ namespace OpenAOE.Engine.Data
     /// </summary>
     public interface IComponent
     {
+        /// <summary>
+        /// The interface type that this component implements.
+        /// </summary>
+        Type Type { get; }
+
+        /// <summary>
+        /// Clone this component and return the copy.
+        /// </summary>
+        /// <returns>A copy of this component.</returns>
         IComponent Clone();
+
+        /// <summary>
+        /// Copy the values in this component to another component of the same type.
+        /// </summary>
+        /// <exception cref="ArgumentException">If <paramref name="component"/> is not of the same type.</exception>
+        /// <param name="component">The component to copy to.</param>
         void CopyTo(IComponent component);
     }
 
@@ -44,6 +59,10 @@ namespace OpenAOE.Engine.Data
         where TRead : IComponent
         where TWrite : IWriteableComponent
     {
+        private static readonly Type ReadComponentType = typeof (TRead);
+
+        public Type Type => ReadComponentType;
+
         static Component()
         {
             VerifyGenericParameters(typeof(TRead), typeof(TWrite));
