@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Data.Events;
@@ -65,7 +64,7 @@ namespace OpenAOE.Engine.Entity.Implementation
         }
 
         /// <summary>
-        /// Commit all changes to dirty components.
+        /// Commit all changes to dirty components. Not thread safe.
         /// </summary>
         public void Commit()
         {
