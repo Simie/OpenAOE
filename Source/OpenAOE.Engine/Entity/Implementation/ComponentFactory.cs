@@ -6,7 +6,7 @@ namespace OpenAOE.Engine.Entity.Implementation
 {
     public sealed class ComponentFactory : IComponentFactory
     {
-        private IKernel _kernel;
+        private readonly IKernel _kernel;
 
         public ComponentFactory(IKernel kernel)
         {

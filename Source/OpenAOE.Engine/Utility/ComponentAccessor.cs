@@ -57,7 +57,7 @@ namespace OpenAOE.Engine.Utility
         /// Returns the Type object representing the interface of the component this
         /// accessor accesses.
         /// </summary>
-        public Type ComponentType { get { return ComponentAccessorFactory.GetType(this); } }
+        public Type ComponentType => ComponentAccessorFactory.GetType(this);
 
         /// <summary>
         /// Indicates whether this instance and a specified object are equal.
@@ -95,19 +95,10 @@ namespace OpenAOE.Engine.Utility
     /// <typeparam name="T">The type of Data to map.</typeparam>
     public static class ComponentMap<T> where T : IComponent
     {
-        static ComponentMap()
-        {
-            Accessor = new ComponentAccessor(typeof(T));
-        }
-
         /// <summary>
         /// Gets the accessor for the specified data type.
         /// </summary>
-        public static ComponentAccessor Accessor
-        {
-            get;
-            private set;
-        }
+        public static ComponentAccessor Accessor { get; } = new ComponentAccessor(typeof(T));
     }
 
     /// <summary>
@@ -116,18 +107,9 @@ namespace OpenAOE.Engine.Utility
     /// <typeparam name="T">The type of Data to map.</typeparam>
     public static class WriteableComponentMap<T> where T : IWriteableComponent
     {
-        static WriteableComponentMap()
-        {
-            Accessor = new ComponentAccessor(typeof(T));
-        }
-
         /// <summary>
         /// Gets the accessor for the specified data type.
         /// </summary>
-        public static ComponentAccessor Accessor
-        {
-            get;
-            private set;
-        }
+        public static ComponentAccessor Accessor { get; } = new ComponentAccessor(typeof(T));
     }
 }
