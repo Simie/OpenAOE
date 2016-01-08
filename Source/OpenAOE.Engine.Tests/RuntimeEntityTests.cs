@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using NUnit.Framework;
 using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Data.Events;
@@ -80,6 +81,36 @@ namespace OpenAOE.Engine.Tests
             entity.Current<ISimpleComponent>().Value.ShouldBe(initialValue);
             entity.Commit();
             entity.Current<ISimpleComponent>().Value.ShouldBe(5);
+        }
+
+        [Test]
+        public void EntityCommitsDirtyComponentOnlyWhenDirty()
+        {
+            var mockWEntity = new Mock<IWriteableSimpleComponent>();
+            var mockEntity = mockWEntity.As<ISimpleComponent>();
+
+            var cloneWEntity = new Mock<IWriteableSimpleComponent>(mockEntity.Behavior);
+            var cloneEntity = cloneWEntity.As<ISimpleComponent>();
+
+            mockEntity.SetupGet(c => c.Type).Returns(typeof (ISimpleComponent));
+            mockEntity.Setup(c => c.Clone()).Returns(() => cloneEntity.Object);
+
+            // Setup entity and mark ISimpleComponent as dirty
+            var entity = new RuntimeEntity(0, new IComponent[] { mockEntity.Object }, Mock.Of<IEventPoster>());
+
+            // Ensure a commit with the component non-dirty doesn't trigger a copy.
+            entity.Commit();
+            cloneEntity.Verify(c => c.CopyTo(mockEntity.Object),
+                Times.Never());
+
+            // Modify the component to set as dirty
+            entity.Modify<IWriteableSimpleComponent>();
+
+            // Trigger an entity commit, which should cause the entity to replicate
+            // changes from `Next` to `Current`.
+            entity.Commit();
+            cloneEntity.Verify(c => c.CopyTo(mockEntity.Object),
+                Times.Once());
         }
     }
 }
