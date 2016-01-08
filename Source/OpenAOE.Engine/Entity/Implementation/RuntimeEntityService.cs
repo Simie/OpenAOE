@@ -64,7 +64,6 @@ namespace OpenAOE.Engine.Entity.Implementation
         private void InternalAddEntity(IEntity e)
         {
             _logger.Info("Adding entity with ID `{0}`.", e.Id);
-
             _addedEntities.Add(e);
             _eventPoster.Post(new EntityAdded(e.Id));
         }
@@ -85,8 +84,12 @@ namespace OpenAOE.Engine.Entity.Implementation
             CheckAddEntityGate();
 
             _logger.Info("Creating entity with prototype `{0}`.", prototype);
+
+            // TODO: Fetch template by key
+            //var entity = new RuntimeEntity(_idProvider.Next(), );
             throw new NotImplementedException();
         }
+
         public void RemoveEntity(IEntity entity)
         {
             _logger.Info("Removing entity `{0}`", entity.Id);
@@ -106,6 +109,32 @@ namespace OpenAOE.Engine.Entity.Implementation
             {
                 _eventPoster.Post(new EntityRemoved(entity.Id));
             }
+        }
+
+        internal void CommitAdded()
+        {
+            _logger.Trace("Committing Added Entities");
+
+            foreach (var a in _addedEntities)
+            {
+                _entityList.Add(a);
+                _entityLookup.Add(a.Id, a);
+            }
+
+            _addedEntities.Clear();
+        }
+
+        internal void CommitRemoved()
+        {
+            _logger.Trace("Committing Removed Entities");
+
+            foreach (var a in _removedEntities)
+            {
+                _entityList.Remove(a);
+                _entityLookup.Remove(a.Id);
+            }
+
+            _removedEntities.Clear();
         }
     }
 }
