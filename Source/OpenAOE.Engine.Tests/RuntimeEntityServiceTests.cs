@@ -15,7 +15,7 @@ namespace OpenAOE.Engine.Tests
     public class RuntimeEntityServiceTests
     {
         [Test]
-        public void AddEntityAddsEntityToListAfterCommit()
+        public void AddEntityDoesntAddToListBeforeCommit()
         {
             var e = new RuntimeEntityService(new UniqueIdProvider(), new AccessGate(), Mock.Of<IEventPoster>(), Mock.Of<ILogger>());
 
@@ -23,7 +23,14 @@ namespace OpenAOE.Engine.Tests
 
             e.Entities.ShouldNotContain(entity);
             e.AddedEntities.ShouldContain(entity);
+        }
 
+        [Test]
+        public void AddEntityAddsEntityToListAfterCommit()
+        {
+            var e = new RuntimeEntityService(new UniqueIdProvider(), new AccessGate(), Mock.Of<IEventPoster>(), Mock.Of<ILogger>());
+
+            var entity = e.CreateEntity(new IComponent[0]);
             e.CommitAdded();
 
             e.Entities.ShouldContain(entity);
@@ -32,27 +39,44 @@ namespace OpenAOE.Engine.Tests
         }
 
         [Test]
-        public void RemoveEntityRemovesEntityFromListAfterCommit()
+        public void RemoveEntityDoesntRemoveFromListBeforeCommit()
         {
             var e = new RuntimeEntityService(new UniqueIdProvider(), new AccessGate(), Mock.Of<IEventPoster>(), Mock.Of<ILogger>());
 
             var entity = e.CreateEntity(new IComponent[0]);
             e.CommitAdded();
-
-            e.Entities.ShouldContain(entity);
-
             e.RemoveEntity(entity);
 
-            e.RemovedEntities.ShouldContain(entity);
             e.Entities.ShouldContain(entity);
+        }
 
+        [Test]
+        public void RemoveEntityRemovesFromListAfterCommit()
+        {
+            var e = new RuntimeEntityService(new UniqueIdProvider(), new AccessGate(), Mock.Of<IEventPoster>(), Mock.Of<ILogger>());
+
+            var entity = e.CreateEntity(new IComponent[0]);
+            e.CommitAdded();
+            e.RemoveEntity(entity);
             e.CommitRemoved();
 
             e.Entities.ShouldNotContain(entity);
-            e.RemovedEntities.ShouldNotContain(entity);
             e.GetEntity(entity.Id).ShouldBeNull();
         }
 
+        [Test]
+        public void RemoveEntityClearsListAfterCommit()
+        {
+            var e = new RuntimeEntityService(new UniqueIdProvider(), new AccessGate(), Mock.Of<IEventPoster>(), Mock.Of<ILogger>());
+
+            var entity = e.CreateEntity(new IComponent[0]);
+            e.CommitAdded();
+            e.RemoveEntity(entity);
+            e.CommitRemoved();
+            
+            e.RemovedEntities.ShouldBeEmpty();
+        }
+        
         [Test]
         public void AddEntityPostsEvent()
         {
