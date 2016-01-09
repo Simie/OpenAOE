@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
 using Ninject.Extensions.Logging;
 using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Data.Events;
@@ -34,13 +36,16 @@ namespace OpenAOE.Engine.Entity.Implementation
         private readonly IEventPoster _eventPoster;
         private readonly ILogger _logger;
         private readonly IAccessGate _addEntityGate;
+        private readonly IEntityTemplateProvider _templateProvider;
 
-        public RuntimeEntityService(UniqueIdProvider idProvider, IAccessGate addEntityGate, IEventPoster eventPoster, ILogger logger)
+        public RuntimeEntityService(UniqueIdProvider idProvider, IAccessGate addEntityGate, IEventPoster eventPoster,
+            ILogger logger, [CanBeNull] IEntityTemplateProvider templateProvider = null)
         {
             _idProvider = idProvider;
             _addEntityGate = addEntityGate;
             _eventPoster = eventPoster;
             _logger = logger;
+            _templateProvider = templateProvider;
         }
 
         public IEntity GetEntity(uint id)
@@ -81,13 +86,22 @@ namespace OpenAOE.Engine.Entity.Implementation
 
         public IEntity CreateEntity(string prototype)
         {
+            if (_templateProvider == null)
+            {
+                throw new InvalidOperationException(
+                    "IEntityTemplateProvider was not provided when creating RuntimeEntityService");
+            }
+
             CheckAddEntityGate();
 
             _logger.Info("Creating entity with prototype `{0}`.", prototype);
 
-            // TODO: Fetch template by key
-            //var entity = new RuntimeEntity(_idProvider.Next(), );
-            throw new NotImplementedException();
+            var template = _templateProvider.Get(prototype);
+
+            var entity = new RuntimeEntity(_idProvider.Next(), template.Components.Select(p => p.Clone()), _eventPoster);
+            entity.Prototype = prototype;
+            InternalAddEntity(entity);
+            return entity;
         }
 
         public void RemoveEntity(IEntity entity)

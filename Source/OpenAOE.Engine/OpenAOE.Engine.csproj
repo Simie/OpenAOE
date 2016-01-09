@@ -72,6 +72,7 @@
     <Compile Include="Entity\IComponentFactory.cs" />
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\IEntityService.cs" />
+    <Compile Include="Entity\IEntityTemplateProvider.cs" />
     <Compile Include="Entity\IEventPoster.cs" />
     <Compile Include="Entity\Implementation\ComponentContainer.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntity.cs" />

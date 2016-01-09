@@ -112,5 +112,14 @@ namespace OpenAOE.Engine.Tests
 
             Should.Throw<InvalidOperationException>(() => e.CreateEntity("SomeEntity"));
         }
+
+        [Test]
+        public void ThrowsIfCreateEntityFromTemplateCalledWithNoTemplateProvider()
+        {
+            var e = new RuntimeEntityService(new UniqueIdProvider(), new AccessGate(), Mock.Of<IEventPoster>(),
+                Mock.Of<ILogger>());
+
+            Should.Throw<InvalidOperationException>(() => e.CreateEntity("Test"));
+        }
     }
 }

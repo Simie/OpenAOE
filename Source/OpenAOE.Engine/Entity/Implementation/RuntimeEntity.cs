@@ -11,6 +11,11 @@ namespace OpenAOE.Engine.Entity.Implementation
     {
         public uint Id { get; }
 
+        /// <summary>
+        /// The key of the EntityTemplate used to construct this entity. Can be null if no template was used.
+        /// </summary>
+        internal string Prototype { get; set; }
+
         private readonly IDictionary<ComponentAccessor, ComponentContainer> _components;
         private readonly EntityDirtyTracker _dirtyTracker = new EntityDirtyTracker();
         private readonly IEventPoster _eventPoster;
