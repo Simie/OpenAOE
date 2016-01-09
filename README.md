@@ -3,7 +3,8 @@
 
 ## What
 
-OpenAOE is an implementation of a deterministic entity-component-system game engine to replicate Age of Empires 2 gameplay. It is not a reimplementation of the Genie engine used by AOE2.
+OpenAOE is an implementation of a deterministic entity-component-system game engine to replicate Age of Empires 2 gameplay. It is not a reimplementation of the Genie engine used by AOE2, rather it is
+an attempt to imitate the existing AOE2 gameplay in a modern RTS engine.
 
 ## Why
 
@@ -23,8 +24,8 @@ Technology                | Component
 
 Source                    | Inspired
 --------------------------|----------
-[Forge][Forge]            | Entity/Component design.
-[OpenAge][OpenAge]        | Documentation about existing AOE2 formats.
+[Forge][Forge]            | Entity/Component system design.
+[OpenAge][OpenAge]        | Documentation about existing AOE2 formats and algorithms.
 
 ## FAQ
 
