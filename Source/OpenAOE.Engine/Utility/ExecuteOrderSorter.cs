@@ -40,14 +40,11 @@ namespace OpenAOE.Engine.Utility
                     {
                         // If before, add the current system as a dependency of the other system.
                         lookup[other].Add(x);
-                    } else if (attr.Position == ExecuteOrderAttribute.Positions.After)
+                    }
+                    else if (attr.Position == ExecuteOrderAttribute.Positions.After)
                     {
                         // If after, add the other system as a dependency of the current system.
                         lookup[x].Add(other);
-                    }
-                    else
-                    {
-                        throw new InvalidEnumArgumentException();
                     }
                 }
             }

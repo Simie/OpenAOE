@@ -6,6 +6,7 @@ using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Data.Events;
 using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.Entity.Implementation;
+using OpenAOE.Engine.Tests.TestData.Components;
 using OpenAOE.Engine.Utility;
 using Shouldly;
 
@@ -120,6 +121,24 @@ namespace OpenAOE.Engine.Tests
                 Mock.Of<ILogger>());
 
             Should.Throw<InvalidOperationException>(() => e.CreateEntity("Test"));
+        }
+
+        [Test]
+        public void CreatesEntityFromTemplateWithCorrectComponents()
+        {
+            var mock = new Mock<IEntityTemplateProvider>();
+            mock.Setup((c) => c.Get("Test")).Returns(new EntityTemplate("Test", new IComponent[]
+            {
+                new SimpleComponent(), new OtherSimpleComponent()
+            }));
+
+            var e = new RuntimeEntityService(new UniqueIdProvider(), new AccessGate(), Mock.Of<IEventPoster>(),
+                Mock.Of<ILogger>(), mock.Object);
+
+            var entity = e.CreateEntity("Test");
+
+            entity.HasComponent<ISimpleComponent>().ShouldBeTrue();
+            entity.HasComponent<IOtherSimpleComponent>().ShouldBeTrue();
         }
     }
 }
