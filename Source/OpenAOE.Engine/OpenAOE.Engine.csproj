@@ -38,12 +38,12 @@
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Ninject.Extensions.Logging, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.Extensions.Logging.3.2.0.0\lib\net45-full\Ninject.Extensions.Logging.dll</HintPath>
+    <Reference Include="Ninject.Extensions.ChildKernel, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Extensions.ChildKernel.3.2.0.0\lib\net45-full\Ninject.Extensions.ChildKernel.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Ninject.Extensions.NamedScope, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.Extensions.NamedScope.3.2.0.0\lib\net45-full\Ninject.Extensions.NamedScope.dll</HintPath>
+    <Reference Include="Ninject.Extensions.Logging, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Extensions.Logging.3.2.3.0\lib\net45-full\Ninject.Extensions.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -60,7 +60,7 @@
     <Compile Include="Data\Events\EntityAdded.cs" />
     <Compile Include="Data\Events\EntityComponentModified.cs" />
     <Compile Include="Data\Events\EntityRemoved.cs" />
-    <Compile Include="EngineInstance.cs" />
+    <Compile Include="IEngine.cs" />
     <Compile Include="EngineModule.cs" />
     <Compile Include="Data\CodeGeneration\TestComponent.cs">
       <AutoGen>True</AutoGen>
@@ -74,6 +74,11 @@
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\IEntityService.cs" />
     <Compile Include="Entity\IEntityTemplateProvider.cs" />
+    <Compile Include="IEngineFactory.cs" />
+    <Compile Include="Implementation\EngineFactory.cs" />
+    <Compile Include="Implementation\InternalEngineModule.cs" />
+    <Compile Include="Implementation\RuntimeEngine.cs" />
+    <Compile Include="Utility\EventQueue.cs" />
     <Compile Include="Utility\IEventPoster.cs" />
     <Compile Include="Entity\Implementation\ComponentContainer.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntity.cs" />

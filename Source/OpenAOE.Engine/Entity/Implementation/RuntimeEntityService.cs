@@ -26,6 +26,12 @@ namespace OpenAOE.Engine.Entity.Implementation
         /// </summary>
         public IReadOnlyList<IEntity> Entities => _entityList;
 
+        /// <summary>
+        /// Restricts access to the AddEntity method.
+        /// </summary>
+        [CanBeNull]
+        internal IAccessGate AddEntityAccessGate;
+
         private readonly List<IEntity> _addedEntities = new List<IEntity>();
         private readonly List<IEntity> _removedEntities = new List<IEntity>();
 
@@ -35,14 +41,12 @@ namespace OpenAOE.Engine.Entity.Implementation
         private readonly UniqueIdProvider _idProvider;
         private readonly IEventPoster _eventPoster;
         private readonly ILogger _logger;
-        private readonly IAccessGate _addEntityGate;
         private readonly IEntityTemplateProvider _templateProvider;
 
-        public RuntimeEntityService(UniqueIdProvider idProvider, IAccessGate addEntityGate, IEventPoster eventPoster,
+        public RuntimeEntityService(UniqueIdProvider idProvider, IEventPoster eventPoster,
             ILogger logger, [CanBeNull] IEntityTemplateProvider templateProvider = null)
         {
             _idProvider = idProvider;
-            _addEntityGate = addEntityGate;
             _eventPoster = eventPoster;
             _logger = logger;
             _templateProvider = templateProvider;
@@ -60,7 +64,7 @@ namespace OpenAOE.Engine.Entity.Implementation
 
         private void CheckAddEntityGate()
         {
-            if (!_addEntityGate.TryEnter())
+            if (AddEntityAccessGate != null && !AddEntityAccessGate.TryEnter())
             {
                 throw new InvalidOperationException("Entities may only be created from a synchronous update stage.");
             }
