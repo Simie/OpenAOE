@@ -11,7 +11,11 @@ an attempt to imitate the existing AOE2 gameplay in a modern RTS engine.
 I love Age of Empires 2, but I get frustrated with the networking lag and the restrictions of the original game. AOE2:HD didn't fix the particular problems I have, namely the player limit and network lag. 
 This project is an attempt to build a modern RTS game engine to replicate the feel and gameplay of AOE2.
 
-## Libraries
+It is also a personal attempt to learn more about programming best-practices by fully embracing Test Driven Development, modern .NET build environments, Continuous Integration, etc.
+
+## How
+
+### Libraries
 
 Technology                | Component
 --------------------------|----------
@@ -20,7 +24,7 @@ Technology                | Component
 **Mono**                  | Linux/Mac OS support
 **CAKE**                  | Build system
 
-## Inspirations
+### Inspirations
 
 Source                    | Inspired
 --------------------------|----------
