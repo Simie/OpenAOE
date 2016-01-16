@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenAOE.Engine.Data;
+using OpenAOE.Engine.Entity;
 
 namespace OpenAOE.Engine
 {
@@ -24,7 +25,9 @@ namespace OpenAOE.Engine
         /// <summary>
         /// Create a new engine with the data.
         /// </summary>
-        /// <returns></returns>
-        IEngine Create(IReadOnlyCollection<EntityData> entities);
+        /// <param name="snapshot">Collection of entities to include in the simulation.</param>
+        /// <param name="templates">Collection of entities to use as templates during the simulation.</param>
+        /// <returns>A new instance of <see cref="IEngine"/> with the snapshot loaded.</returns>
+        IEngine Create(IReadOnlyCollection<EntityData> snapshot, IReadOnlyCollection<EntityTemplate> templates);
     }
 }

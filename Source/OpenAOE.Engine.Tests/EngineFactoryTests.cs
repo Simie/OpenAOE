@@ -27,15 +27,15 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void CheckReturnsEngineInstance()
         {
-            var engine = _factory.Create(new List<EntityData>());
+            var engine = _factory.Create(new List<EntityData>(), new List<EntityTemplate>());
             engine.ShouldNotBeNull();
         }
 
         [Test]
         public void CheckReturnsDifferenceEngineInstances()
         {
-            var engine1 = _factory.Create(new List<EntityData>());
-            var engine2 = _factory.Create(new List<EntityData>());
+            var engine1 = _factory.Create(new List<EntityData>(), new List<EntityTemplate>());
+            var engine2 = _factory.Create(new List<EntityData>(), new List<EntityTemplate>());
 
             engine1.ShouldNotBeSameAs(engine2);
         }
@@ -43,8 +43,8 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void CheckEnginesHaveDifferentServices()
         {
-            var engine1 = (RuntimeEngine)_factory.Create(new List<EntityData>());
-            var engine2 = (RuntimeEngine)_factory.Create(new List<EntityData>());
+            var engine1 = (RuntimeEngine)_factory.Create(new List<EntityData>(), new List<EntityTemplate>());
+            var engine2 = (RuntimeEngine)_factory.Create(new List<EntityData>(), new List<EntityTemplate>());
 
             engine1.EntityService.ShouldNotBeSameAs(engine2.EntityService);
         }

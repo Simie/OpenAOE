@@ -60,6 +60,7 @@
     <Compile Include="Data\Events\EntityAdded.cs" />
     <Compile Include="Data\Events\EntityComponentModified.cs" />
     <Compile Include="Data\Events\EntityRemoved.cs" />
+    <Compile Include="Entity\Implementation\RuntimeEntityTemplateProvider.cs" />
     <Compile Include="IEngine.cs" />
     <Compile Include="EngineModule.cs" />
     <Compile Include="Data\CodeGeneration\TestComponent.cs">

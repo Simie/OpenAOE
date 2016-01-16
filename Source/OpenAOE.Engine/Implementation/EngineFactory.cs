@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Ninject;
 using Ninject.Extensions.ChildKernel;
+using Ninject.Extensions.Logging;
 using Ninject.Parameters;
 using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.Entity.Implementation;
@@ -15,20 +16,26 @@ namespace OpenAOE.Engine.Implementation
     internal class EngineFactory : IEngineFactory
     {
         private readonly IKernel _kernel;
+        private readonly ILogger _logger;
 
-        public EngineFactory(IKernel kernel)
+        public EngineFactory(IKernel kernel, ILogger logger)
         {
             _kernel = kernel;
+            _logger = logger;
         }
 
-        public IEngine Create(IReadOnlyCollection<EntityData> entities)
+        public IEngine Create(IReadOnlyCollection<EntityData> snapshot, IReadOnlyCollection<EntityTemplate> templates)
         {
+            _logger.Info("Creating new Engine instance");
+
             // Create a child kernel for this new instance.
             var kernel = new ChildKernel(_kernel, new InternalEngineModule());
+
+            kernel.Bind<IEntityTemplateProvider>().ToConstant(new RuntimeEntityTemplateProvider(templates));
             var eventPoster = kernel.Get<IEventPoster>();
 
             IList<IEntity> existingEntities = new List<IEntity>();
-            foreach (var entity in entities)
+            foreach (var entity in snapshot)
             {
                 existingEntities.Add(new RuntimeEntity(entity.Id, entity.Components, eventPoster));
             }
