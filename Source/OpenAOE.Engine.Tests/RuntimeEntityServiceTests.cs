@@ -111,7 +111,7 @@ namespace OpenAOE.Engine.Tests
             var e = new RuntimeEntityService(new UniqueIdProvider(), mock.Object, Mock.Of<IEventPoster>(),
                 Mock.Of<ILogger>());
 
-            Should.Throw<InvalidOperationException>(() => e.CreateEntity("SomeEntity"));
+            Should.Throw<InvalidOperationException>(() => e.CreateEntity(new IComponent[0]));
         }
 
         [Test]
@@ -139,6 +139,20 @@ namespace OpenAOE.Engine.Tests
 
             entity.HasComponent<ISimpleComponent>().ShouldBeTrue();
             entity.HasComponent<IOtherSimpleComponent>().ShouldBeTrue();
+        }
+
+        [Test]
+        public void CreatesEntityFromTemplateSetsCorrectPrototype()
+        {
+            var mock = new Mock<IEntityTemplateProvider>();
+            mock.Setup((c) => c.Get("Test")).Returns(new EntityTemplate("Test", new IComponent[] {}));
+
+            var e = new RuntimeEntityService(new UniqueIdProvider(), new AccessGate(), Mock.Of<IEventPoster>(),
+                Mock.Of<ILogger>(), mock.Object);
+
+            var entity = e.CreateEntity("Test");
+
+            (entity as RuntimeEntity).Prototype.ShouldBe("Test");
         }
     }
 }
