@@ -11,31 +11,20 @@ using Shouldly;
 namespace OpenAOE.Engine.Tests
 {
     [TestFixture]
-    public class EngineFactoryTests
+    public class EngineFactoryTests : EngineTestsBase
     {
-        private IKernel _kernel = new MoqMockingKernel(new NinjectSettings(), new EngineModule());
-
-        private IEngineFactory _factory;
-
-        public EngineFactoryTests()
-        {
-            _kernel.Bind<ILogger>().ToMock();
-            _kernel.Bind<IEntityTemplateProvider>().ToMock();
-            _factory = _kernel.Get<IEngineFactory>();
-        }
-
         [Test]
         public void CheckReturnsEngineInstance()
         {
-            var engine = _factory.Create(new List<EntityData>(), new List<EntityTemplate>());
+            var engine = Factory.Create(new List<EntityData>(), new List<EntityTemplate>());
             engine.ShouldNotBeNull();
         }
 
         [Test]
         public void CheckReturnsDifferenceEngineInstances()
         {
-            var engine1 = _factory.Create(new List<EntityData>(), new List<EntityTemplate>());
-            var engine2 = _factory.Create(new List<EntityData>(), new List<EntityTemplate>());
+            var engine1 = Factory.Create(new List<EntityData>(), new List<EntityTemplate>());
+            var engine2 = Factory.Create(new List<EntityData>(), new List<EntityTemplate>());
 
             engine1.ShouldNotBeSameAs(engine2);
         }
@@ -43,8 +32,8 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void CheckEnginesHaveDifferentServices()
         {
-            var engine1 = (RuntimeEngine)_factory.Create(new List<EntityData>(), new List<EntityTemplate>());
-            var engine2 = (RuntimeEngine)_factory.Create(new List<EntityData>(), new List<EntityTemplate>());
+            var engine1 = (RuntimeEngine)Factory.Create(new List<EntityData>(), new List<EntityTemplate>());
+            var engine2 = (RuntimeEngine)Factory.Create(new List<EntityData>(), new List<EntityTemplate>());
 
             engine1.EntityService.ShouldNotBeSameAs(engine2.EntityService);
         }

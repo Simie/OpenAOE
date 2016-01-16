@@ -82,8 +82,10 @@
     <Compile Include="ComponentReflectionUtilityTests.cs" />
     <Compile Include="ComponentTests.cs" />
     <Compile Include="EngineFactoryTests.cs" />
+    <Compile Include="EngineTestsBase.cs" />
     <Compile Include="EntityDirtyTrackerTests.cs" />
     <Compile Include="ExecuteOrderSorterTest.cs" />
+    <Compile Include="RuntimeEngineTests.cs" />
     <Compile Include="RuntimeEntityServiceTests.cs" />
     <Compile Include="RuntimeEntityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
