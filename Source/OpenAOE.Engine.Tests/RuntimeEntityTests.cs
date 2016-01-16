@@ -7,6 +7,7 @@ using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.Entity.Implementation;
 using OpenAOE.Engine.Exceptions;
 using OpenAOE.Engine.Tests.TestData.Components;
+using OpenAOE.Engine.Utility;
 using Shouldly;
 
 namespace OpenAOE.Engine.Tests

@@ -60,6 +60,7 @@
     <Compile Include="Data\Events\EntityAdded.cs" />
     <Compile Include="Data\Events\EntityComponentModified.cs" />
     <Compile Include="Data\Events\EntityRemoved.cs" />
+    <Compile Include="EngineInstance.cs" />
     <Compile Include="EngineModule.cs" />
     <Compile Include="Data\CodeGeneration\TestComponent.cs">
       <AutoGen>True</AutoGen>
@@ -73,7 +74,7 @@
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="Entity\IEntityService.cs" />
     <Compile Include="Entity\IEntityTemplateProvider.cs" />
-    <Compile Include="Entity\IEventPoster.cs" />
+    <Compile Include="Utility\IEventPoster.cs" />
     <Compile Include="Entity\Implementation\ComponentContainer.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntity.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntityService.cs" />
