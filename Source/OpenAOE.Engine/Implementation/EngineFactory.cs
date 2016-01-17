@@ -32,7 +32,7 @@ namespace OpenAOE.Engine.Implementation
             var kernel = new ChildKernel(_kernel, new InternalEngineModule());
 
             kernel.Bind<IEntityTemplateProvider>().ToConstant(new RuntimeEntityTemplateProvider(templates));
-            var eventPoster = kernel.Get<IEventPoster>();
+            var eventPoster = kernel.Get<IEventDispatcher>();
 
             IList<IEntity> existingEntities = new List<IEntity>();
             foreach (var entity in snapshot)

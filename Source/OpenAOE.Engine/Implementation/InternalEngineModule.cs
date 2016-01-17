@@ -13,7 +13,7 @@ namespace OpenAOE.Engine.Implementation
             Bind<IEngine>().To<RuntimeEngine>().InSingletonScope();
 
             Bind<EventQueue>().ToSelf().InSingletonScope();
-            Bind<IEventPoster>().ToMethod(c => c.Kernel.Get<EventQueue>());
+            Bind<IEventDispatcher>().ToMethod(c => c.Kernel.Get<EventQueue>());
 
             Bind<IEntityService>().To<RuntimeEntityService>().InSingletonScope();
             Bind<IComponentFactory>().To<ComponentFactory>().InSingletonScope();

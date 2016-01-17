@@ -41,14 +41,14 @@ namespace OpenAOE.Engine.Entity.Implementation
         private readonly Dictionary<uint, IEntity> _entityLookup = new Dictionary<uint, IEntity>();
 
         private readonly UniqueIdProvider _idProvider;
-        private readonly IEventPoster _eventPoster;
+        private readonly IEventDispatcher _eventDispatcher;
         private readonly ILogger _logger;
 
-        public RuntimeEntityService(UniqueIdProvider idProvider, IEventPoster eventPoster,
+        public RuntimeEntityService(UniqueIdProvider idProvider, IEventDispatcher eventDispatcher,
             ILogger logger, [CanBeNull] IEntityTemplateProvider templateProvider = null, [CanBeNull] ICollection<IEntity> entities = null)
         {
             _idProvider = idProvider;
-            _eventPoster = eventPoster;
+            _eventDispatcher = eventDispatcher;
             _logger = logger;
             TemplateProvider = templateProvider;
 
@@ -84,7 +84,7 @@ namespace OpenAOE.Engine.Entity.Implementation
         {
             _logger.Info("Adding entity with ID `{0}`.", e.Id);
             _addedEntities.Add(e);
-            _eventPoster.Post(new EntityAdded(e.Id));
+            _eventDispatcher.Post(new EntityAdded(e.Id));
         }
 
         public IEntity CreateEntity(IEnumerable<IComponent> components)
@@ -93,7 +93,7 @@ namespace OpenAOE.Engine.Entity.Implementation
 
             _logger.Info("Creating new entity from components.");
 
-            var entity = new RuntimeEntity(_idProvider.Next(), components, _eventPoster);
+            var entity = new RuntimeEntity(_idProvider.Next(), components, _eventDispatcher);
             InternalAddEntity(entity);
             return entity;
         }
@@ -112,7 +112,7 @@ namespace OpenAOE.Engine.Entity.Implementation
 
             var template = TemplateProvider.Get(prototype);
 
-            var entity = new RuntimeEntity(_idProvider.Next(), template.Components.Select(p => p.Clone()), _eventPoster);
+            var entity = new RuntimeEntity(_idProvider.Next(), template.Components.Select(p => p.Clone()), _eventDispatcher);
             entity.Prototype = prototype;
             InternalAddEntity(entity);
             return entity;
@@ -135,7 +135,7 @@ namespace OpenAOE.Engine.Entity.Implementation
 
             if (didRemove)
             {
-                _eventPoster.Post(new EntityRemoved(entity.Id));
+                _eventDispatcher.Post(new EntityRemoved(entity.Id));
             }
         }
 

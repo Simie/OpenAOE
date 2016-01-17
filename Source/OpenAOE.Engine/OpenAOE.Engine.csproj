@@ -76,7 +76,7 @@
     <Compile Include="Implementation\InternalEngineModule.cs" />
     <Compile Include="Implementation\RuntimeEngine.cs" />
     <Compile Include="Utility\EventQueue.cs" />
-    <Compile Include="Utility\IEventPoster.cs" />
+    <Compile Include="Utility\IEventDispatcher.cs" />
     <Compile Include="Entity\Implementation\ComponentContainer.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntity.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntityService.cs" />

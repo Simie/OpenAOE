@@ -17,7 +17,7 @@ namespace OpenAOE.Engine.Tests
         public void EntityContainsInitialComponents()
         {
             var entity = new RuntimeEntity(0, new IComponent[] {new SimpleComponent(), new OtherSimpleComponent()},
-                Mock.Of<IEventPoster>());
+                Mock.Of<IEventDispatcher>());
 
             entity.HasComponent<ISimpleComponent>().ShouldBeTrue();
             entity.HasComponent<IOtherSimpleComponent>().ShouldBeTrue();
@@ -27,7 +27,7 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void EntityReturnsCorrectComponent()
         {
-            var entity = new RuntimeEntity(0, new IComponent[] {new SimpleComponent()}, Mock.Of<IEventPoster>());
+            var entity = new RuntimeEntity(0, new IComponent[] {new SimpleComponent()}, Mock.Of<IEventDispatcher>());
 
             var c = entity.Current<ISimpleComponent>();
 
@@ -38,7 +38,7 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void EntityThrowsOnMultipleModifyCalls()
         {
-            var entity = new RuntimeEntity(0, new IComponent[] {new SimpleComponent()}, Mock.Of<IEventPoster>());
+            var entity = new RuntimeEntity(0, new IComponent[] {new SimpleComponent()}, Mock.Of<IEventDispatcher>());
 
             Should.NotThrow(() => entity.Modify<IWriteableSimpleComponent>());
             Should.Throw<ComponentAccessException>(() => entity.Modify<IWriteableSimpleComponent>());
@@ -47,21 +47,21 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void EntityThrowsOnNonExistantAccess()
         {
-            var entity = new RuntimeEntity(0, new IComponent[] {new SimpleComponent()}, Mock.Of<IEventPoster>());
+            var entity = new RuntimeEntity(0, new IComponent[] {new SimpleComponent()}, Mock.Of<IEventDispatcher>());
             Should.Throw<ComponentAccessException>(() => entity.Current<IOtherSimpleComponent>());
         }
 
         [Test]
         public void EntityThrowsOnNonExistantModifyAccess()
         {
-            var entity = new RuntimeEntity(0, new IComponent[] { new SimpleComponent() }, Mock.Of<IEventPoster>());
+            var entity = new RuntimeEntity(0, new IComponent[] { new SimpleComponent() }, Mock.Of<IEventDispatcher>());
             Should.Throw<ComponentAccessException>(() => entity.Modify<IWriteableOtherSimpleComponent>());
         }
 
         [Test]
         public void EntityNotifiesPostsComponentChangeEvent()
         {
-            var mock = new Mock<IEventPoster>();
+            var mock = new Mock<IEventDispatcher>();
             var entity = new RuntimeEntity(0, new IComponent[] {new SimpleComponent()}, mock.Object);
 
             entity.Modify<IWriteableSimpleComponent>();
@@ -72,7 +72,7 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void EntityCommitsChangesToDirtyComponents()
         {
-            var entity = new RuntimeEntity(0, new IComponent[] { new SimpleComponent() }, Mock.Of<IEventPoster>());
+            var entity = new RuntimeEntity(0, new IComponent[] { new SimpleComponent() }, Mock.Of<IEventDispatcher>());
 
             var initialValue = entity.Current<ISimpleComponent>().Value;
 
@@ -95,7 +95,7 @@ namespace OpenAOE.Engine.Tests
             mockEntity.Setup(c => c.Clone()).Returns(() => cloneEntity.Object);
 
             // Setup entity and mark ISimpleComponent as dirty
-            var entity = new RuntimeEntity(0, new IComponent[] { mockEntity.Object }, Mock.Of<IEventPoster>());
+            var entity = new RuntimeEntity(0, new IComponent[] { mockEntity.Object }, Mock.Of<IEventDispatcher>());
 
             // Ensure a commit with the component non-dirty doesn't trigger a copy.
             entity.Commit();

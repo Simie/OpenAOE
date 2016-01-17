@@ -18,7 +18,7 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void AddEntityDoesntAddToListBeforeCommit()
         {
-            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventPoster>(), Mock.Of<ILogger>());
+            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventDispatcher>(), Mock.Of<ILogger>());
 
             var entity = e.CreateEntity(new IComponent[0]);
 
@@ -29,7 +29,7 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void AddEntityAddsEntityToListAfterCommit()
         {
-            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventPoster>(), Mock.Of<ILogger>());
+            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventDispatcher>(), Mock.Of<ILogger>());
 
             var entity = e.CreateEntity(new IComponent[0]);
             e.CommitAdded();
@@ -42,7 +42,7 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void RemoveEntityDoesntRemoveFromListBeforeCommit()
         {
-            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventPoster>(), Mock.Of<ILogger>());
+            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventDispatcher>(), Mock.Of<ILogger>());
 
             var entity = e.CreateEntity(new IComponent[0]);
             e.CommitAdded();
@@ -54,7 +54,7 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void RemoveEntityRemovesFromListAfterCommit()
         {
-            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventPoster>(), Mock.Of<ILogger>());
+            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventDispatcher>(), Mock.Of<ILogger>());
 
             var entity = e.CreateEntity(new IComponent[0]);
             e.CommitAdded();
@@ -68,7 +68,7 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void RemoveEntityClearsListAfterCommit()
         {
-            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventPoster>(), Mock.Of<ILogger>());
+            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventDispatcher>(), Mock.Of<ILogger>());
 
             var entity = e.CreateEntity(new IComponent[0]);
             e.CommitAdded();
@@ -81,7 +81,7 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void AddEntityPostsEvent()
         {
-            var mock = new Mock<IEventPoster>();
+            var mock = new Mock<IEventDispatcher>();
             
             var e = new RuntimeEntityService(new UniqueIdProvider(), mock.Object, Mock.Of<ILogger>());
 
@@ -93,7 +93,7 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void RemoveEntityPostsEvent()
         {
-            var mock = new Mock<IEventPoster>();
+            var mock = new Mock<IEventDispatcher>();
             
             var e = new RuntimeEntityService(new UniqueIdProvider(), mock.Object, Mock.Of<ILogger>());
 
@@ -108,7 +108,7 @@ namespace OpenAOE.Engine.Tests
             var mock = new Mock<IAccessGate>();
             mock.Setup(gate => gate.TryEnter()).Returns(false);
 
-            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventPoster>(),
+            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventDispatcher>(),
                 Mock.Of<ILogger>());
             e.AddEntityAccessGate = mock.Object;
 
@@ -118,7 +118,7 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void ThrowsIfCreateEntityFromTemplateCalledWithNoTemplateProvider()
         {
-            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventPoster>(),
+            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventDispatcher>(),
                 Mock.Of<ILogger>());
 
             Should.Throw<InvalidOperationException>(() => e.CreateEntity("Test"));
@@ -133,7 +133,7 @@ namespace OpenAOE.Engine.Tests
                 new SimpleComponent(), new OtherSimpleComponent()
             }));
 
-            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventPoster>(),
+            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventDispatcher>(),
                 Mock.Of<ILogger>(), mock.Object);
 
             var entity = e.CreateEntity("Test");
@@ -148,7 +148,7 @@ namespace OpenAOE.Engine.Tests
             var mock = new Mock<IEntityTemplateProvider>();
             mock.Setup((c) => c.Get("Test")).Returns(new EntityTemplate("Test", new IComponent[] {}));
 
-            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventPoster>(),
+            var e = new RuntimeEntityService(new UniqueIdProvider(), Mock.Of<IEventDispatcher>(),
                 Mock.Of<ILogger>(), mock.Object);
 
             var entity = e.CreateEntity("Test");

@@ -6,7 +6,7 @@ using OpenAOE.Engine.Data;
 namespace OpenAOE.Engine.Utility
 {
     // TODO
-    class EventQueue: IEventPoster
+    class EventQueue : IEventDispatcher
     {
         private readonly ConcurrentQueue<Event> _eventQueue = new ConcurrentQueue<Event>(); 
 

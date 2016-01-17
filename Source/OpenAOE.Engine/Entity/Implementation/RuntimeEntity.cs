@@ -18,12 +18,12 @@ namespace OpenAOE.Engine.Entity.Implementation
 
         private readonly IDictionary<ComponentAccessor, ComponentContainer> _components;
         private readonly EntityDirtyTracker _dirtyTracker = new EntityDirtyTracker();
-        private readonly IEventPoster _eventPoster;
+        private readonly IEventDispatcher _eventDispatcher;
 
-        public RuntimeEntity(uint id, IEnumerable<IComponent> components, IEventPoster eventPoster)
+        public RuntimeEntity(uint id, IEnumerable<IComponent> components, IEventDispatcher eventDispatcher)
         {
             Id = id;
-            _eventPoster = eventPoster;
+            _eventDispatcher = eventDispatcher;
 
             _components =
                 components.Select(p => new ComponentContainer(p))
@@ -64,7 +64,7 @@ namespace OpenAOE.Engine.Entity.Implementation
                     ComponentAccessException.Reasons.ComponentAlreadyAccessed);
             }
 
-            _eventPoster.Post(new EntityComponentModified(Id, accessor));
+            _eventDispatcher.Post(new EntityComponentModified(Id, accessor));
             return (T)_components[accessor].Next;
         }
 
