@@ -26,7 +26,7 @@ namespace OpenAOE.Engine.Implementation
 
         public IEngine Create(IReadOnlyCollection<EntityData> snapshot, IReadOnlyCollection<EntityTemplate> templates)
         {
-            _logger.Info("Creating new Engine instance");
+            _logger.Info("Creating new RuntimeEngine instance");
 
             // Create a child kernel for this new instance.
             var kernel = new ChildKernel(_kernel, new InternalEngineModule());

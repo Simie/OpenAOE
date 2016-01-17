@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.Entity.Implementation;
 using OpenAOE.Engine.Utility;
 
@@ -7,6 +9,11 @@ namespace OpenAOE.Engine.Implementation
 {
     internal sealed class RuntimeEngine : IEngine
     {
+        public IReadOnlyCollection<IEntity> Entities
+        {
+            get { return EntityService.Entities; }
+        }
+
         enum States
         {
             Idle,
@@ -19,17 +26,21 @@ namespace OpenAOE.Engine.Implementation
 
         private States _state = States.Idle;
 
-        public RuntimeEngine(RuntimeEntityService entityService, EventQueue eventQueue)
+        public RuntimeEngine(IEntityService entityService, EventQueue eventQueue)
         {
             if (entityService == null)
             {
                 throw new ArgumentNullException(nameof(entityService));
             }
 
-            EventQueue = eventQueue;
-            EntityService = entityService;
-        }
+            if (!(entityService is RuntimeEntityService))
+            {
+                throw new ArgumentException("Expected entityService to be of type RuntimeEntityService (sorry)", nameof(entityService));
+            }
 
+            EventQueue = eventQueue;
+            EntityService = (RuntimeEntityService)entityService;
+        }
         public Task<EngineTickResult> Tick(EngineTickInput input)
         {
             if (_state != States.Idle)

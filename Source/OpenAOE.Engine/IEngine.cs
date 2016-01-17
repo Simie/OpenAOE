@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OpenAOE.Engine.Data;
+using OpenAOE.Engine.Entity;
 
 namespace OpenAOE.Engine
 {
@@ -31,6 +32,11 @@ namespace OpenAOE.Engine
     /// </summary>
     public interface IEngine
     {
+        /// <summary>
+        /// Read-only access to the collection of entities in the engine.
+        /// </summary>
+        IReadOnlyCollection<IEntity> Entities { get; }
+
         /// <summary>
         /// Advance the simulation by one tick with the given <paramref name="input"/>.
         /// </summary>

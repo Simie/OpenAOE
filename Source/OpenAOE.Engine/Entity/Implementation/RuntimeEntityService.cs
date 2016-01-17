@@ -44,12 +44,21 @@ namespace OpenAOE.Engine.Entity.Implementation
         private readonly IEntityTemplateProvider _templateProvider;
 
         public RuntimeEntityService(UniqueIdProvider idProvider, IEventPoster eventPoster,
-            ILogger logger, [CanBeNull] IEntityTemplateProvider templateProvider = null)
+            ILogger logger, [CanBeNull] IEntityTemplateProvider templateProvider = null, [CanBeNull] ICollection<IEntity> entities = null)
         {
             _idProvider = idProvider;
             _eventPoster = eventPoster;
             _logger = logger;
             _templateProvider = templateProvider;
+
+            if (entities != null)
+            {
+                foreach (var entity in entities)
+                {
+                    _entityList.Add(entity);
+                    _entityLookup.Add(entity.Id, entity);
+                }
+            }
         }
 
         public IEntity GetEntity(uint id)
