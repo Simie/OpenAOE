@@ -30,7 +30,5 @@ Source                    | Inspired
 [Forge][Forge]            | Entity/Component system design.
 [OpenAge][OpenAge]        | Documentation about existing AOE2 formats and algorithms.
 
-[Forge](https://github.com/jacobdufault/forge)
-[OpenAge](https://github.com/SFTtech/openage/)
-[DepInj](https://en.wikipedia.org/wiki/Dependency_injection)
-[EntityComponent](https://en.wikipedia.org/wiki/Entity_component_system)
+[Forge]: https://github.com/jacobdufault/forge
+[OpenAge]: https://github.com/SFTtech/openage
