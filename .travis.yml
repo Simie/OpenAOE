@@ -5,4 +5,4 @@ install:
   - nuget install NUnit.Runners -Version 3.0.1 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release Source/OpenAOE.sln
-  - mono ./testrunner/NUnit.Runners.*/tools/nunit-console.exe ./Source/OpenAOE.Engine.Tests/bin/Release/OpenAOE.Engine.Tests.dll
+  - mono ./testrunner/NUnit.Console.*/tools/nunit3-console.exe ./Source/OpenAOE.Engine.Tests/bin/Release/OpenAOE.Engine.Tests.dll
