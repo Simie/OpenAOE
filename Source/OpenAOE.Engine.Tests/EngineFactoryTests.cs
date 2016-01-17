@@ -46,11 +46,34 @@ namespace OpenAOE.Engine.Tests
                 new EntityData(1, new IComponent[] {}),
             };
 
-            var engine = (RuntimeEngine)Factory.Create(entitySnapshot, new List<EntityTemplate>());
+            var engine = Factory.Create(entitySnapshot, new List<EntityTemplate>());
 
             engine.Entities.Count.ShouldBe(2);
             engine.Entities.Any(p => p.Id == 0 && p.HasComponent<ISimpleComponent>() && p.HasComponent<IOtherSimpleComponent>()).ShouldBeTrue();
             engine.Entities.Any(p => p.Id == 1 && !p.HasComponent<ISimpleComponent>() && !p.HasComponent<IOtherSimpleComponent>()).ShouldBeTrue();
+        }
+
+        [Test]
+        public void EnsureTemplateEntitiesLoad()
+        {
+            var templates = new List<EntityTemplate>()
+            {
+                new EntityTemplate("Test1", new IComponent[] {new SimpleComponent(), new OtherSimpleComponent()}),
+                new EntityTemplate("Test2", new IComponent[] {}),
+            };
+
+            var engine = (RuntimeEngine)Factory.Create(new List<EntityData>(), templates);
+
+            Should.NotThrow(() =>
+            {
+                var t1 = engine.EntityService.TemplateProvider.Get("Test1");
+
+                t1.ShouldNotBeNull();
+                t1.Components.Any(p => p is ISimpleComponent).ShouldBeTrue();
+                t1.Components.Any(p => p is IOtherSimpleComponent).ShouldBeTrue();
+
+                engine.EntityService.TemplateProvider.Get("Test2").ShouldNotBeNull();
+            });
         }
     }
 }

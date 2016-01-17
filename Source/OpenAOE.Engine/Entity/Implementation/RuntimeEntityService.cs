@@ -32,6 +32,8 @@ namespace OpenAOE.Engine.Entity.Implementation
         [CanBeNull]
         internal IAccessGate AddEntityAccessGate;
 
+        internal readonly IEntityTemplateProvider TemplateProvider;
+
         private readonly List<IEntity> _addedEntities = new List<IEntity>();
         private readonly List<IEntity> _removedEntities = new List<IEntity>();
 
@@ -41,7 +43,6 @@ namespace OpenAOE.Engine.Entity.Implementation
         private readonly UniqueIdProvider _idProvider;
         private readonly IEventPoster _eventPoster;
         private readonly ILogger _logger;
-        private readonly IEntityTemplateProvider _templateProvider;
 
         public RuntimeEntityService(UniqueIdProvider idProvider, IEventPoster eventPoster,
             ILogger logger, [CanBeNull] IEntityTemplateProvider templateProvider = null, [CanBeNull] ICollection<IEntity> entities = null)
@@ -49,7 +50,7 @@ namespace OpenAOE.Engine.Entity.Implementation
             _idProvider = idProvider;
             _eventPoster = eventPoster;
             _logger = logger;
-            _templateProvider = templateProvider;
+            TemplateProvider = templateProvider;
 
             if (entities != null)
             {
@@ -99,7 +100,7 @@ namespace OpenAOE.Engine.Entity.Implementation
 
         public IEntity CreateEntity(string prototype)
         {
-            if (_templateProvider == null)
+            if (TemplateProvider == null)
             {
                 throw new InvalidOperationException(
                     "IEntityTemplateProvider was not provided when creating RuntimeEntityService");
@@ -109,7 +110,7 @@ namespace OpenAOE.Engine.Entity.Implementation
 
             _logger.Info("Creating entity with prototype `{0}`.", prototype);
 
-            var template = _templateProvider.Get(prototype);
+            var template = TemplateProvider.Get(prototype);
 
             var entity = new RuntimeEntity(_idProvider.Next(), template.Components.Select(p => p.Clone()), _eventPoster);
             entity.Prototype = prototype;
