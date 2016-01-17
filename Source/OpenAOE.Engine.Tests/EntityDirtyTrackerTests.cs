@@ -1,6 +1,4 @@
-﻿
-using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenAOE.Engine.Tests.TestData.Components;
 using OpenAOE.Engine.Utility;
 using Shouldly;

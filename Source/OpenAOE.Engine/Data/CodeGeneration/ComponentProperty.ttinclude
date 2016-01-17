@@ -1,6 +1,5 @@
 ﻿<#@ assembly name="T4Toolbox.dll" #>
 <#@ import namespace="T4Toolbox" #>
-<#@ import namespace="System" #>
 <#@ import namespace="System.Reflection" #>
 <#+
 public class ComponentProperty : CSharpTemplate

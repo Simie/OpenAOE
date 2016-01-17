@@ -3,7 +3,6 @@
 <#@ assembly name="System.Core"#>
 <#@ include file="ComponentProperty.ttinclude" #>
 <#@ import namespace="T4Toolbox" #>
-<#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
 <#+

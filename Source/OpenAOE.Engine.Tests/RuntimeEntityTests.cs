@@ -1,9 +1,7 @@
-﻿using System;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Data.Events;
-using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.Entity.Implementation;
 using OpenAOE.Engine.Exceptions;
 using OpenAOE.Engine.Tests.TestData.Components;

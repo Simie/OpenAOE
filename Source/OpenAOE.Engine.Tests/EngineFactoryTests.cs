@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Ninject;
-using Ninject.Extensions.Logging;
-using Ninject.MockingKernel;
-using Ninject.MockingKernel.Moq;
 using NUnit.Framework;
 using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Entity;

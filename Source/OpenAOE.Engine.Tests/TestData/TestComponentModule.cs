@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ninject.Modules;
+﻿using Ninject.Modules;
 using OpenAOE.Engine.Tests.TestData.Components;
 
 namespace OpenAOE.Engine.Tests.TestData

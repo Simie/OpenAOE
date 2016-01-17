@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Entity;
 

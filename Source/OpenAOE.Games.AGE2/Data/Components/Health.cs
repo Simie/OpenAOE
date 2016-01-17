@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using OpenAOE.Engine.Data;
 
 namespace OpenAOE.Games.AGE2.Data.Components

@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Tests.TestData.Components;
-using Shouldly;
 
 namespace OpenAOE.Engine.Tests
 {
