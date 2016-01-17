@@ -3,8 +3,7 @@
 
 ## What
 
-OpenAOE is an implementation of a deterministic entity-component-system game engine to replicate Age of Empires 2 gameplay. It is not a reimplementation of the Genie engine used by AOE2, rather it is
-an attempt to imitate the existing AOE2 gameplay in a modern RTS engine.
+OpenAOE is an implementation of a deterministic entity-component-system game engine to replicate Age of Empires 2 gameplay. It is not a reimplementation of the Genie engine used by AOE2, rather it is an attempt to imitate the existing AOE2 gameplay in a modern RTS engine.
 
 ## Why
 
@@ -21,8 +20,8 @@ Technology                | Component
 --------------------------|----------
 **C#/.NET**               | Engine, Gameplay
 **Ninject**               | Dependency Injection
-**Mono**                  | Linux/Mac OS support
-**CAKE**                  | Build system
+**Mono**                  | Linux/Mac OS support (TODO)
+**CAKE**                  | Build system (TODO)
 
 ### Inspirations
 
@@ -30,14 +29,6 @@ Source                    | Inspired
 --------------------------|----------
 [Forge][Forge]            | Entity/Component system design.
 [OpenAge][OpenAge]        | Documentation about existing AOE2 formats and algorithms.
-
-## FAQ
-
-### Why not join the [OpenAge](OpenAge) project?
-I love C# and I develop on primarily on Windows. The OpenAge project focuses primarily on POSIX platforms. In addition, OpenAge is implementing a classic game engine architecture without taking advantage 
-of modern game design patterns such as [Entity-Component-System](EntityComponent), [Dependency Injection](DepInj) and Unit Testing.
-As these are all areas in which I am interested in learning more, so I decided to start this project as a learning exercise.
-I am incredibly grateful for their detailed documentation of AOE2 data and graphics formats and without them this project would not be possible.
 
 [Forge](https://github.com/jacobdufault/forge)
 [OpenAge](https://github.com/SFTtech/openage/)
