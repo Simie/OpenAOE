@@ -1,5 +1,6 @@
 # OpenAOE
-[![Build Status](https://travis-ci.org/Simie/OpenAOE.svg?branch=master)](https://travis-ci.org/Simie/OpenAOE)
+[![Build Status](https://travis-ci.org/Simie/OpenAOE.svg?branch=master)](https://travis-ci.org/Simie/OpenAOE) [![Build status](https://ci.appveyor.com/api/projects/status/epcr87670moybn4h?svg=true)](https://ci.appveyor.com/project/Simie/openaoe)
+
 ### An open-source implementation of Age of Empires 2 in C# and .NET
 
 ## What
