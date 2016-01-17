@@ -15,7 +15,6 @@ namespace OpenAOE.Engine.Tests
         public EngineTestsBase()
         {
             Kernel.Bind<ILogger>().ToMock();
-            Kernel.Bind<IEntityTemplateProvider>().ToMock();
             Factory = Kernel.Get<IEngineFactory>();
         }
     }
