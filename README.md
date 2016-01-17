@@ -1,5 +1,5 @@
 # OpenAOE
-### An open-source implementation of Age of Empires 2 in C# and .NET.
+### An open-source implementation of Age of Empires 2 in C# and .NET
 
 ## What
 
