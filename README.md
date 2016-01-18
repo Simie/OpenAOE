@@ -34,3 +34,7 @@ Source                    | Inspired
 
 [Forge]: https://github.com/jacobdufault/forge
 [OpenAge]: https://github.com/SFTtech/openage
+
+## Status
+
+Currently only around 60% of the Engine module is completed. It's a long way from playable.
