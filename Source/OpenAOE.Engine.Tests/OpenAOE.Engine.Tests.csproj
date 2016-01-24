@@ -96,6 +96,7 @@
     <Compile Include="EngineTestsBase.cs" />
     <Compile Include="EntityDirtyTrackerTests.cs" />
     <Compile Include="ExecuteOrderSorterTest.cs" />
+    <Compile Include="GenericComponentFilterTests.cs" />
     <Compile Include="SystemFilterTests.cs" />
     <Compile Include="RuntimeEngineTests.cs" />
     <Compile Include="RuntimeEntityServiceTests.cs" />
