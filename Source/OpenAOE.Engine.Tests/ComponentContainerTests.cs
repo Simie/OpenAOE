@@ -12,7 +12,7 @@ namespace OpenAOE.Engine.Tests
         public void TestComponentContainerClonesInitialComponent()
         {
             var mock = new Mock<IComponent>();
-            mock.Setup(c => c.Clone()).Returns(() => new Mock<IComponent>(mock.Behavior).Object);
+            mock.Setup(c => c.Clone()).Returns(() => new Mock<IComponent>().Object);
 
             var componentContainer = new ComponentContainer(mock.Object);
 

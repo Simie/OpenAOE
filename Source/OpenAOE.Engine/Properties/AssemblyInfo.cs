@@ -37,3 +37,4 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("OpenAOE.Tests")]
 [assembly: InternalsVisibleTo("OpenAOE.Engine.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

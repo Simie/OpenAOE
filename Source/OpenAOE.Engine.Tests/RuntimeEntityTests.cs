@@ -88,7 +88,7 @@ namespace OpenAOE.Engine.Tests
             var mockWEntity = new Mock<IWriteableSimpleComponent>();
             var mockEntity = mockWEntity.As<ISimpleComponent>();
 
-            var cloneWEntity = new Mock<IWriteableSimpleComponent>(mockEntity.Behavior);
+            var cloneWEntity = new Mock<IWriteableSimpleComponent>();
             var cloneEntity = cloneWEntity.As<ISimpleComponent>();
 
             mockEntity.SetupGet(c => c.Type).Returns(typeof (ISimpleComponent));
