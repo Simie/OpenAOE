@@ -61,6 +61,7 @@
     <Compile Include="Data\Events\EntityAdded.cs" />
     <Compile Include="Data\Events\EntityComponentModified.cs" />
     <Compile Include="Data\Events\EntityRemoved.cs" />
+    <Compile Include="Entity\IHasComponents.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntityTemplateProvider.cs" />
     <Compile Include="IEngine.cs" />
     <Compile Include="EngineModule.cs" />
@@ -75,7 +76,14 @@
     <Compile Include="Implementation\EngineFactory.cs" />
     <Compile Include="Implementation\InternalEngineModule.cs" />
     <Compile Include="Implementation\RuntimeEngine.cs" />
+    <Compile Include="System\Implementation\RuntimeSystemInstance.cs" />
+    <Compile Include="System\Implementation\RuntimeSystemManager.cs" />
+    <Compile Include="System\Implementation\SystemUpdateScheduler.cs" />
+    <Compile Include="System\ISystemInstance.cs" />
+    <Compile Include="System\ISystemManager.cs" />
     <Compile Include="Utility\EventQueue.cs" />
+    <Compile Include="Utility\GenericComponentFilter.cs" />
+    <Compile Include="Utility\IComponentFilter.cs" />
     <Compile Include="Utility\IEventDispatcher.cs" />
     <Compile Include="Entity\Implementation\ComponentContainer.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntity.cs" />
@@ -86,7 +94,6 @@
     <Compile Include="System\ExecuteOrderAttribute.cs" />
     <Compile Include="System\FilteredSystem.cs" />
     <Compile Include="System\ISystem.cs" />
-    <Compile Include="System\SystemController.cs" />
     <Compile Include="System\SystemTriggers.cs" />
     <Compile Include="Entity\Implementation\ComponentFactory.cs" />
     <Compile Include="Utility\ComponentAccessor.cs" />
@@ -109,6 +116,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

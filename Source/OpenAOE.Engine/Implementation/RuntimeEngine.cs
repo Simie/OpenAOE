@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.Entity.Implementation;
+using OpenAOE.Engine.System;
+using OpenAOE.Engine.System.Implementation;
 using OpenAOE.Engine.Utility;
 
 namespace OpenAOE.Engine.Implementation
@@ -22,25 +24,42 @@ namespace OpenAOE.Engine.Implementation
         }
 
         internal RuntimeEntityService EntityService;
+        internal ISystemManager SystemManager;
+
         internal EventQueue EventQueue;
+
+        internal SystemUpdateScheduler SystemUpdateScheduler;
 
         private States _state = States.Idle;
 
-        public RuntimeEngine(IEntityService entityService, EventQueue eventQueue)
+        public RuntimeEngine(IEntityService entityService, ISystemManager systemManager, EventQueue eventQueue)
         {
             if (entityService == null)
             {
                 throw new ArgumentNullException(nameof(entityService));
             }
 
+            if (systemManager == null)
+            {
+                throw new ArgumentNullException(nameof(systemManager));
+            }
+
             if (!(entityService is RuntimeEntityService))
             {
+                // TODO: Remove direct dependency of RuntimeEntityService? Or maybe this is fine. We just don't want to expose the internal methods
+                // to the client code using the IEntityService.
                 throw new ArgumentException("Expected entityService to be of type RuntimeEntityService (sorry)", nameof(entityService));
             }
 
             EventQueue = eventQueue;
             EntityService = (RuntimeEntityService)entityService;
+            SystemManager = systemManager;
+            SystemUpdateScheduler = new SystemUpdateScheduler(SystemManager.Systems);
+
+            // Add any entities that are already loaded into the engine.
+            SystemManager.AddEntities(entityService.Entities);
         }
+
         public Task<EngineTickResult> Tick(EngineTickInput input)
         {
             if (_state != States.Idle)
@@ -54,7 +73,23 @@ namespace OpenAOE.Engine.Implementation
             {
                 _state = States.AwaitingSync;
 
+                EntityService.CommitRemoved();
+
+                if (EntityService.AddedEntities.Count > 0)
+                {
+                    SystemManager.AddEntities(EntityService.RemovedEntities);
+                }
+
+                EntityService.CommitAdded();
+
+                if (EntityService.RemovedEntities.Count > 0)
+                {
+                    SystemManager.RemoveEntities(EntityService.RemovedEntities);
+                }
+
+                // Gather all the events that were added during this update step
                 var events = EventQueue.DequeueAll();
+
                 return new EngineTickResult(events);
             });
 

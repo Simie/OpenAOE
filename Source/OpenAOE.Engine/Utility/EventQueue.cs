@@ -17,7 +17,6 @@ namespace OpenAOE.Engine.Utility
 
         public IEnumerable<Event> DequeueAll()
         {
-
             ICollection<Event> events = new Collection<Event>();
             Event e;
 

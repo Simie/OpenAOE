@@ -1,36 +1,47 @@
-﻿using OpenAOE.Engine.Entity;
+﻿using OpenAOE.Engine.Data;
+using OpenAOE.Engine.Entity;
 
 namespace OpenAOE.Engine.System
 {
-    /// <summary>
-    /// Get notified when an entity is added to the simulation.
-    /// </summary>
-    internal interface IOnEntityAdded
+    public static class Triggers
     {
-        void OnEntityAdded(IEntity entity);
-    }
-    
-    /// <summary>
-    /// Receive every tick
-    /// </summary>
-    internal interface IOnGlobalTick
-    {
-        void OnGlobalTick(IEntity globalEntity);
-    }
+        /// <summary>
+        /// Get notified when an entity is added to the system list.
+        /// </summary>
+        /// <remarks>
+        /// This is called every time the entity is added, not just when the entity is created.
+        /// When loading an existing snapshot this will be called for every entity that matches
+        /// the system filter.
+        /// </remarks>
+        public interface IOnEntityAdded
+        {
+            void OnEntityAdded(IEntity entity);
+        }
 
-    /// <summary>
-    /// Receive an update tick for every entity (unless system is a <see cref="FilteredSystem"/>)
-    /// </summary>
-    internal interface IOnEntityTick
-    {
-        void OnTick(IEntity entity);
-    }
+        /// <summary>
+        /// Receive an update tick for every entity that matches the system filter.
+        /// </summary>
+        public interface IOnEntityTick
+        {
+            void OnTick(IEntity entity);
+        }
 
-    /// <summary>
-    /// Notification when entity is removed from the simulation.
-    /// </summary>
-    internal interface IOnEntityRemoved
-    {
-        void OnEntityRemoved(IEntity entity);
+        /// <summary>
+        /// Notification when entity is removed from the simulation.
+        /// </summary>
+        public interface IOnEntityRemoved
+        {
+            void OnEntityRemoved(IEntity entity);
+        }
+
+        /// <summary>
+        /// Receive a callback for any command of type <typeparamref name="T"/> that
+        /// is inputted into the simulation.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public interface IOnCommand<T> where T : Command
+        {
+            void OnCommand(T command);
+        }
     }
 }

@@ -6,19 +6,12 @@ namespace OpenAOE.Engine.Entity
     /// <summary>
     /// Read-only interface to an entity. This is the only interface that should leak from the Engine to the rendering/host application.
     /// </summary>
-    public interface IReadOnlyEntity
+    public interface IReadOnlyEntity : IHasComponents
     {
         /// <summary>
         /// Unique ID used to refer to this entity.
         /// </summary>
         uint Id { get; }
-
-        /// <summary>
-        /// Check if entity has a component of type <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">A component interface inheriting from <see cref="IComponent"/>.</typeparam>
-        /// <returns>True if the entity has a component of type <typeparamref name="T"/>.</returns>
-        bool HasComponent<T>() where T : class, IComponent;
 
         /// <summary>
         /// Returns the component of type <typeparamref name="T"/> from the current tick.

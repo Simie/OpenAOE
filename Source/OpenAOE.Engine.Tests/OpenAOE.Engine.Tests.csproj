@@ -86,10 +86,12 @@
     <Compile Include="EngineTestsBase.cs" />
     <Compile Include="EntityDirtyTrackerTests.cs" />
     <Compile Include="ExecuteOrderSorterTest.cs" />
+    <Compile Include="SystemFilterTests.cs" />
     <Compile Include="RuntimeEngineTests.cs" />
     <Compile Include="RuntimeEntityServiceTests.cs" />
     <Compile Include="RuntimeEntityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemManagerTests.cs" />
     <Compile Include="TestData\Components\Bad\IAmNotComponent.cs" />
     <Compile Include="TestData\Components\Bad\MultiInheritingComponent.cs" />
     <Compile Include="TestData\Components\OtherSimpleComponent.cs" />

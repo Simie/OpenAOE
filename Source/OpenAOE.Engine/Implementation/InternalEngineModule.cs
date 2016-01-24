@@ -2,6 +2,8 @@
 using Ninject.Modules;
 using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.Entity.Implementation;
+using OpenAOE.Engine.System;
+using OpenAOE.Engine.System.Implementation;
 using OpenAOE.Engine.Utility;
 
 namespace OpenAOE.Engine.Implementation
@@ -16,6 +18,7 @@ namespace OpenAOE.Engine.Implementation
             Bind<IEventDispatcher>().ToMethod(c => c.Kernel.Get<EventQueue>());
 
             Bind<IEntityService>().To<RuntimeEntityService>().InSingletonScope();
+            Bind<ISystemManager>().To<RuntimeSystemManager>().InSingletonScope();
             Bind<IComponentFactory>().To<ComponentFactory>().InSingletonScope();
         }
     }
