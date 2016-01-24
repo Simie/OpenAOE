@@ -52,6 +52,7 @@
     <Compile Include="Data\Components\Owner.cs" />
     <Compile Include="Data\Components\Player.cs" />
     <Compile Include="Data\Components\Transform.cs" />
+    <Compile Include="Data\Components\Unit.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Systems\UnitMoveSystem.cs" />
