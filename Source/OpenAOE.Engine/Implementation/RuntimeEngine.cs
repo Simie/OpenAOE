@@ -32,7 +32,7 @@ namespace OpenAOE.Engine.Implementation
 
         private States _state = States.Idle;
 
-        public RuntimeEngine(IEntityService entityService, ISystemManager systemManager, EventQueue eventQueue)
+        public RuntimeEngine(RuntimeEntityService entityService, ISystemManager systemManager, EventQueue eventQueue)
         {
             if (entityService == null)
             {
@@ -42,13 +42,6 @@ namespace OpenAOE.Engine.Implementation
             if (systemManager == null)
             {
                 throw new ArgumentNullException(nameof(systemManager));
-            }
-
-            if (!(entityService is RuntimeEntityService))
-            {
-                // TODO: Remove direct dependency of RuntimeEntityService? Or maybe this is fine. We just don't want to expose the internal methods
-                // to the client code using the IEntityService.
-                throw new ArgumentException("Expected entityService to be of type RuntimeEntityService (sorry)", nameof(entityService));
             }
 
             EventQueue = eventQueue;
