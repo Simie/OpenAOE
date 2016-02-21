@@ -34,6 +34,9 @@ namespace OpenAOE.Engine
     {
         /// <summary>
         /// Read-only access to the collection of entities in the engine.
+        /// During a tick the contents of this collection should never change, nor the visible data
+        /// within entities. However, once <seealso cref="Synchronize"/> is called all entities added
+        /// during the tick will be added to this list and new data in entity components visible.
         /// </summary>
         IReadOnlyCollection<IEntity> Entities { get; }
 
@@ -47,6 +50,7 @@ namespace OpenAOE.Engine
 
         /// <summary>
         /// Call from the main thread once a Tick has completed to "Advance" all the entities to their next state.
+        /// New entities will be added to <seealso cref="Entities"/>.
         /// This ensures that public entity state is not changed until the tick is completed and the client code is ready.
         /// </summary>
         /// <exception cref="InvalidOperationException">If the tick has not completed, or no syncronization is waiting.</exception>

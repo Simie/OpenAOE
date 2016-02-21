@@ -37,16 +37,6 @@ namespace OpenAOE.Engine.Implementation
 
         public RuntimeEngine(RuntimeEntityService entityService, ISystemManager systemManager, EventQueue eventQueue)
         {
-            if (entityService == null)
-            {
-                throw new ArgumentNullException(nameof(entityService));
-            }
-
-            if (systemManager == null)
-            {
-                throw new ArgumentNullException(nameof(systemManager));
-            }
-
             AddEntityAccessGate = new AccessGate();
             EventQueue = eventQueue;
             EntityService = entityService;
@@ -99,9 +89,6 @@ namespace OpenAOE.Engine.Implementation
                     SystemManager.AddEntities(EntityService.AddedEntities);
                 }
 
-                // Clear the incoming "AddedEntities" list and get them added to the main event list.
-                EntityService.CommitAdded();
-
                 // Process the removal from systems of any entities that were removed in this frame.
                 if (EntityService.RemovedEntities.Count > 0)
                 {
@@ -123,7 +110,8 @@ namespace OpenAOE.Engine.Implementation
             {
                 throw new InvalidOperationException($"RuntimeEngine cannot Synchronize() while while in state `{_state}`");
             }
-
+            
+            // Add all the "Added" entities to the main entity list.
             EntityService.CommitAdded();
             _state = States.Idle;
         }

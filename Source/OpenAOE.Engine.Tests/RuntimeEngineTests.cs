@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentAssertions;
 using Moq;
 using Ninject;
 using Ninject.Extensions.Logging;
-using Ninject.MockingKernel;
-using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using NUnit.Framework;
 using OpenAOE.Engine.Data;
@@ -13,7 +12,6 @@ using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.System;
 using OpenAOE.Engine.Tests.TestData.Components;
 using OpenAOE.Engine.Utility;
-using Shouldly;
 
 namespace OpenAOE.Engine.Tests
 {
@@ -28,12 +26,14 @@ namespace OpenAOE.Engine.Tests
             t.Start();
             t.Wait();
 
-            Should.Throw<InvalidOperationException>(() =>
+            Action action = () =>
             {
                 var t2 = engine.Tick(new EngineTickInput());
                 t2.Start();
                 t2.Wait();
-            });
+            };
+
+            action.ShouldThrow<InvalidOperationException>();
         }
 
         [Test]
@@ -42,10 +42,12 @@ namespace OpenAOE.Engine.Tests
             var engine = Factory.Create(new List<EntityData>(), new List<EntityTemplate>());
             var t = engine.Tick(new EngineTickInput());
 
-            Should.Throw<InvalidOperationException>(() =>
+            Action action = () =>
             {
                 engine.Synchronize();
-            });
+            };
+
+            action.ShouldThrow<InvalidOperationException>();
         }
 
         [Test]
@@ -64,7 +66,7 @@ namespace OpenAOE.Engine.Tests
             t2.Wait();
         }
         
-        private class AddEntityEveryFrameSystem : FilteredSystem<TestData.Components.ISimpleComponent>, Triggers.IOnEntityTick
+        private class AddEntityEveryFrameSystem : FilteredSystem<ISimpleComponent>, Triggers.IOnEntityTick
         {
             private readonly IEntityService _entityService;
 
@@ -78,12 +80,36 @@ namespace OpenAOE.Engine.Tests
                 _entityService.CreateEntity("TestTemplate");
             }
         }
+        
+        private class RemoveEntityEveryFrameSystem : FilteredSystem<ISimpleComponent>, Triggers.IOnEntityTick
+        {
+            private readonly IEntityService _entityService;
+
+            public RemoveEntityEveryFrameSystem(IEntityService entityService)
+            {
+                _entityService = entityService;
+            }
+
+            public void OnTick(IEntity entity)
+            {
+                _entityService.RemoveEntity(entity);
+            }
+        }
 
         private class AddEntityEveryFrameEngineModule : NinjectModule, IEngineModule
         {
             public override void Load()
             {
                 Bind<ISystem>().To<AddEntityEveryFrameSystem>();
+                Unbind<IEventDispatcher>();
+            }
+        }
+
+        private class RemoveEntityEveryFrameEngineModule : NinjectModule, IEngineModule
+        {
+            public override void Load()
+            {
+                Bind<ISystem>().To<RemoveEntityEveryFrameSystem>();
                 Unbind<IEventDispatcher>();
             }
         }
@@ -108,12 +134,106 @@ namespace OpenAOE.Engine.Tests
                               new EntityTemplate("TestTemplate", new IComponent[] {new OtherSimpleComponent()})
                           });
 
+            // Execute the tick
             var task = engine.Tick(new EngineTickInput());
             task.Start();
             task.Wait();
 
-            engine.Entities.Count.ShouldBe(2);
-            eventMocker.Verify(p => p.Post(It.IsAny<EntityAdded>()), Times.AtLeastOnce);
+            eventMocker.Verify(p => p.Post(It.IsAny<EntityAdded>()), Times.AtLeastOnce,
+                "EntityAdded event should be posted for each entity added");
+        }
+
+        [Test]
+        public void EntitiesAddedDuringFrameAreNotVisibleUntilSync()
+        {
+            var kernel = new StandardKernel(new NinjectSettings(), new EngineModule());
+            kernel.Bind<IEngineModule>().To<AddEntityEveryFrameEngineModule>();
+            kernel.Bind<ILogger>().ToConstant(Mock.Of<ILogger>());
+            kernel.Bind<IEventDispatcher>().ToConstant(Mock.Of<IEventDispatcher>()).InSingletonScope();
+
+            // Create an engine with some test data set up to create a new entity every tick.
+            var engine =
+                kernel.Get<IEngineFactory>()
+                      .Create(new List<EntityData>() {new EntityData(0, new IComponent[] {new SimpleComponent()})},
+                          new List<EntityTemplate>()
+                          {
+                              new EntityTemplate("TestTemplate", new IComponent[] {new OtherSimpleComponent()})
+                          });
+
+            // Execute a tick
+            var task = engine.Tick(new EngineTickInput());
+            task.Start();
+            task.Wait();
+
+            // Ensure entities are only added after the sync
+            engine.Entities.Should().HaveCount(1);
+            engine.Synchronize();
+            engine.Entities.Should().HaveCount(2);
+        }
+
+        [Test]
+        public void EntitiesRemovedDuringFrameHaveEventsPosted()
+        {
+            var eventMocker = new Mock<IEventDispatcher>();
+
+            var kernel = new StandardKernel(new NinjectSettings(), new EngineModule());
+            kernel.Bind<IEngineModule>().To<RemoveEntityEveryFrameEngineModule>();
+
+            kernel.Bind<IEventDispatcher>().ToConstant(eventMocker.Object).InSingletonScope();
+            kernel.Bind<ILogger>().ToConstant(Mock.Of<ILogger>());
+
+            // Create an engine with some test data set up to create a new entity every tick.
+            var engine =
+                kernel.Get<IEngineFactory>()
+                      .Create(new List<EntityData>()
+                      {
+                          new EntityData(0, new IComponent[] {new SimpleComponent()}),
+                          new EntityData(1, new IComponent[] {new SimpleComponent()})
+                      },
+                          new List<EntityTemplate>());
+
+            // Execute a tick
+            var task = engine.Tick(new EngineTickInput());
+            task.Start();
+            task.Wait();
+            engine.Synchronize();
+
+            eventMocker.Verify(p => p.Post(It.IsAny<EntityRemoved>()), Times.Exactly(2),
+                "EntityRemoved events were not posted when entities were removed");
+        }
+
+        [Test]
+        public void EntitiesRemovedDuringFrameAreVisibleUntilNextTickStarts()
+        {
+            var kernel = new StandardKernel(new NinjectSettings(), new EngineModule());
+            kernel.Bind<IEngineModule>().To<RemoveEntityEveryFrameEngineModule>();
+            kernel.Bind<IEventDispatcher>().ToConstant(Mock.Of<IEventDispatcher>()).InSingletonScope();
+            kernel.Bind<ILogger>().ToConstant(Mock.Of<ILogger>());
+
+            // Create an engine with some test data set up to create a new entity every tick.
+            var engine =
+                kernel.Get<IEngineFactory>()
+                      .Create(new List<EntityData>()
+                      {
+                          new EntityData(0, new IComponent[] {new SimpleComponent()}),
+                          new EntityData(1, new IComponent[] {new SimpleComponent()})
+                      },
+                          new List<EntityTemplate>());
+
+            // Execute a tick
+            var task = engine.Tick(new EngineTickInput());
+            task.Start();
+            task.Wait();
+            engine.Synchronize();
+
+            engine.Entities.Should().HaveCount(2, "removed entities should be visible until next tick begins");
+
+            // Execute another tick
+            task = engine.Tick(new EngineTickInput());
+            task.Start();
+            task.Wait();
+
+            engine.Entities.Should().BeEmpty("removed entities should be removed from entity list at start of next tick.");
         }
     }
 }

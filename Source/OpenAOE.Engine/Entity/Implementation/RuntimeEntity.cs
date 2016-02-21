@@ -7,7 +7,7 @@ using OpenAOE.Engine.Utility;
 
 namespace OpenAOE.Engine.Entity.Implementation
 {
-    internal class RuntimeEntity : IEntity
+    internal sealed class RuntimeEntity : IEntity
     {
         public uint Id { get; }
 
