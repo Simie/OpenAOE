@@ -101,7 +101,7 @@
     <Compile Include="SystemFilterTests.cs" />
     <Compile Include="RuntimeEngineTests.cs" />
     <Compile Include="RuntimeEntityServiceTests.cs" />
-    <Compile Include="RuntimeEntityTests.cs" />
+    <Compile Include="EntityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemManagerTests.cs" />
     <Compile Include="SystemUpdateSchedulerTests.cs" />

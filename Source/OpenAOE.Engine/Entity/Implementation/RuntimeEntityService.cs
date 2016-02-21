@@ -12,19 +12,20 @@ namespace OpenAOE.Engine.Entity.Implementation
     internal class RuntimeEntityService : IEntityService
     {
         /// <summary>
+        /// Return the read-only list of entities.
+        /// </summary>
+        public IReadOnlyList<EngineEntity> Entities => _entityList;
+
+        /// <summary>
         /// Return the list of entities that were added during the currently processing tick. 
         /// </summary>
-        public IReadOnlyList<IEntity> AddedEntities => _addedEntities;
+        internal IReadOnlyList<EngineEntity> AddedEntities => _addedEntities;
 
         /// <summary>
         /// Return the list of entities that were removed during the currently processing tick. 
         /// </summary>
-        public IReadOnlyList<IEntity> RemovedEntities => _removedEntities;
+        internal IReadOnlyList<EngineEntity> RemovedEntities => _removedEntities;
 
-        /// <summary>
-        /// Return the read-only list of entities.
-        /// </summary>
-        public IReadOnlyList<IEntity> Entities => _entityList;
 
         /// <summary>
         /// Restricts access to the AddEntity method.
@@ -34,18 +35,18 @@ namespace OpenAOE.Engine.Entity.Implementation
 
         internal readonly IEntityTemplateProvider TemplateProvider;
 
-        private readonly List<IEntity> _addedEntities = new List<IEntity>();
-        private readonly List<IEntity> _removedEntities = new List<IEntity>();
+        private readonly List<EngineEntity> _addedEntities = new List<EngineEntity>();
+        private readonly List<EngineEntity> _removedEntities = new List<EngineEntity>();
 
-        private readonly List<IEntity> _entityList = new List<IEntity>();
-        private readonly Dictionary<uint, IEntity> _entityLookup = new Dictionary<uint, IEntity>();
+        private readonly List<EngineEntity> _entityList = new List<EngineEntity>();
+        private readonly Dictionary<uint, EngineEntity> _entityLookup = new Dictionary<uint, EngineEntity>();
 
         private readonly UniqueIdProvider _idProvider;
         private readonly IEventDispatcher _eventDispatcher;
         private readonly ILogger _logger;
 
         public RuntimeEntityService(IEventDispatcher eventDispatcher,
-            ILogger logger, [CanBeNull] IEntityTemplateProvider templateProvider = null, [CanBeNull] ICollection<IEntity> entities = null)
+            ILogger logger, [CanBeNull] IEntityTemplateProvider templateProvider = null, [CanBeNull] ICollection<EngineEntity> entities = null)
         {
             _eventDispatcher = eventDispatcher;
             _logger = logger;
@@ -63,9 +64,9 @@ namespace OpenAOE.Engine.Entity.Implementation
             _idProvider = new UniqueIdProvider(_entityList.Count > 0 ? _entityList.Max(p => p.Id + 1) : 0);
         }
 
-        public IEntity GetEntity(uint id)
+        public EngineEntity GetEntity(uint id)
         {
-            IEntity e;
+            EngineEntity e;
 
             if (!_entityLookup.TryGetValue(id, out e))
                 return null;
@@ -81,30 +82,30 @@ namespace OpenAOE.Engine.Entity.Implementation
             }
         }
         
-        private void InternalAddEntity(IEntity e)
+        private void InternalAddEntity(EngineEntity e)
         {
             _logger.Info("Adding entity with ID `{0}`.", e.Id);
             _addedEntities.Add(e);
             _eventDispatcher.Post(new EntityAdded(e.Id));
         }
 
-        public IEntity CreateEntity(IEnumerable<IComponent> components)
+        public EngineEntity CreateEntity(IEnumerable<IComponent> components)
         {
             CheckAddEntityGate();
 
             _logger.Info("Creating new entity from components.");
 
-            var entity = new RuntimeEntity(_idProvider.Next(), components, _eventDispatcher);
+            var entity = new EngineEntity(_idProvider.Next(), components, _eventDispatcher);
             InternalAddEntity(entity);
             return entity;
         }
 
-        public IEntity CreateEntity(string prototype)
+        public EngineEntity CreateEntity(string prototype)
         {
             if (TemplateProvider == null)
             {
                 throw new InvalidOperationException(
-                    "IEntityTemplateProvider was not provided when creating RuntimeEntityService");
+                    "EntityTemplateProvider was not provided when creating RuntimeEntityService");
             }
 
             CheckAddEntityGate();
@@ -113,13 +114,13 @@ namespace OpenAOE.Engine.Entity.Implementation
 
             var template = TemplateProvider.Get(prototype);
 
-            var entity = new RuntimeEntity(_idProvider.Next(), template.Components.Select(p => p.Clone()), _eventDispatcher);
+            var entity = new EngineEntity(_idProvider.Next(), template.Components.Select(p => p.Clone()), _eventDispatcher);
             entity.Prototype = prototype;
             InternalAddEntity(entity);
             return entity;
         }
 
-        public void RemoveEntity(IEntity entity)
+        public void RemoveEntity(EngineEntity entity)
         {
             _logger.Info("Removing entity `{0}`", entity.Id);
 

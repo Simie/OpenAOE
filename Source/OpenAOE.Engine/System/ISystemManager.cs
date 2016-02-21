@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using OpenAOE.Engine.Entity;
 
 namespace OpenAOE.Engine.System
 {
@@ -17,12 +16,12 @@ namespace OpenAOE.Engine.System
         /// Supply a list of entities to be added to systems that pass their filter.
         /// </summary>
         /// <param name="entityList"></param>
-        void AddEntities(IReadOnlyList<IEntity> entityList);
+        void AddEntities(IReadOnlyList<Entity.EngineEntity> entityList);
 
         /// <summary>
         /// Supply a list of entities to removed from systems that pass their filter.
         /// </summary>
         /// <param name="entityList"></param>
-        void RemoveEntities(IReadOnlyList<IEntity> entityList);
+        void RemoveEntities(IReadOnlyList<Entity.EngineEntity> entityList);
     }
 }

@@ -31,14 +31,18 @@ namespace OpenAOE.Engine.Implementation
             _logger.Info("Creating new RuntimeEngine instance");
 
             // Create a child kernel for this new instance.
-            var k = new ChildKernel(_kernel);
+            var k = new ChildKernel(_kernel, new NinjectSettings()
+            {
+                InjectNonPublic = true
+            });
+
             k.Load(_kernel.GetAll<IEngineModule>());
             k.Bind<IEntityTemplateProvider>().ToConstant(new RuntimeEntityTemplateProvider(templates));
 
-            IList<IEntity> existingEntities = new List<IEntity>();
+            IList<EngineEntity> existingEntities = new List<EngineEntity>();
             foreach (var entity in snapshot)
             {
-                existingEntities.Add(k.Get<RuntimeEntity>(new ConstructorArgument("data", entity)));
+                existingEntities.Add(new EngineEntity(entity.Id, entity.Components, k.Get<IEventDispatcher>()));
             }
 
             k.Get<IEntityService>(new ConstructorArgument("entities", existingEntities));

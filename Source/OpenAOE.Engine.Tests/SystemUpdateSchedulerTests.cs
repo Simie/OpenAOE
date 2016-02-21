@@ -25,7 +25,7 @@ namespace OpenAOE.Engine.Tests
         {
             public ISystem System { get; } = new SystemFake();
 
-            public IReadOnlyList<IEntity> Entities
+            public IReadOnlyList<EngineEntity> Entities
             {
                 get { throw new NotImplementedException(); }
             }

@@ -4,7 +4,7 @@ using OpenAOE.Engine.Entity;
 
 namespace OpenAOE.Engine
 {
-    public class EntityData
+    public sealed class EntityData
     {
         public readonly uint Id;
         public readonly IReadOnlyCollection<IComponent> Components;

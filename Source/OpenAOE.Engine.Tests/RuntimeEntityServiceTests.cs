@@ -156,7 +156,7 @@ namespace OpenAOE.Engine.Tests
 
             var entity = e.CreateEntity("Test");
 
-            (entity as RuntimeEntity).Prototype.Should().Be("Test");
+            (entity as EngineEntity).Prototype.Should().Be("Test");
         }
 
         [Test]
@@ -167,9 +167,9 @@ namespace OpenAOE.Engine.Tests
                 new RuntimeEntityTemplateProvider(new[] {new EntityTemplate("Test", new IComponent[0])}),
                 new[]
                 {
-                    new RuntimeEntity(0, new IComponent[0], Mock.Of<IEventDispatcher>()),
-                    new RuntimeEntity(1, new IComponent[0], Mock.Of<IEventDispatcher>()),
-                    new RuntimeEntity(5, new IComponent[0], Mock.Of<IEventDispatcher>()),
+                    new EngineEntity(0, new IComponent[0], Mock.Of<IEventDispatcher>()),
+                    new EngineEntity(1, new IComponent[0], Mock.Of<IEventDispatcher>()),
+                    new EngineEntity(5, new IComponent[0], Mock.Of<IEventDispatcher>()),
                 });
 
             // Create new entity

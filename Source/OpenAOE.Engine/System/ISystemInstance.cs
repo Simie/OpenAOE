@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using OpenAOE.Engine.Entity;
 
 namespace OpenAOE.Engine.System
 {
@@ -13,6 +12,6 @@ namespace OpenAOE.Engine.System
         /// <summary>
         /// List of entities that this system operates on.
         /// </summary>
-        IReadOnlyList<IEntity> Entities { get; }
+        IReadOnlyList<Entity.EngineEntity> Entities { get; }
     }
 }

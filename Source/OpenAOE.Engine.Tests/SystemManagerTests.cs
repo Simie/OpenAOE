@@ -2,6 +2,7 @@
 using System.Linq;
 using Moq;
 using NUnit.Framework;
+using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.System;
 using OpenAOE.Engine.System.Implementation;
@@ -42,20 +43,20 @@ namespace OpenAOE.Engine.Tests
 
             var manager = new RuntimeSystemManager(new ISystem[] {oneComponentSystem, twoComponentSystem});
 
-            var oneComponentEntity = new Mock<IEntity>();
-            oneComponentEntity.Setup(p => p.HasComponent<ISimpleComponent>()).Returns(true);
+            var oneComponentEntity = new EngineEntity(0, new IComponent[] {new SimpleComponent()},
+                Mock.Of<IEventDispatcher>());
 
-            var twoComponentEntity = new Mock<IEntity>();
-            twoComponentEntity.Setup(p => p.HasComponent<ISimpleComponent>()).Returns(true);
-            twoComponentEntity.Setup(p => p.HasComponent<IOtherSimpleComponent>()).Returns(true);
+            var twoComponentEntity = new EngineEntity(0,
+                new IComponent[] {new SimpleComponent(), new OtherSimpleComponent(),},
+                Mock.Of<IEventDispatcher>());
 
-            manager.AddEntities(new[] {oneComponentEntity.Object, twoComponentEntity.Object});
+            manager.AddEntities(new[] {oneComponentEntity, twoComponentEntity});
 
-            manager.Systems.Single(p => p.System == oneComponentSystem).Entities.ShouldContain(oneComponentEntity.Object);
-            manager.Systems.Single(p => p.System == oneComponentSystem).Entities.ShouldContain(twoComponentEntity.Object);
+            manager.Systems.Single(p => p.System == oneComponentSystem).Entities.ShouldContain(oneComponentEntity);
+            manager.Systems.Single(p => p.System == oneComponentSystem).Entities.ShouldContain(twoComponentEntity);
 
-            manager.Systems.Single(p => p.System == twoComponentSystem).Entities.ShouldContain(twoComponentEntity.Object);
-            manager.Systems.Single(p => p.System == twoComponentSystem).Entities.ShouldNotContain(oneComponentEntity.Object);
+            manager.Systems.Single(p => p.System == twoComponentSystem).Entities.ShouldContain(twoComponentEntity);
+            manager.Systems.Single(p => p.System == twoComponentSystem).Entities.ShouldNotContain(oneComponentEntity);
         }
 
 
@@ -66,13 +67,13 @@ namespace OpenAOE.Engine.Tests
 
             var manager = new RuntimeSystemManager(new ISystem[] {oneComponentSystem});
 
-            var oneComponentEntity = new Mock<IEntity>();
-            oneComponentEntity.Setup(p => p.HasComponent<ISimpleComponent>()).Returns(true);
+            var oneComponentEntity = new EngineEntity(0, new IComponent[] {new SimpleComponent()},
+                Mock.Of<IEventDispatcher>());
 
-            manager.AddEntities(new[] {oneComponentEntity.Object});
-            manager.RemoveEntities(new[] {oneComponentEntity.Object});
+            manager.AddEntities(new[] {oneComponentEntity});
+            manager.RemoveEntities(new[] {oneComponentEntity});
 
-            manager.Systems.Single().Entities.ShouldNotContain(oneComponentEntity.Object);
+            manager.Systems.Single().Entities.ShouldNotContain(oneComponentEntity);
         }
     }
 }

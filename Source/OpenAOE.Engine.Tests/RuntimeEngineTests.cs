@@ -75,7 +75,7 @@ namespace OpenAOE.Engine.Tests
                 _entityService = entityService;
             }
 
-            public void OnTick(IEntity entity)
+            public void OnTick(EngineEntity entity)
             {
                 _entityService.CreateEntity("TestTemplate");
             }
@@ -90,7 +90,7 @@ namespace OpenAOE.Engine.Tests
                 _entityService = entityService;
             }
 
-            public void OnTick(IEntity entity)
+            public void OnTick(EngineEntity entity)
             {
                 _entityService.RemoveEntity(entity);
             }

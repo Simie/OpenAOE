@@ -15,7 +15,7 @@ namespace OpenAOE.Engine.System
         /// </remarks>
         public interface IOnEntityAdded
         {
-            void OnEntityAdded(IEntity entity);
+            void OnEntityAdded(EngineEntity entity);
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace OpenAOE.Engine.System
         /// </summary>
         public interface IOnEntityTick
         {
-            void OnTick(IEntity entity);
+            void OnTick(EngineEntity entity);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace OpenAOE.Engine.System
         /// </summary>
         public interface IOnEntityRemoved
         {
-            void OnEntityRemoved(IEntity entity);
+            void OnEntityRemoved(EngineEntity entity);
         }
 
         /// <summary>

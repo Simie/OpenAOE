@@ -16,7 +16,7 @@ namespace OpenAOE
                 new NinjectSettings()
                 {
                     LoadExtensions = false
-                }, new Engine.EngineModule(), new Games.AGE2.Module(), new NLogModule());
+                }, new EngineModule(), new Games.AGE2.Module(), new NLogModule());
 
 
             var log = context.Get<ILoggerFactory>().GetCurrentClassLogger();

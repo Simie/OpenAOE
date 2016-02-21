@@ -21,15 +21,4 @@ namespace OpenAOE.Engine.Entity
         /// <returns>The component of type <typeparamref name="T"/> from the current tick.</returns>
         T Current<T>() where T : class, IComponent;
     }
-
-    public interface IEntity : IReadOnlyEntity
-    {
-        /// <summary>
-        /// Returns the writeable component of type <typeparamref name="TWrite"/> for the next tick.
-        /// </summary>
-        /// <exception cref="ComponentAccessException">Thrown if the component does not exist on the entity or has already been accessed during this tick.</exception>
-        /// <typeparam name="TWrite">The interface type of the component you wish to write too.</typeparam>
-        /// <returns>The writeable component of type <typeparamref name="TWrite"/>.</returns>
-        TWrite Modify<TWrite>() where TWrite : class, IWriteableComponent;
-    }
 }

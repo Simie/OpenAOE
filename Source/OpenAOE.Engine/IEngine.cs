@@ -38,7 +38,7 @@ namespace OpenAOE.Engine
         /// within entities. However, once <seealso cref="Synchronize"/> is called all entities added
         /// during the tick will be added to this list and new data in entity components visible.
         /// </summary>
-        IReadOnlyCollection<IEntity> Entities { get; }
+        IReadOnlyCollection<IReadOnlyEntity> Entities { get; }
 
         /// <summary>
         /// Advance the simulation by one tick with the given <paramref name="input"/>.

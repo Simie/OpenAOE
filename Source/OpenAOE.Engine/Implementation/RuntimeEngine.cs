@@ -12,7 +12,7 @@ namespace OpenAOE.Engine.Implementation
 {
     internal sealed class RuntimeEngine : IEngine
     {
-        public IReadOnlyCollection<IEntity> Entities
+        public IReadOnlyCollection<IReadOnlyEntity> Entities
         {
             get { return EntityService.Entities; }
         }

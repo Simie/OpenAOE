@@ -9,7 +9,7 @@ namespace OpenAOE.Engine.Entity
         /// <summary>
         /// List of all entities in the simulation.
         /// </summary>
-        IReadOnlyList<IEntity> Entities { get; }
+        IReadOnlyList<EngineEntity> Entities { get; }
 
         /// <summary>
         /// Get the entity with the specified ID. 
@@ -18,7 +18,7 @@ namespace OpenAOE.Engine.Entity
         /// <param name="id">Unique ID for the entity to be fetched.</param>
         /// <returns>The entity with <paramref name="id"/> as the Id, or null if not found.</returns>
         [CanBeNull]
-        IEntity GetEntity(uint id);
+        EngineEntity GetEntity(uint id);
 
         /// <summary>
         /// Create a new entity with the given <paramref name="prototype"/>. 
@@ -31,12 +31,12 @@ namespace OpenAOE.Engine.Entity
         /// <param name="prototype"></param>
         /// <exception cref="ArgumentException">If a prototype with name <paramref name="prototype"/> is not found.</exception>
         /// <returns>The created entity.</returns>
-        IEntity CreateEntity([NotNull] string prototype);
+        EngineEntity CreateEntity([NotNull] string prototype);
 
         /// <summary>
         /// Remove <paramref name="entity"/> from the simulation. 
         /// Thread safe.
         /// </summary>
-        void RemoveEntity([NotNull] IEntity entity);
+        void RemoveEntity([NotNull] EngineEntity entity);
     }
 }

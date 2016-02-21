@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using OpenAOE.Engine.Entity;
 
 namespace OpenAOE.Engine.System.Implementation
 {
@@ -16,7 +14,7 @@ namespace OpenAOE.Engine.System.Implementation
             _systems = systems.Select(p => new RuntimeSystemInstance(p)).ToList();
         }
 
-        public void AddEntities(IReadOnlyList<IEntity> entityList)
+        public void AddEntities(IReadOnlyList<Entity.EngineEntity> entityList)
         {
             foreach (var system in _systems)
             {
@@ -31,7 +29,7 @@ namespace OpenAOE.Engine.System.Implementation
             }
         }
 
-        public void RemoveEntities(IReadOnlyList<IEntity> entityList)
+        public void RemoveEntities(IReadOnlyList<Entity.EngineEntity> entityList)
         {
             foreach (var system in _systems)
             {
