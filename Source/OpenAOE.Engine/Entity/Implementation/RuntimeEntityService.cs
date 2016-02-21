@@ -44,10 +44,9 @@ namespace OpenAOE.Engine.Entity.Implementation
         private readonly IEventDispatcher _eventDispatcher;
         private readonly ILogger _logger;
 
-        public RuntimeEntityService(UniqueIdProvider idProvider, IEventDispatcher eventDispatcher,
+        public RuntimeEntityService(IEventDispatcher eventDispatcher,
             ILogger logger, [CanBeNull] IEntityTemplateProvider templateProvider = null, [CanBeNull] ICollection<IEntity> entities = null)
         {
-            _idProvider = idProvider;
             _eventDispatcher = eventDispatcher;
             _logger = logger;
             TemplateProvider = templateProvider;
@@ -60,6 +59,8 @@ namespace OpenAOE.Engine.Entity.Implementation
                     _entityLookup.Add(entity.Id, entity);
                 }
             }
+
+            _idProvider = new UniqueIdProvider(_entityList.Count > 0 ? _entityList.Max(p => p.Id + 1) : 0);
         }
 
         public IEntity GetEntity(uint id)
