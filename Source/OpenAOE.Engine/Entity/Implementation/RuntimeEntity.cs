@@ -16,6 +16,7 @@ namespace OpenAOE.Engine.Entity.Implementation
         /// </summary>
         internal string Prototype { get; set; }
 
+        // TODO: Switch to using a SparseList like Forge does for much faster access to components.
         private readonly IDictionary<ComponentAccessor, ComponentContainer> _components;
         private readonly EntityDirtyTracker _dirtyTracker = new EntityDirtyTracker();
         private readonly IEventDispatcher _eventDispatcher;

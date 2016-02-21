@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.Entity.Implementation;
@@ -23,12 +24,14 @@ namespace OpenAOE.Engine.Implementation
             AwaitingSync
         }
 
-        internal RuntimeEntityService EntityService;
-        internal ISystemManager SystemManager;
+        internal readonly RuntimeEntityService EntityService;
+        internal readonly ISystemManager SystemManager;
 
-        internal EventQueue EventQueue;
+        internal readonly EventQueue EventQueue;
 
         internal SystemUpdateScheduler SystemUpdateScheduler;
+
+        internal AccessGate AddEntityAccessGate;
 
         private States _state = States.Idle;
 
@@ -44,8 +47,10 @@ namespace OpenAOE.Engine.Implementation
                 throw new ArgumentNullException(nameof(systemManager));
             }
 
+            AddEntityAccessGate = new AccessGate();
             EventQueue = eventQueue;
-            EntityService = (RuntimeEntityService)entityService;
+            EntityService = entityService;
+            EntityService.AddEntityAccessGate = AddEntityAccessGate;
             SystemManager = systemManager;
             SystemUpdateScheduler = new SystemUpdateScheduler(SystemManager.Systems);
 
@@ -66,15 +71,38 @@ namespace OpenAOE.Engine.Implementation
             {
                 _state = States.AwaitingSync;
 
+                // Clear the "RemovedEntities" list from last frame.
                 EntityService.CommitRemoved();
 
-                if (EntityService.AddedEntities.Count > 0)
+                // Update all systems
+                foreach (var updateBurst in SystemUpdateScheduler.UpdateBursts)
                 {
-                    SystemManager.AddEntities(EntityService.RemovedEntities);
+                    AddEntityAccessGate.IsLocked = updateBurst.Systems.Count > 1;
+
+                    Parallel.ForEach(updateBurst.Systems, (system) =>
+                    {
+                        var hasTick = system.System is Triggers.IOnEntityTick;
+
+                        if (hasTick)
+                        {
+                            Parallel.ForEach(system.Entities, (entity) =>
+                            {
+                                ((Triggers.IOnEntityTick) system.System).OnTick(entity);
+                            });
+                        }
+                    });
                 }
 
+                // Add any entities from this frame to the system manager
+                if (EntityService.AddedEntities.Count > 0)
+                {
+                    SystemManager.AddEntities(EntityService.AddedEntities);
+                }
+
+                // Clear the incoming "AddedEntities" list and get them added to the main event list.
                 EntityService.CommitAdded();
 
+                // Process the removal from systems of any entities that were removed in this frame.
                 if (EntityService.RemovedEntities.Count > 0)
                 {
                     SystemManager.RemoveEntities(EntityService.RemovedEntities);
