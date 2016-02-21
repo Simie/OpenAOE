@@ -84,6 +84,7 @@ namespace OpenAOE.Engine.Tests
             public override void Load()
             {
                 Bind<ISystem>().To<AddEntityEveryFrameSystem>();
+                Unbind<IEventDispatcher>();
             }
         }
 
@@ -111,8 +112,8 @@ namespace OpenAOE.Engine.Tests
             task.Start();
             task.Wait();
 
-            eventMocker.Verify(p => p.Post(It.IsAny<EntityAdded>()), Times.AtLeastOnce);
             engine.Entities.Count.ShouldBe(2);
+            eventMocker.Verify(p => p.Post(It.IsAny<EntityAdded>()), Times.AtLeastOnce);
         }
     }
 }
