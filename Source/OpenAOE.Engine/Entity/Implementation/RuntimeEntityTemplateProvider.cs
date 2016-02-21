@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using OpenAOE.Engine.Exceptions;
 
 namespace OpenAOE.Engine.Entity.Implementation
 {

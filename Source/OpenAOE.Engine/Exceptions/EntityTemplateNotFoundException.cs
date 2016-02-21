@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenAOE.Engine.Entity.Implementation
+namespace OpenAOE.Engine.Exceptions
 {
     public class EntityTemplateNotFoundException : Exception
     {

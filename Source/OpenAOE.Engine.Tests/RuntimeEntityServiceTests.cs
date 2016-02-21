@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using FluentAssertions;
 using Moq;
 using Ninject.Extensions.Logging;
 using NUnit.Framework;
@@ -9,7 +10,6 @@ using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.Entity.Implementation;
 using OpenAOE.Engine.Tests.TestData.Components;
 using OpenAOE.Engine.Utility;
-using Shouldly;
 
 namespace OpenAOE.Engine.Tests
 {
@@ -23,8 +23,8 @@ namespace OpenAOE.Engine.Tests
 
             var entity = e.CreateEntity(new IComponent[0]);
 
-            e.Entities.ShouldNotContain(entity);
-            e.AddedEntities.ShouldContain(entity);
+            e.Entities.Should().NotContain(entity);
+            e.AddedEntities.Should().Contain(entity);
         }
 
         [Test]
@@ -35,9 +35,9 @@ namespace OpenAOE.Engine.Tests
             var entity = e.CreateEntity(new IComponent[0]);
             e.CommitAdded();
 
-            e.Entities.ShouldContain(entity);
-            e.AddedEntities.ShouldNotContain(entity);
-            e.GetEntity(entity.Id).ShouldBe(entity);
+            e.Entities.Should().Contain(entity);
+            e.AddedEntities.Should().NotContain(entity);
+            e.GetEntity(entity.Id).Should().Be(entity);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace OpenAOE.Engine.Tests
             e.CommitAdded();
             e.RemoveEntity(entity);
 
-            e.Entities.ShouldContain(entity);
+            e.Entities.Should().Contain(entity);
         }
 
         [Test]
@@ -62,8 +62,8 @@ namespace OpenAOE.Engine.Tests
             e.RemoveEntity(entity);
             e.CommitRemoved();
 
-            e.Entities.ShouldNotContain(entity);
-            e.GetEntity(entity.Id).ShouldBeNull();
+            e.Entities.Should().NotContain(entity);
+            e.GetEntity(entity.Id).Should().BeNull();
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace OpenAOE.Engine.Tests
             e.RemoveEntity(entity);
             e.CommitRemoved();
             
-            e.RemovedEntities.ShouldBeEmpty();
+            e.RemovedEntities.Should().BeEmpty();
         }
         
         [Test]
@@ -113,7 +113,8 @@ namespace OpenAOE.Engine.Tests
                 Mock.Of<ILogger>());
             e.AddEntityAccessGate = mock.Object;
 
-            Should.Throw<InvalidOperationException>(() => e.CreateEntity(new IComponent[0]));
+            Action act = () => e.CreateEntity(new IComponent[0]);
+            act.ShouldThrow<InvalidOperationException>();
         }
 
         [Test]
@@ -122,7 +123,8 @@ namespace OpenAOE.Engine.Tests
             var e = new RuntimeEntityService(Mock.Of<IEventDispatcher>(),
                 Mock.Of<ILogger>());
 
-            Should.Throw<InvalidOperationException>(() => e.CreateEntity("Test"));
+            Action act = () => e.CreateEntity("Test");
+            act.ShouldThrow<InvalidOperationException>();
         }
 
         [Test]
@@ -139,8 +141,8 @@ namespace OpenAOE.Engine.Tests
 
             var entity = e.CreateEntity("Test");
 
-            entity.HasComponent<ISimpleComponent>().ShouldBeTrue();
-            entity.HasComponent<IOtherSimpleComponent>().ShouldBeTrue();
+            entity.HasComponent<ISimpleComponent>().Should().BeTrue();
+            entity.HasComponent<IOtherSimpleComponent>().Should().BeTrue();
         }
 
         [Test]
@@ -154,7 +156,7 @@ namespace OpenAOE.Engine.Tests
 
             var entity = e.CreateEntity("Test");
 
-            (entity as RuntimeEntity).Prototype.ShouldBe("Test");
+            (entity as RuntimeEntity).Prototype.Should().Be("Test");
         }
 
         [Test]
@@ -176,7 +178,7 @@ namespace OpenAOE.Engine.Tests
             // Commit the added entities
             entityService.CommitAdded();
 
-            entityService.Entities.Select(p => p.Id).ShouldBeUnique();
+            entityService.Entities.Select(p => p.Id).Should().OnlyHaveUniqueItems("Entity IDs need to be unique.");
         }
     }
 }

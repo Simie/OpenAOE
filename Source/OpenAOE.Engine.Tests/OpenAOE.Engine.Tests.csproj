@@ -97,6 +97,7 @@
     <Compile Include="EntityDirtyTrackerTests.cs" />
     <Compile Include="ExecuteOrderSorterTest.cs" />
     <Compile Include="GenericComponentFilterTests.cs" />
+    <Compile Include="RuntimeEntityTemplateProviderTests.cs" />
     <Compile Include="SystemFilterTests.cs" />
     <Compile Include="RuntimeEngineTests.cs" />
     <Compile Include="RuntimeEntityServiceTests.cs" />
