@@ -33,6 +33,9 @@ namespace OpenAOE.Engine.Entity.Implementation
                               v => v);
         }
 
+        public RuntimeEntity(EntityData data, IEventDispatcher eventDispatcher)
+            : this(data.Id, data.Components, eventDispatcher) {}
+
         public bool HasComponent<T>() where T : class, IComponent
         {
             return _components.ContainsKey(ComponentMap<T>.Accessor);

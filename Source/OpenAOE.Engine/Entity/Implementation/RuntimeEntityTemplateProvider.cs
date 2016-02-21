@@ -14,7 +14,13 @@ namespace OpenAOE.Engine.Entity.Implementation
 
         public EntityTemplate Get(string key)
         {
-            return _templates[key];
+            EntityTemplate template;
+            if (_templates.TryGetValue(key, out template))
+            {
+                return template;
+            }
+
+            throw new EntityTemplateNotFoundException(key);
         }
     }
 }

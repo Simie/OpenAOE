@@ -8,7 +8,7 @@ using OpenAOE.Engine.Utility;
 
 namespace OpenAOE.Engine.Implementation
 {
-    class InternalEngineModule : NinjectModule
+    class InternalEngineModule : NinjectModule, IEngineModule
     {
         public override void Load()
         {

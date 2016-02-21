@@ -62,6 +62,7 @@
     <Compile Include="Data\Events\EntityComponentModified.cs" />
     <Compile Include="Data\Events\EntityRemoved.cs" />
     <Compile Include="Entity\IHasComponents.cs" />
+    <Compile Include="Exceptions\EntityTemplateNotFoundException.cs" />
     <Compile Include="Entity\Implementation\RuntimeEntityTemplateProvider.cs" />
     <Compile Include="IEngine.cs" />
     <Compile Include="EngineModule.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Implementation\EngineFactory.cs" />
     <Compile Include="Implementation\InternalEngineModule.cs" />
     <Compile Include="Implementation\RuntimeEngine.cs" />
+    <Compile Include="IEngineModule.cs" />
     <Compile Include="System\Implementation\RuntimeSystemInstance.cs" />
     <Compile Include="System\Implementation\RuntimeSystemManager.cs" />
     <Compile Include="System\Implementation\SystemUpdateScheduler.cs" />

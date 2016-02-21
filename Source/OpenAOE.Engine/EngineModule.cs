@@ -11,6 +11,8 @@ namespace OpenAOE.Engine
         public override void Load()
         {
             Bind<IEngineFactory>().To<EngineFactory>();
+
+            Bind<IEngineModule>().To<InternalEngineModule>();
         }
     }
 }

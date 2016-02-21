@@ -5,6 +5,7 @@ using Ninject;
 using Ninject.Extensions.Logging;
 using Ninject.MockingKernel;
 using Ninject.MockingKernel.Moq;
+using Ninject.Modules;
 using NUnit.Framework;
 using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Data.Events;
@@ -74,7 +75,15 @@ namespace OpenAOE.Engine.Tests
 
             public void OnTick(IEntity entity)
             {
-                _entityService.CreateEntity("Test");
+                _entityService.CreateEntity("TestTemplate");
+            }
+        }
+
+        private class AddEntityEveryFrameEngineModule : NinjectModule, IEngineModule
+        {
+            public override void Load()
+            {
+                Bind<ISystem>().To<AddEntityEveryFrameSystem>();
             }
         }
 
@@ -84,9 +93,9 @@ namespace OpenAOE.Engine.Tests
             var eventMocker = new Mock<IEventDispatcher>();
 
             var kernel = new StandardKernel(new NinjectSettings(), new EngineModule());
-            kernel.Bind<ISystem>().To<AddEntityEveryFrameSystem>();
-            kernel.Bind<IEventDispatcher>().ToConstant(eventMocker.Object).InSingletonScope();
+            kernel.Bind<IEngineModule>().To<AddEntityEveryFrameEngineModule>();
 
+            kernel.Bind<IEventDispatcher>().ToConstant(eventMocker.Object).InSingletonScope();
             kernel.Bind<ILogger>().ToConstant(Mock.Of<ILogger>());
 
             // Create an engine with some test data set up to create a new entity every tick.
