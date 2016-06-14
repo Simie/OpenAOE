@@ -8,7 +8,7 @@ namespace OpenAOE.Games.AGE2.Data.Components
         float MoveSpeed { get; }
     }
 
-    public interface IWriteableMovable : IWriteableComponent
+    public interface IWriteableMovable : IWriteableComponent<IMovable>
     {
         FixVector2? TargetPosition { set; }
         float MoveSpeed { set; }

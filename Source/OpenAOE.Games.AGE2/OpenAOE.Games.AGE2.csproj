@@ -54,6 +54,7 @@
     <Compile Include="Data\Components\Player.cs" />
     <Compile Include="Data\Components\Transform.cs" />
     <Compile Include="Data\Components\Unit.cs" />
+    <Compile Include="Age2Module.cs" />
     <Compile Include="Services\Implementation\TimeService.cs" />
     <Compile Include="Services\ITimeService.cs" />
     <Compile Include="Module.cs" />

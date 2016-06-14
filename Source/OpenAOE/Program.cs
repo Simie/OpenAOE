@@ -20,7 +20,7 @@ namespace OpenAOE
                 new Movable()
                 {
                     TargetPosition = new FixVector2(10,10),
-                    MoveSpeed = 1f
+                    MoveSpeed = 5f
                 }
             })
         };
@@ -33,7 +33,7 @@ namespace OpenAOE
                 new Movable()
                 {
                     TargetPosition = new FixVector2(10,10),
-                    MoveSpeed = 1f
+                    MoveSpeed = 8f
                 }
             })
         };
@@ -56,7 +56,7 @@ namespace OpenAOE
             log.Info("Creating Engine");
             var engine = engineFactory.Create(TestData, TestTemplates);
 
-            for (var i = 0; i < 10; ++i)
+            for (var i = 0; i < 100; ++i)
             {
                 var tick = engine.Tick(new EngineTickInput());
                 tick.Start();
