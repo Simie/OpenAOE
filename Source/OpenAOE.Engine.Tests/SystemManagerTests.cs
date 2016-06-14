@@ -1,6 +1,7 @@
 ﻿
 using System.Linq;
 using Moq;
+using Ninject.Extensions.Logging;
 using NUnit.Framework;
 using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Entity;
@@ -15,13 +16,15 @@ namespace OpenAOE.Engine.Tests
     [TestFixture]
     public class SystemManagerTests
     {
-        public class TwoComponentSystem : ISystem
+        public class TwoComponentSystem : IEntitySystem
         {
+            public string Name => nameof(TwoComponentSystem);
             public IComponentFilter Filter => new GenericComponentFilter<ISimpleComponent, IOtherSimpleComponent>();
         }
 
-        public class OneComponentSystem : ISystem
+        public class OneComponentSystem : IEntitySystem
         {
+            public string Name => nameof(OneComponentSystem);
             public IComponentFilter Filter => new GenericComponentFilter<ISimpleComponent>();
         }
         
@@ -29,7 +32,7 @@ namespace OpenAOE.Engine.Tests
         public void CreatesInstanceForEverySystemInConstructor()
         {
             var systems = new ISystem[]{new TwoComponentSystem(), new OneComponentSystem()};
-            var manager = new RuntimeSystemManager(systems);
+            var manager = new RuntimeSystemManager(systems, Mock.Of<ILogger>());
 
             manager.Systems.Count.ShouldBe(2);
             manager.Systems.ShouldAllBe(p => systems.Contains(p.System));
@@ -41,7 +44,7 @@ namespace OpenAOE.Engine.Tests
             var oneComponentSystem = new OneComponentSystem();
             var twoComponentSystem = new TwoComponentSystem();
 
-            var manager = new RuntimeSystemManager(new ISystem[] {oneComponentSystem, twoComponentSystem});
+            var manager = new RuntimeSystemManager(new ISystem[] {oneComponentSystem, twoComponentSystem}, Mock.Of<ILogger>());
 
             var oneComponentEntity = new EngineEntity(0, new IComponent[] {new SimpleComponent()},
                 Mock.Of<IEventDispatcher>());
@@ -65,7 +68,7 @@ namespace OpenAOE.Engine.Tests
         {
             var oneComponentSystem = new OneComponentSystem();
 
-            var manager = new RuntimeSystemManager(new ISystem[] {oneComponentSystem});
+            var manager = new RuntimeSystemManager(new ISystem[] {oneComponentSystem}, Mock.Of<ILogger>());
 
             var oneComponentEntity = new EngineEntity(0, new IComponent[] {new SimpleComponent()},
                 Mock.Of<IEventDispatcher>());

@@ -84,6 +84,7 @@
     <Compile Include="System\Implementation\SystemUpdateScheduler.cs" />
     <Compile Include="System\ISystemInstance.cs" />
     <Compile Include="System\ISystemManager.cs" />
+    <Compile Include="Utility\ComponentFilter.cs" />
     <Compile Include="Utility\EventQueue.cs" />
     <Compile Include="Utility\GenericComponentFilter.cs" />
     <Compile Include="Utility\IComponentFilter.cs" />

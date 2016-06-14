@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
+using Ninject.Extensions.Logging;
 using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.Entity.Implementation;
 using OpenAOE.Engine.System;
@@ -28,6 +29,7 @@ namespace OpenAOE.Engine.Implementation
         internal readonly ISystemManager SystemManager;
 
         internal readonly EventQueue EventQueue;
+        private readonly ILogger _logger;
 
         internal SystemUpdateScheduler SystemUpdateScheduler;
 
@@ -35,14 +37,20 @@ namespace OpenAOE.Engine.Implementation
 
         private States _state = States.Idle;
 
-        public RuntimeEngine(RuntimeEntityService entityService, ISystemManager systemManager, EventQueue eventQueue)
+        public RuntimeEngine(RuntimeEntityService entityService, ISystemManager systemManager, EventQueue eventQueue, ILogger logger)
         {
             AddEntityAccessGate = new AccessGate();
             EventQueue = eventQueue;
+            _logger = logger;
             EntityService = entityService;
             EntityService.AddEntityAccessGate = AddEntityAccessGate;
             SystemManager = systemManager;
             SystemUpdateScheduler = new SystemUpdateScheduler(SystemManager.Systems);
+
+            foreach (var updateBurst in SystemUpdateScheduler.UpdateBursts)
+            {
+                _logger.Info($"Update Burst: {string.Join(", ", updateBurst.Systems.Select(p => p.System.Name))}");
+            }
 
             // Add any entities that are already loaded into the engine.
             SystemManager.AddEntities(entityService.Entities);
@@ -61,6 +69,8 @@ namespace OpenAOE.Engine.Implementation
             {
                 _state = States.AwaitingSync;
 
+                // TODO: Handle commands input
+
                 // Clear the "RemovedEntities" list from last frame.
                 EntityService.CommitRemoved();
 
@@ -71,9 +81,12 @@ namespace OpenAOE.Engine.Implementation
 
                     Parallel.ForEach(updateBurst.Systems, (system) =>
                     {
-                        var hasTick = system.System is Triggers.IOnEntityTick;
+                        if (system.HasTick)
+                        {
+                            ((Triggers.IOnTick)system.System).OnTick();
+                        }
 
-                        if (hasTick)
+                        if (system.HasEntityTick)
                         {
                             Parallel.ForEach(system.Entities, (entity) =>
                             {

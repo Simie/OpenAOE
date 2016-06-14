@@ -15,6 +15,7 @@ namespace OpenAOE.Engine.Tests
     {
         public class SystemFake : ISystem
         {
+            public string Name => nameof(SystemFake);
             public IComponentFilter Filter
             {
                 get { throw new NotImplementedException(); }
@@ -26,6 +27,26 @@ namespace OpenAOE.Engine.Tests
             public ISystem System { get; } = new SystemFake();
 
             public IReadOnlyList<EngineEntity> Entities
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public bool HasEntityTick
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public bool HasEntityAdd
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public bool HasEntityRemove
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public bool HasTick
             {
                 get { throw new NotImplementedException(); }
             }

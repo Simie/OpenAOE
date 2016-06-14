@@ -13,5 +13,10 @@ namespace OpenAOE.Engine.System
         /// List of entities that this system operates on.
         /// </summary>
         IReadOnlyList<Entity.EngineEntity> Entities { get; }
+
+        bool HasEntityTick { get; }
+        bool HasEntityAdd { get; }
+        bool HasEntityRemove { get; }
+        bool HasTick { get; }
     }
 }

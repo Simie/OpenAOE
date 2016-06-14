@@ -13,15 +13,23 @@ namespace OpenAOE.Engine.System
         /// When loading an existing snapshot this will be called for every entity that matches
         /// the system filter.
         /// </remarks>
-        public interface IOnEntityAdded
+        public interface IOnEntityAdded : IEntitySystem
         {
             void OnEntityAdded(EngineEntity entity);
         }
 
         /// <summary>
+        /// Receive an update callback every tick.
+        /// </summary>
+        public interface IOnTick
+        {
+            void OnTick();
+        }
+
+        /// <summary>
         /// Receive an update tick for every entity that matches the system filter.
         /// </summary>
-        public interface IOnEntityTick
+        public interface IOnEntityTick : IEntitySystem
         {
             void OnTick(EngineEntity entity);
         }
@@ -29,7 +37,7 @@ namespace OpenAOE.Engine.System
         /// <summary>
         /// Notification when entity is removed from the simulation.
         /// </summary>
-        public interface IOnEntityRemoved
+        public interface IOnEntityRemoved : IEntitySystem
         {
             void OnEntityRemoved(EngineEntity entity);
         }
