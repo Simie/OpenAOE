@@ -7,12 +7,12 @@ namespace OpenAOE.Games.AGE2.Data.Components
         FixVector2 Position { get; }
     }
 
-    public interface IWriteableTransform : IWriteableComponent
+    public interface IWriteableTransform : IWriteableComponent<ITransform>
     {
         FixVector2 Position { set; }
     }
 
-    class Transform : Component<Transform, ITransform, IWriteableTransform>, ITransform, IWriteableTransform
+    public class Transform : Component<Transform, ITransform, IWriteableTransform>, ITransform, IWriteableTransform
     {
         public FixVector2 Position { get; set; }
 
