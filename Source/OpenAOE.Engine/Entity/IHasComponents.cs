@@ -3,7 +3,7 @@
 namespace OpenAOE.Engine.Entity
 {
     /// <summary>
-    /// Interface for an object that has components and can have the presense of components
+    /// Interface for an object that has components and can have the presence of components
     /// queried.
     /// </summary>
     public interface IHasComponents
