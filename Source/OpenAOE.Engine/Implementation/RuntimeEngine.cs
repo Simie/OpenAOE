@@ -31,9 +31,9 @@ namespace OpenAOE.Engine.Implementation
         internal readonly EventQueue EventQueue;
         private readonly ILogger _logger;
 
-        internal SystemUpdateScheduler SystemUpdateScheduler;
+        internal readonly SystemUpdateScheduler SystemUpdateScheduler;
 
-        internal AccessGate AddEntityAccessGate;
+        internal readonly AccessGate AddEntityAccessGate;
 
         private States _state = States.Idle;
 
@@ -126,6 +126,11 @@ namespace OpenAOE.Engine.Implementation
             
             // Add all the "Added" entities to the main entity list.
             EntityService.CommitAdded();
+
+            // Commit all changes to entities.
+            // TODO: We want to have the possibility of modifying a component multiple times during a frame
+            EntityService.CommitDirty();
+
             _state = States.Idle;
         }
     }

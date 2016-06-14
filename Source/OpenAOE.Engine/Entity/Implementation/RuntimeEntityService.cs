@@ -166,5 +166,15 @@ namespace OpenAOE.Engine.Entity.Implementation
 
             _removedEntities.Clear();
         }
+
+        internal void CommitDirty()
+        {
+            _logger.Trace("Commiting dirty entities");
+
+            foreach (var engineEntity in _entityList)
+            {
+                engineEntity.Commit();
+            }
+        }
     }
 }
