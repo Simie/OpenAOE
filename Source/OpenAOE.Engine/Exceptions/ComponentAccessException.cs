@@ -22,7 +22,7 @@ namespace OpenAOE.Engine.Exceptions
                 {
                     case Reasons.ComponentAlreadyAccessed:
                         return
-                            $"Component of type `{ComponentType}` on entity `{EntityId}` has already been accessed during this tick.";
+                            $"Component of type `{ComponentType}` on entity `{EntityId}` has already been accessed during this update stage.";
                     case Reasons.ComponentDoesNotExist:
                         return $"Component of type `{ComponentType}` on entity `{EntityId}` does not exist.";
                 }

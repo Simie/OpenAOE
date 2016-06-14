@@ -11,6 +11,7 @@ using OpenAOE.Engine.Data.Events;
 using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.System;
 using OpenAOE.Engine.Tests.TestData.Components;
+using OpenAOE.Engine.Tests.TestSystems;
 using OpenAOE.Engine.Utility;
 
 namespace OpenAOE.Engine.Tests
@@ -65,7 +66,7 @@ namespace OpenAOE.Engine.Tests
             t2.Start();
             t2.Wait();
         }
-        
+
         private class AddEntityEveryFrameSystem : FilteredSystem<ISimpleComponent>, Triggers.IOnEntityTick
         {
             private readonly IEntityService _entityService;
@@ -80,7 +81,7 @@ namespace OpenAOE.Engine.Tests
                 _entityService.CreateEntity("TestTemplate");
             }
         }
-        
+
         private class RemoveEntityEveryFrameSystem : FilteredSystem<ISimpleComponent>, Triggers.IOnEntityTick
         {
             private readonly IEntityService _entityService;
@@ -233,7 +234,45 @@ namespace OpenAOE.Engine.Tests
             task.Start();
             task.Wait();
 
-            engine.Entities.Should().BeEmpty("removed entities should be removed from entity list at start of next tick.");
+            engine.Entities.Should()
+                  .BeEmpty("removed entities should be removed from entity list at start of next tick.");
+        }
+
+        private class ModifyEntityEveryTickSystemModule : NinjectModule, IEngineModule
+        {
+            public override void Load()
+            {
+                Bind<ISystem>().To<ModifyEntityEveryTickSystem>();
+            }
+        }
+
+        [Test]
+        public void ComponentDirtyFlagIsClearedEveryFrame()
+        {
+            var kernel = new StandardKernel(new NinjectSettings(), new EngineModule());
+            kernel.Bind<IEngineModule>().To<ModifyEntityEveryTickSystemModule>();
+            kernel.Bind<ILogger>().ToConstant(Mock.Of<ILogger>());
+
+            // Create an engine with some test data set up to create a new entity every tick.
+            var engine =
+                kernel.Get<IEngineFactory>()
+                      .Create(new List<EntityData>() {new EntityData(0, new IComponent[] {new SimpleComponent()})},
+                          new List<EntityTemplate>()
+                          {
+                              new EntityTemplate("TestTemplate", new IComponent[] {new OtherSimpleComponent()})
+                          });
+
+            // Execute the tick
+            var task = engine.Tick(new EngineTickInput());
+            task.Start();
+            task.Wait();
+
+            engine.Synchronize();
+
+            // Execute another tick
+            var task2 = engine.Tick(new EngineTickInput());
+            task2.Start();
+            task2.Wait();
         }
     }
 }

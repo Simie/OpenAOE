@@ -113,6 +113,7 @@
     <Compile Include="TestData\Components\SimpleComponent.cs" />
     <Compile Include="TestData\TestComponentModule.cs" />
     <Compile Include="TestSystems\AddEntityEveryTickSystem.cs" />
+    <Compile Include="TestSystems\ModifyEntityEveryTickSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenAOE.Engine\OpenAOE.Engine.csproj">
