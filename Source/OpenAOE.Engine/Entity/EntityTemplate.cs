@@ -18,7 +18,7 @@ namespace OpenAOE.Engine.Entity
         public EntityTemplate(string key, IEnumerable<IComponent> components)
         {
             Key = key;
-            Components = components.ToList();
+            Components = components.Select(p => p.Clone()).ToList();
         }
     }
 }
