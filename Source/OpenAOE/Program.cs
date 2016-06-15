@@ -6,6 +6,7 @@ using Ninject.Extensions.Logging.NLog4;
 using OpenAOE.Engine;
 using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Entity;
+using OpenAOE.Games.AGE2.Data.Commands;
 using OpenAOE.Games.AGE2.Data.Components;
 
 namespace OpenAOE
@@ -53,12 +54,22 @@ namespace OpenAOE
 
             var engineFactory = context.Get<IEngineFactory>();
 
-            log.Info("Creating Engine");
+            log.Info("Creating Engine"); 
             var engine = engineFactory.Create(TestData, TestTemplates);
 
             for (var i = 0; i < 100; ++i)
             {
-                var tick = engine.Tick(new EngineTickInput());
+                EngineTickInput input;
+                if (i == 1)
+                {
+                    input = new EngineTickInput(new Command[] {new MoveCommand(0, new FixVector2(3, 3))});
+                }
+                else
+                {
+                    input = new EngineTickInput();
+                }
+
+                var tick = engine.Tick(input);
                 tick.Start();
                 tick.Wait();
                 engine.Synchronize();

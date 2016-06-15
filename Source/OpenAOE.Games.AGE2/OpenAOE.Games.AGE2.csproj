@@ -55,10 +55,13 @@
     <Compile Include="Data\Components\Transform.cs" />
     <Compile Include="Data\Components\Unit.cs" />
     <Compile Include="Age2Module.cs" />
+    <Compile Include="Services\Implementation\PlayerService.cs" />
     <Compile Include="Services\Implementation\TimeService.cs" />
+    <Compile Include="Services\IPlayerService.cs" />
     <Compile Include="Services\ITimeService.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Systems\PlayerSystem.cs" />
     <Compile Include="Systems\TimeSystem.cs" />
     <Compile Include="Systems\UnitMoveSystem.cs" />
   </ItemGroup>
