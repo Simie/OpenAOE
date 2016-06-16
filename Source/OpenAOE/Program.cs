@@ -20,7 +20,7 @@ namespace OpenAOE
                 new Transform() {  },
                 new Movable()
                 {
-                    TargetPosition = new FixVector2(10,10),
+                    TargetPosition = null,
                     MoveSpeed = 5f
                 }
             })
@@ -33,7 +33,7 @@ namespace OpenAOE
                 new Transform() {  },
                 new Movable()
                 {
-                    TargetPosition = new FixVector2(10,10),
+                    TargetPosition = null,
                     MoveSpeed = 8f
                 }
             })
@@ -62,7 +62,7 @@ namespace OpenAOE
                 EngineTickInput input;
                 if (i == 1)
                 {
-                    input = new EngineTickInput(new Command[] {new MoveCommand(0, new FixVector2(3, 3))});
+                    input = new EngineTickInput(new Command[] {new MoveCommand(0, new FixVector2(20, 20))});
                 }
                 else
                 {
