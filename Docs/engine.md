@@ -8,14 +8,13 @@ TODO
 
 ## Update Loop
 
-The main update loop occurs in 3 stages, has one set of inputs and one set of outputs.
+The main update loop occurs in 2 stages, has one set of inputs and one set of outputs.
 
 Input: Commands
 Output: Events
 
 - Process Commands
 - System Update Bursts
-- Process Events
 
 ### Stages
 
@@ -36,12 +35,8 @@ Update Burst 1: AdvanceTimeStepSystem
 Update Burst 2: MovementSystem, BuildingProducerSystem (execute in parallel)
 Update Burst 3: ConstructCollisionFieldSystem
 
-#### Process Events
-Events that occured during the System Update stage are gathered. 
-Systems that implement IEventListener<> will receive notifications of events in a single-threaded fashion based on the system update priority.
-
 #### Output
-The list of events is then passed as the tick result.
+Events that occured during the System Update stage are gathered. The list of events is then passed as the tick result.
 
 ### Limitations
 
