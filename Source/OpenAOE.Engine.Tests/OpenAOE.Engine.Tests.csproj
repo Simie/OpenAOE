@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="AccessGateTests.cs" />
     <Compile Include="AddEntityTriggerTests.cs" />
+    <Compile Include="CommandHandlerTests.cs" />
     <Compile Include="ComponentAccessorTests.cs" />
     <Compile Include="ComponentContainerTests.cs" />
     <Compile Include="ComponentFactoryTests.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemManagerTests.cs" />
     <Compile Include="SystemUpdateSchedulerTests.cs" />
+    <Compile Include="TestData\Commands\TestCommand.cs" />
     <Compile Include="TestData\Components\Bad\IAmNotComponent.cs" />
     <Compile Include="TestData\Components\Bad\MultiInheritingComponent.cs" />
     <Compile Include="TestData\Components\OtherSimpleComponent.cs" />

@@ -22,11 +22,16 @@ namespace OpenAOE.Engine.Tests
             }
         }
 
-        public class SystemInstanceFake : ISystemInstance
+        internal class SystemInstanceFake : ISystemInstance
         {
             public ISystem System { get; } = new SystemFake();
 
             public IReadOnlyList<EngineEntity> Entities
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public IReadOnlyList<ICommandHandler> CommandHandlers
             {
                 get { throw new NotImplementedException(); }
             }

@@ -10,6 +10,7 @@ using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Data.Events;
 using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.System;
+using OpenAOE.Engine.Tests.TestData.Commands;
 using OpenAOE.Engine.Tests.TestData.Components;
 using OpenAOE.Engine.Tests.TestSystems;
 using OpenAOE.Engine.Utility;
@@ -273,6 +274,29 @@ namespace OpenAOE.Engine.Tests
             var task2 = engine.Tick(new EngineTickInput());
             task2.Start();
             task2.Wait();
+        }
+
+        [Test]
+        public void CommandsAreExecuted()
+        {
+            var handlerMock = new Mock<Triggers.IOnCommand<TestCommand>>();
+            var systemMock = handlerMock.As<ISystem>();
+
+            var kernel = new StandardKernel(new NinjectSettings(), new EngineModule());
+            kernel.Bind<ISystem>().ToConstant(systemMock.Object);
+            kernel.Bind<ILogger>().ToConstant(Mock.Of<ILogger>());
+
+            var engine = kernel.Get<IEngineFactory>().Create(new List<EntityData>(), new List<EntityTemplate>());
+
+            var command = new TestCommand();
+            // Execute the tick with a command
+            var task = engine.Tick(new EngineTickInput(new List<Command>() {command}));
+            task.Start();
+            task.Wait();
+
+            engine.Synchronize();
+
+            handlerMock.Verify(p => p.OnCommand(command));
         }
     }
 }

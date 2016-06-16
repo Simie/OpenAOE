@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Entity;
 
 namespace OpenAOE.Engine
 {
-    public struct EngineTickInput
+    public class EngineTickInput
     {
-        public readonly IEnumerable<Command> Commands;
+        public readonly IReadOnlyList<Command> Commands;
 
         public EngineTickInput(IEnumerable<Command> commands)
         {
-            Commands = commands;
+            Commands = commands.ToList();
+        }
+
+        public EngineTickInput()
+        {
+            Commands = new Command[0];
         }
     }
 
-    public struct EngineTickResult
+    public class EngineTickResult
     {
         public readonly IEnumerable<Event> Events;
 

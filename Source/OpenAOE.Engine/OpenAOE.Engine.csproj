@@ -79,6 +79,7 @@
     <Compile Include="Implementation\InternalEngineModule.cs" />
     <Compile Include="Implementation\RuntimeEngine.cs" />
     <Compile Include="IEngineModule.cs" />
+    <Compile Include="System\Implementation\CommandHandler.cs" />
     <Compile Include="System\Implementation\RuntimeSystemInstance.cs" />
     <Compile Include="System\Implementation\RuntimeSystemManager.cs" />
     <Compile Include="System\Implementation\SystemUpdateScheduler.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Utility\EntityDirtyTracker.cs" />
     <Compile Include="Utility\ExecuteOrderSorter.cs" />
     <Compile Include="Utility\IAccessGate.cs" />
+    <Compile Include="Utility\Mapper.cs" />
     <Compile Include="Utility\UniqueIdProvider.cs" />
   </ItemGroup>
   <ItemGroup>

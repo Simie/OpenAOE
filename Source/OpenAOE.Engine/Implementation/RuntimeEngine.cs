@@ -67,17 +67,35 @@ namespace OpenAOE.Engine.Implementation
 
             var tick = new Task<EngineTickResult>(() =>
             {
-                _state = States.AwaitingSync;
-
-                // TODO: Handle commands input
-
                 // Clear the "RemovedEntities" list from last frame.
                 EntityService.CommitRemoved();
-
+                
+                // TODO: This is probably not deterministic. Update order is not guaranteeed for multithreaded bursts
+                // Also this many loops is nasty.
+               foreach (var updateBurst in SystemUpdateScheduler.UpdateBursts)
+               {
+                   foreach (var sys in updateBurst.Systems)
+                   {
+                       foreach (var commandHandler in sys.CommandHandlers)
+                       {
+                            foreach (var command in input.Commands)
+                            {
+                                if (commandHandler.CanHandle(command))
+                                {
+                                    commandHandler.OnCommand(command);
+                                }
+                            }
+                        }
+                   }
+               }
+                
                 // Update all systems
                 foreach (var updateBurst in SystemUpdateScheduler.UpdateBursts)
                 {
+                    // Lock the entity access gate if this is a multi-threaded burst.
                     AddEntityAccessGate.IsLocked = updateBurst.Systems.Count > 1;
+                    // TODO: This still won't be enough to guarantee entity ID consistency.
+                    // across different machines, since entity tick is also multithreaded.
 
                     Parallel.ForEach(updateBurst.Systems, (system) =>
                     {
@@ -111,6 +129,7 @@ namespace OpenAOE.Engine.Implementation
                 // Gather all the events that were added during this update step
                 var events = EventQueue.DequeueAll();
 
+                _state = States.AwaitingSync;
                 return new EngineTickResult(events);
             });
 
