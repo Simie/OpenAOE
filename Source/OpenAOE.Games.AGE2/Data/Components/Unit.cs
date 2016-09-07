@@ -8,8 +8,6 @@ namespace OpenAOE.Games.AGE2.Data.Components
 
     class Unit : Component<Unit, IUnit, IWriteableUnit>, IUnit, IWriteableUnit
     {
-        public FixVector2 Position { get; set; }
-
         public override void CopyTo(Unit other)
         {
             

@@ -1,18 +1,70 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using Ninject;
-using Ninject.Extensions.Logging;
 using Ninject.Extensions.Logging.NLog4;
+using Ninject.Extensions.Logging.NLog4.Infrastructure;
+using NLog;
 using OpenAOE.Engine;
-using OpenAOE.Engine.Data;
-using OpenAOE.Engine.Entity;
-using OpenAOE.Games.AGE2.Data.Commands;
-using OpenAOE.Games.AGE2.Data.Components;
+using OpenAOE.Games.AGE2;
+using OpenAOE.Services.Config;
+using OpenAOE.Services.Config.Implementation;
 
 namespace OpenAOE
 {
-    class Program
+    public static class Program
     {
+        static void Main(string[] args)
+        {
+            var log = LogManager.GetCurrentClassLogger(typeof(Program));
+
+            log.Info("Starting...");
+
+            var configPath = Path.Combine(Environment.CurrentDirectory, "config.toml");
+            log.Info($"Reading config from {configPath}");
+
+            string config = null;
+
+            if (!File.Exists(configPath))
+            {
+                log.Warn("Config file not found. Defaults will be used.");
+            }
+            else
+            {
+                try
+                {
+                    config = File.ReadAllText(configPath);
+                }
+                catch (Exception e)
+                {
+                    log.Error(e, $"Error while reading config file at {configPath}");
+                }
+            }
+
+            var configService = new ConfigService(new NLogLogger(typeof(ConfigService)),
+                new TomlConfigValueProvider(config ?? ""));
+
+            var settings = new NinjectSettings()
+            {
+                LoadExtensions = false
+            };
+
+            using (var kernel = new StandardKernel(settings, new Module(), new EngineModule(),
+                new Age2Module(), new NLogModule()))
+            {
+                kernel.Bind<IConfigService>().ToConstant(configService);
+
+                using (var app = kernel.Get<Application>())
+                {
+                    app.Run();
+                }
+            }
+
+            Console.WriteLine("Press any key to exit.");
+            Console.ReadKey(true);
+            // TODO Read command line options
+        }
+
+        /*
         public static List<EntityTemplate> TestTemplates = new List<EntityTemplate>()
         {
             new EntityTemplate("Unit", new List<IComponent>()
@@ -75,13 +127,9 @@ namespace OpenAOE
                 engine.Synchronize();
             }
 
-            /*context.Bind<IDataService>().ToConstant(VersionedDataService.FromRoot(new Root()));
-            var instance = context.Get<ISimulationInstance>();
-            context.Unbind(typeof(IDataService));*/
-
             log.Info("Done");
             Console.ReadKey(true);
             log.Info("Exiting");
-        }
+        }*/
     }
 }

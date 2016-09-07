@@ -36,11 +36,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject.Extensions.Logging, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.Extensions.Logging.3.2.0.0\lib\net45-full\Ninject.Extensions.Logging.dll</HintPath>
+      <HintPath>..\packages\Ninject.Extensions.Logging.3.2.3.0\lib\net45-full\Ninject.Extensions.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Shouldly, Version=2.6.0.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
-      <HintPath>..\packages\Shouldly.2.6.0\lib\net40\Shouldly.dll</HintPath>
+    <Reference Include="Shouldly, Version=2.8.2.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
+      <HintPath>..\packages\Shouldly.2.8.2\lib\net40\Shouldly.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -54,12 +54,12 @@
     <Compile Include="Data\Components\Player.cs" />
     <Compile Include="Data\Components\Transform.cs" />
     <Compile Include="Data\Components\Unit.cs" />
-    <Compile Include="Age2Module.cs" />
+    <Compile Include="EngineModule.cs" />
     <Compile Include="Services\Implementation\PlayerService.cs" />
     <Compile Include="Services\Implementation\TimeService.cs" />
     <Compile Include="Services\IPlayerService.cs" />
     <Compile Include="Services\ITimeService.cs" />
-    <Compile Include="Module.cs" />
+    <Compile Include="Age2Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Systems\PlayerSystem.cs" />
     <Compile Include="Systems\TimeSystem.cs" />
