@@ -3,9 +3,9 @@ using Ninject.Extensions.Logging;
 using OpenAOE.Services.Config;
 using SDL2;
 
-namespace OpenAOE.Services
+namespace OpenAOE.Services.Sdl
 {
-    class SdlMainWindow : IDisposable, IMainWindow
+    public class SdlMainWindow : IDisposable, IMainWindow
     {
         public int Width
         {
@@ -27,13 +27,18 @@ namespace OpenAOE.Services
             }
         }
 
+        public IntPtr RenderHandle
+        {
+            get { return _renderer; }
+        }
+
         private readonly ILogger _logger;
         public event EventHandler CloseRequested;
 
         private IntPtr _window;
         private IntPtr _renderer;
-        private IWriteableConfig<int> _windowWidth;
-        private IWriteableConfig<int> _windowHeight;
+        private readonly IWriteableConfig<int> _windowWidth;
+        private readonly IWriteableConfig<int> _windowHeight;
 
         private bool _refreshWindow;
 
@@ -52,9 +57,12 @@ namespace OpenAOE.Services
             if (SDL.SDL_CreateWindowAndRenderer(_windowWidth.Value, _windowHeight.Value, SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE, out _window,
                 out _renderer) < 0)
             {
-                _logger.Fatal("Failed to create window.");
-                throw new Exception("Failed to create SDL window");
+                var error = SDL.SDL_GetError();
+                _logger.Fatal("Failed to create window. SDL Error: {0}", error);
+                throw new Exception($"Failed to create SDL window. {error}");
             }
+
+            SDL.SDL_SetWindowTitle(_window, "OpenAOE");
         }
 
         private void OnWindowSizeConfigChanged(IWriteableConfig<int> sender, ConfigChangedEvent<int> args)

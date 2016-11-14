@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Nett, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nett.0.5.0\lib\Net40\Nett.dll</HintPath>
       <Private>True</Private>
@@ -73,18 +77,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="Module.cs" />
+    <Compile Include="AppModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Config\IConfigService.cs" />
     <Compile Include="Services\Config\IConfigValueProvider.cs" />
     <Compile Include="Services\Config\Implementation\TomlConfigValueProvider.cs" />
+    <Compile Include="Services\IGameEngineService.cs" />
+    <Compile Include="Services\TempGameEngineService.cs" />
+    <Compile Include="Systems\GameEngineTickSystem.cs" />
     <Compile Include="Services\IMainWindow.cs" />
     <Compile Include="Services\Config\Implementation\ConfigService.cs" />
-    <Compile Include="Services\MainWindow..cs" />
-    <Compile Include="Services\SystemManager.cs" />
+    <Compile Include="Services\Sdl\SdlMainWindow..cs" />
+    <Compile Include="SystemManager.cs" />
     <Compile Include="Systems\ISystem.cs" />
     <Compile Include="Systems\MainWindowSystem.cs" />
+    <Compile Include="Systems\Rendering\Sdl\ClearRenderSystem.cs" />
+    <Compile Include="Systems\Rendering\Sdl\PresentRenderSystem.cs" />
+    <Compile Include="Systems\Rendering\Sdl\TerrainRenderSystem.cs" />
+    <Compile Include="Systems\Rendering\Sdl\UnitRenderSystem.cs" />
+    <Compile Include="Utilities\EntityBag.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SDL2.dll">
@@ -93,6 +105,9 @@
     <None Include="App.config" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config.toml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>

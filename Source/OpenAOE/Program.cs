@@ -15,10 +15,11 @@ namespace OpenAOE
     {
         static void Main(string[] args)
         {
+            // Create a logger for the bootstrap process
             var log = LogManager.GetCurrentClassLogger(typeof(Program));
-
             log.Info("Starting...");
 
+            // Read default config file
             var configPath = Path.Combine(Environment.CurrentDirectory, "config.toml");
             log.Info($"Reading config from {configPath}");
 
@@ -40,6 +41,7 @@ namespace OpenAOE
                 }
             }
 
+            // Create the global config service
             var configService = new ConfigService(new NLogLogger(typeof(ConfigService)),
                 new TomlConfigValueProvider(config ?? ""));
 
@@ -48,7 +50,8 @@ namespace OpenAOE
                 LoadExtensions = false
             };
 
-            using (var kernel = new StandardKernel(settings, new Module(), new EngineModule(),
+            // Bootstrap DI and run
+            using (var kernel = new StandardKernel(settings, new AppModule(), new EngineModule(),
                 new Age2Module(), new NLogModule()))
             {
                 kernel.Bind<IConfigService>().ToConstant(configService);
@@ -59,9 +62,10 @@ namespace OpenAOE
                 }
             }
 
+#if DEBUG
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey(true);
-            // TODO Read command line options
+#endif
         }
 
         /*

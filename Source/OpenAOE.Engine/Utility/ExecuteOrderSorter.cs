@@ -6,7 +6,7 @@ using OpenAOE.Extensions;
 
 namespace OpenAOE.Engine.Utility
 {
-    internal static class ExecuteOrderSorter
+    public static class ExecuteOrderSorter
     {
         /// <summary>
         /// Sort a list based on the ExecuteOrderAttribute.
@@ -21,7 +21,7 @@ namespace OpenAOE.Engine.Utility
             {
                 lookup.Add(x, new List<T>());
             }
-
+            
             foreach (var x in list)
             {
                 var type = x.GetType();

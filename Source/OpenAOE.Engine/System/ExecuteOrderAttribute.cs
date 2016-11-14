@@ -2,6 +2,7 @@
 
 namespace OpenAOE.Engine.System
 {
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public sealed class ExecuteOrderAttribute : Attribute
     {
         public enum Positions

@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Ninject.Extensions.Logging;
-using OpenAOE.Systems;
+using OpenAOE.Engine.Utility;
+using ISystem = OpenAOE.Systems.ISystem;
 
 namespace OpenAOE.Services
 {
     public class SystemManager
     {
         private readonly ILogger _logger;
-        private readonly List<ISystem> _systems;
+        private readonly IList<ISystem> _systems;
 
         public SystemManager(IEnumerable<ISystem> systems, ILogger logger)
         {
             _logger = logger;
-            _systems = systems.ToList();
+            _systems = ExecuteOrderSorter.Sort(systems.ToList());
 
             if (_systems.Count > 0)
             {

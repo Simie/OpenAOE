@@ -3,7 +3,7 @@ using OpenAOE.Engine.Entity;
 
 namespace OpenAOE.Engine.Utility
 {
-    internal class GenericComponentFilter<T> : IComponentFilter where T : class, IComponent
+    public class GenericComponentFilter<T> : IComponentFilter where T : class, IComponent
     {
         public bool Filter(IHasComponents target)
         {
@@ -11,7 +11,7 @@ namespace OpenAOE.Engine.Utility
         }
     }
 
-    internal class GenericComponentFilter<T1, T2> : IComponentFilter
+    public class GenericComponentFilter<T1, T2> : IComponentFilter
         where T1 : class, IComponent
         where T2 : class, IComponent
     {
@@ -21,7 +21,7 @@ namespace OpenAOE.Engine.Utility
         }
     }
 
-    internal class GenericComponentFilter<T1, T2, T3> : IComponentFilter
+    public class GenericComponentFilter<T1, T2, T3> : IComponentFilter
         where T1 : class, IComponent
         where T2 : class, IComponent
         where T3 : class, IComponent
@@ -32,7 +32,7 @@ namespace OpenAOE.Engine.Utility
         }
     }
 
-    internal class GenericComponentFilter<T1, T2, T3, T4> : IComponentFilter
+    public class GenericComponentFilter<T1, T2, T3, T4> : IComponentFilter
         where T1 : class, IComponent
         where T2 : class, IComponent
         where T3 : class, IComponent
