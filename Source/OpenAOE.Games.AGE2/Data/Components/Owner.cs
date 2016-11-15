@@ -12,7 +12,7 @@ namespace OpenAOE.Games.AGE2.Data.Components
         uint PlayerId { set; }
     }
 
-    class Owner : Component<Owner, IOwner, IWriteableOwner>, IOwner, IWriteableOwner
+    internal class Owner : Component<Owner, IOwner, IWriteableOwner>, IOwner, IWriteableOwner
     {
         public uint PlayerId { get; set; }
 

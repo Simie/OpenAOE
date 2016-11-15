@@ -1,5 +1,4 @@
-﻿
-using System.Linq;
+﻿using System.Linq;
 using Moq;
 using Ninject.Extensions.Logging;
 using NUnit.Framework;
@@ -19,23 +18,15 @@ namespace OpenAOE.Engine.Tests
         public class TwoComponentSystem : IEntitySystem
         {
             public string Name => nameof(TwoComponentSystem);
+
             public IComponentFilter Filter => new GenericComponentFilter<ISimpleComponent, IOtherSimpleComponent>();
         }
 
         public class OneComponentSystem : IEntitySystem
         {
             public string Name => nameof(OneComponentSystem);
-            public IComponentFilter Filter => new GenericComponentFilter<ISimpleComponent>();
-        }
-        
-        [Test]
-        public void CreatesInstanceForEverySystemInConstructor()
-        {
-            var systems = new ISystem[]{new TwoComponentSystem(), new OneComponentSystem()};
-            var manager = new RuntimeSystemManager(systems, Mock.Of<ILogger>());
 
-            manager.Systems.Count.ShouldBe(2);
-            manager.Systems.ShouldAllBe(p => systems.Contains(p.System));
+            public IComponentFilter Filter => new GenericComponentFilter<ISimpleComponent>();
         }
 
         [Test]
@@ -44,13 +35,14 @@ namespace OpenAOE.Engine.Tests
             var oneComponentSystem = new OneComponentSystem();
             var twoComponentSystem = new TwoComponentSystem();
 
-            var manager = new RuntimeSystemManager(new ISystem[] {oneComponentSystem, twoComponentSystem}, Mock.Of<ILogger>());
+            var manager = new RuntimeSystemManager(new ISystem[] {oneComponentSystem, twoComponentSystem},
+                Mock.Of<ILogger>());
 
             var oneComponentEntity = new EngineEntity(0, new IComponent[] {new SimpleComponent()},
                 Mock.Of<IEventDispatcher>());
 
             var twoComponentEntity = new EngineEntity(0,
-                new IComponent[] {new SimpleComponent(), new OtherSimpleComponent(),},
+                new IComponent[] {new SimpleComponent(), new OtherSimpleComponent()},
                 Mock.Of<IEventDispatcher>());
 
             manager.AddEntities(new[] {oneComponentEntity, twoComponentEntity});
@@ -60,6 +52,16 @@ namespace OpenAOE.Engine.Tests
 
             manager.Systems.Single(p => p.System == twoComponentSystem).Entities.ShouldContain(twoComponentEntity);
             manager.Systems.Single(p => p.System == twoComponentSystem).Entities.ShouldNotContain(oneComponentEntity);
+        }
+
+        [Test]
+        public void CreatesInstanceForEverySystemInConstructor()
+        {
+            var systems = new ISystem[] {new TwoComponentSystem(), new OneComponentSystem()};
+            var manager = new RuntimeSystemManager(systems, Mock.Of<ILogger>());
+
+            manager.Systems.Count.ShouldBe(2);
+            manager.Systems.ShouldAllBe(p => systems.Contains(p.System));
         }
 
 

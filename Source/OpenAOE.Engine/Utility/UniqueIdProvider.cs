@@ -10,7 +10,7 @@ namespace OpenAOE.Engine.Utility
         private int _next;
 
         /// <summary>
-        /// Create a new UniqueIntProvider that starts at <paramref name="start"/>.
+        /// Create a new UniqueIntProvider that starts at <paramref name="start" />.
         /// </summary>
         /// <param name="start">The starting integer.</param>
         public UniqueIdProvider(uint start = 0)

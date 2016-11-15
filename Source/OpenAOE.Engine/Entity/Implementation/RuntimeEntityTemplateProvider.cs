@@ -6,7 +6,7 @@ namespace OpenAOE.Engine.Entity.Implementation
 {
     internal sealed class RuntimeEntityTemplateProvider : IEntityTemplateProvider
     {
-        private readonly Dictionary<string, EntityTemplate> _templates; 
+        private readonly Dictionary<string, EntityTemplate> _templates;
 
         public RuntimeEntityTemplateProvider(IReadOnlyCollection<EntityTemplate> templates)
         {
@@ -17,9 +17,7 @@ namespace OpenAOE.Engine.Entity.Implementation
         {
             EntityTemplate template;
             if (_templates.TryGetValue(key, out template))
-            {
                 return template;
-            }
 
             throw new EntityTemplateNotFoundException(key);
         }

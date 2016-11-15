@@ -3,6 +3,7 @@
     public interface ISystem
     {
         string Name { get; }
+
         void Tick();
     }
 }

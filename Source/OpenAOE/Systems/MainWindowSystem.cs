@@ -4,12 +4,9 @@ namespace OpenAOE.Systems
 {
     public class MainWindowSystem : ISystem
     {
-        private readonly IMainWindow _sdlMainWindow;
+        public string Name => nameof(MainWindowSystem);
 
-        public string Name
-        {
-            get { return nameof(MainWindowSystem); }
-        }
+        private readonly IMainWindow _sdlMainWindow;
 
         public MainWindowSystem(IMainWindow sdlMainWindow)
         {

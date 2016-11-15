@@ -17,7 +17,6 @@ namespace OpenAOE.Systems.Rendering.Sdl
 
         public void Tick()
         {
-
         }
     }
 }

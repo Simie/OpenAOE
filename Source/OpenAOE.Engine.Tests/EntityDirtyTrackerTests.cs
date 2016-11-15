@@ -9,13 +9,20 @@ namespace OpenAOE.Engine.Tests
     public class EntityDirtyTrackerTests
     {
         [Test]
-        public void TrySetDirtyShouldReturnFalseAfterFirstCall()
+        public void TestResetAllComponents()
         {
             var dirtyTracker = new EntityDirtyTracker();
 
             dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeTrue();
+            dirtyTracker.TrySetDirty(ComponentMap<IOtherSimpleComponent>.Accessor).ShouldBeTrue();
+
             dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeFalse();
-            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeFalse();
+            dirtyTracker.TrySetDirty(ComponentMap<IOtherSimpleComponent>.Accessor).ShouldBeFalse();
+
+            dirtyTracker.Reset();
+
+            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeTrue();
+            dirtyTracker.TrySetDirty(ComponentMap<IOtherSimpleComponent>.Accessor).ShouldBeTrue();
         }
 
         [Test]
@@ -32,20 +39,13 @@ namespace OpenAOE.Engine.Tests
         }
 
         [Test]
-        public void TestResetAllComponents()
+        public void TrySetDirtyShouldReturnFalseAfterFirstCall()
         {
             var dirtyTracker = new EntityDirtyTracker();
 
             dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeTrue();
-            dirtyTracker.TrySetDirty(ComponentMap<IOtherSimpleComponent>.Accessor).ShouldBeTrue();
-
             dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeFalse();
-            dirtyTracker.TrySetDirty(ComponentMap<IOtherSimpleComponent>.Accessor).ShouldBeFalse();
-
-            dirtyTracker.Reset();
-
-            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeTrue();
-            dirtyTracker.TrySetDirty(ComponentMap<IOtherSimpleComponent>.Accessor).ShouldBeTrue();
+            dirtyTracker.TrySetDirty(ComponentMap<ISimpleComponent>.Accessor).ShouldBeFalse();
         }
     }
 }

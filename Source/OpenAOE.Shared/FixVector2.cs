@@ -7,7 +7,7 @@ namespace OpenAOE
         public double X;
         public double Y;
 
-        public double Magnitude => Math.Sqrt(X*X+Y*Y);
+        public double Magnitude => Math.Sqrt(X*X + Y*Y);
 
         public FixVector2 Normalized => this/Magnitude;
 
@@ -27,32 +27,32 @@ namespace OpenAOE
         public static FixVector2 operator *(FixVector2 value, double scaleFactor)
         {
             FixVector2 vector;
-            vector.X = value.X * scaleFactor;
-            vector.Y = value.Y * scaleFactor;
+            vector.X = value.X*scaleFactor;
+            vector.Y = value.Y*scaleFactor;
             return vector;
         }
 
         public static FixVector2 operator *(double scaleFactor, FixVector2 value)
         {
             FixVector2 vector;
-            vector.X = value.X * scaleFactor;
-            vector.Y = value.Y * scaleFactor;
+            vector.X = value.X*scaleFactor;
+            vector.Y = value.Y*scaleFactor;
             return vector;
         }
 
         public static FixVector2 operator /(FixVector2 value, double scaleFactor)
         {
             FixVector2 vector;
-            vector.X = value.X / scaleFactor;
-            vector.Y = value.Y / scaleFactor;
+            vector.X = value.X/scaleFactor;
+            vector.Y = value.Y/scaleFactor;
             return vector;
         }
 
         public static FixVector2 operator /(double scaleFactor, FixVector2 value)
         {
             FixVector2 vector;
-            vector.X = value.X / scaleFactor;
-            vector.Y = value.Y / scaleFactor;
+            vector.X = value.X/scaleFactor;
+            vector.Y = value.Y/scaleFactor;
             return vector;
         }
 

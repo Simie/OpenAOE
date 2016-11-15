@@ -10,7 +10,7 @@ namespace OpenAOE.Engine.Utility
         /// <summary>
         /// Returns the IComponent based interface that describes a component.
         /// </summary>
-        /// <param name="concreteComponent">A component class inheriting from <see cref="Component{TThis,TRead,TWrite}"/>.</param>
+        /// <param name="concreteComponent">A component class inheriting from <see cref="Component{TThis,TRead,TWrite}" />.</param>
         /// <returns>The interface type.</returns>
         public static Type GetReadOnlyComponentInterface(Type concreteComponent)
         {
@@ -21,7 +21,7 @@ namespace OpenAOE.Engine.Utility
         /// <summary>
         /// Returns the IWriteableComponent based interface that describes a component.
         /// </summary>
-        /// <param name="concreteComponent">A component class inheriting from <see cref="Component{TThis,TRead,TWrite}"/>.</param>
+        /// <param name="concreteComponent">A component class inheriting from <see cref="Component{TThis,TRead,TWrite}" />.</param>
         /// <returns>The interface type.</returns>
         public static Type GetWriteOnlyComponentInterface(Type concreteComponent)
         {
@@ -32,13 +32,11 @@ namespace OpenAOE.Engine.Utility
         private static Type GetComponentBase(Type concreteComponent)
         {
             var componentType = concreteComponent.GetAllBaseTypes()
-                             .SingleOrDefault(
-                                 p => p.IsGenericType && p.GetGenericTypeDefinition() == typeof(Component<,,>));
+                .SingleOrDefault(
+                    p => p.IsGenericType && (p.GetGenericTypeDefinition() == typeof(Component<,,>)));
 
             if (componentType == null)
-            {
                 throw new ArgumentException("Type does not inherit from Component<,,>");
-            }
 
             return componentType;
         }

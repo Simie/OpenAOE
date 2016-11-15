@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Ninject;
 using Ninject.Extensions.ChildKernel;
 using Ninject.Extensions.Logging;
-using Ninject.Modules;
 using Ninject.Parameters;
 using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.Entity.Implementation;
@@ -31,7 +29,7 @@ namespace OpenAOE.Engine.Implementation
             _logger.Info("Creating new RuntimeEngine instance");
 
             // Create a child kernel for this new instance.
-            var k = new ChildKernel(_kernel, new NinjectSettings()
+            var k = new ChildKernel(_kernel, new NinjectSettings
             {
                 InjectNonPublic = true
             });
@@ -41,9 +39,7 @@ namespace OpenAOE.Engine.Implementation
 
             IList<EngineEntity> existingEntities = new List<EngineEntity>();
             foreach (var entity in snapshot)
-            {
                 existingEntities.Add(new EngineEntity(entity.Id, entity.Components, k.Get<IEventDispatcher>()));
-            }
 
             k.Get<IEntityService>(new ConstructorArgument("entities", existingEntities));
 

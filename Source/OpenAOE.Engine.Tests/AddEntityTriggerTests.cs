@@ -1,5 +1,4 @@
 ﻿using Moq;
-using Ninject;
 using Ninject.MockingKernel;
 using NUnit.Framework;
 using OpenAOE.Engine.System;

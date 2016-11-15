@@ -12,15 +12,15 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void TestAccessReadOnlyInterface()
         {
-            ComponentReflectionUtility.GetReadOnlyComponentInterface(typeof (SimpleComponent))
-                                      .ShouldBe(typeof (ISimpleComponent));
-        } 
+            ComponentReflectionUtility.GetReadOnlyComponentInterface(typeof(SimpleComponent))
+                .ShouldBe(typeof(ISimpleComponent));
+        }
 
         [Test]
         public void TestAccessWriteOnlyInterface()
         {
-            ComponentReflectionUtility.GetWriteOnlyComponentInterface(typeof (SimpleComponent))
-                                      .ShouldBe(typeof (IWriteableSimpleComponent));
+            ComponentReflectionUtility.GetWriteOnlyComponentInterface(typeof(SimpleComponent))
+                .ShouldBe(typeof(IWriteableSimpleComponent));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace OpenAOE.Engine.Tests
         {
             Should.Throw<ArgumentException>(
                 () =>
-                    ComponentReflectionUtility.GetReadOnlyComponentInterface(typeof (ComponentReflectionUtilityTests)));
+                        ComponentReflectionUtility.GetReadOnlyComponentInterface(typeof(ComponentReflectionUtilityTests)));
         }
     }
 }

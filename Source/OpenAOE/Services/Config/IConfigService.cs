@@ -7,6 +7,7 @@ namespace OpenAOE.Services.Config
     public sealed class ConfigChangedEvent<T> : EventArgs
     {
         public T OldValue { get; }
+
         public T NewValue { get; }
 
         public ConfigChangedEvent(T newValue, T oldValue)
@@ -23,8 +24,9 @@ namespace OpenAOE.Services.Config
 
     public interface IWriteableConfig<T> : IConfig<T>
     {
-        event ConfigChangedEventHandler<T> Changed;
         new T Value { get; set; }
+
+        event ConfigChangedEventHandler<T> Changed;
     }
 
     public interface IConfigService

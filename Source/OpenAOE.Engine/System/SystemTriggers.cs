@@ -43,7 +43,7 @@ namespace OpenAOE.Engine.System
         }
 
         /// <summary>
-        /// Receive a callback for any command of type <typeparamref name="T"/> that
+        /// Receive a callback for any command of type <typeparamref name="T" /> that
         /// is inputted into the simulation.
         /// </summary>
         /// <typeparam name="T"></typeparam>

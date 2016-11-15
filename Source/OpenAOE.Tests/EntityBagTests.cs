@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Moq;
 using NUnit.Framework;
 using OpenAOE.Services;
 
@@ -11,12 +7,9 @@ namespace OpenAOE.Tests
     [TestFixture]
     public class EntityBagTests
     {
-
         public void ClearsWhenEngineChanged()
         {
-            var engineService = new Moq.Mock<IGameEngineService>();
-
+            var engineService = new Mock<IGameEngineService>();
         }
-
     }
 }

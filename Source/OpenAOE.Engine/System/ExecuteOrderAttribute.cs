@@ -12,6 +12,7 @@ namespace OpenAOE.Engine.System
         }
 
         public Type Other { get; }
+
         public Positions Position { get; }
 
         public ExecuteOrderAttribute(Type other, Positions position)

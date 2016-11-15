@@ -8,37 +8,49 @@ using Shouldly;
 namespace OpenAOE.Engine.Tests
 {
     /// <summary>
-    /// Tests for the <see cref="ExecuteOrderSorter"/> class.
+    /// Tests for the <see cref="ExecuteOrderSorter" /> class.
     /// </summary>
     [TestFixture]
-    class ExecuteOrderSorterTest
+    internal class ExecuteOrderSorterTest
     {
         private class Test1
         {
-            
         }
 
         [ExecuteOrder(typeof(Test1), ExecuteOrderAttribute.Positions.After)]
         private class AfterTest1
         {
-            
         }
 
         [ExecuteOrder(typeof(Test1), ExecuteOrderAttribute.Positions.Before)]
         private class BeforeTest1
         {
-            
         }
 
         [ExecuteOrder(typeof(BeforeTest1), ExecuteOrderAttribute.Positions.After)]
         private class AfterBeforeTest1
         {
-            
         }
 
         private class Unspecified
         {
-            
+        }
+
+        private void AssertOrder(object before, object after, IList<object> list)
+        {
+            list.ShouldContain(before);
+            list.ShouldContain(after);
+
+            foreach (var t in list)
+            {
+                if (t == before)
+                    return;
+
+                if (t == after)
+                    Assert.Fail($"Object `{after}` was before Object `{before}`");
+            }
+
+            Assert.Fail($"List did not contain Object `{before}`");
         }
 
         [Test]
@@ -50,40 +62,17 @@ namespace OpenAOE.Engine.Tests
             var afterBeforeTest1 = new AfterBeforeTest1();
             var unspecified = new Unspecified();
 
-            var list = new List<object>() {afterBeforeTest1, test1, beforeTest1, afterTest1, unspecified};
+            var list = new List<object> {afterBeforeTest1, test1, beforeTest1, afterTest1, unspecified};
             var sorted = ExecuteOrderSorter.Sort(list);
 
             sorted.Count.ShouldBe(list.Count);
 
             foreach (var o in sorted)
-            {
                 Console.WriteLine(o);
-            }
 
             AssertOrder(beforeTest1, test1, sorted);
             AssertOrder(test1, afterTest1, sorted);
             AssertOrder(beforeTest1, afterBeforeTest1, sorted);
-        }
-
-        void AssertOrder(object before, object after, IList<object> list)
-        {
-            list.ShouldContain(before);
-            list.ShouldContain(after);
-
-            foreach (var t in list)
-            {
-                if (t == before)
-                {
-                    return;
-                }
-
-                if (t == after)
-                {
-                    Assert.Fail($"Object `{after}` was before Object `{before}`");
-                }
-            }
-
-            Assert.Fail($"List did not contain Object `{before}`");
         }
     }
 }

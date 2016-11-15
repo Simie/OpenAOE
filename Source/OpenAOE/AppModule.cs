@@ -1,6 +1,6 @@
-﻿using Ninject.Modules;
+﻿using Ninject.Extensions.Conventions;
+using Ninject.Modules;
 using OpenAOE.Services;
-using Ninject.Extensions.Conventions;
 using OpenAOE.Services.Sdl;
 using OpenAOE.Systems;
 

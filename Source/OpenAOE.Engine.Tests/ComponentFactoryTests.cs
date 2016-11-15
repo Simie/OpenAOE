@@ -9,11 +9,8 @@ using Shouldly;
 namespace OpenAOE.Engine.Tests
 {
     [TestFixture]
-    class ComponentFactoryTests
+    internal class ComponentFactoryTests
     {
-        private IKernel _kernel;
-        private IComponentFactory _componentFactory;
-
         [SetUp]
         public void Setup()
         {
@@ -22,6 +19,9 @@ namespace OpenAOE.Engine.Tests
 
             _componentFactory.ShouldNotBeNull();
         }
+
+        private IKernel _kernel;
+        private IComponentFactory _componentFactory;
 
         [Test]
         public void TestFactoryReturnsCorrectInstanceType()

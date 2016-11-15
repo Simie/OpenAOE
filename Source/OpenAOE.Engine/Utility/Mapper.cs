@@ -15,7 +15,7 @@ namespace OpenAOE.Engine.Utility
             /// <summary>
             /// The next integer to use.
             /// </summary>
-            private static int _nextId = 0;
+            private static int _nextId;
 
             /// <summary>
             /// The mapping from Data types to their integers
@@ -30,28 +30,20 @@ namespace OpenAOE.Engine.Utility
             public static int GetId(Type type)
             {
                 if (!type.IsInterface)
-                {
                     throw new ArgumentException(
                         $"Type {type} is not an interface. Did you use a component implementation instead of an interface?",
                         nameof(type));
-                }
 
                 if (type == typeof(TBase))
-                {
                     throw new ArgumentException(
                         $"Cannot create accessor from {nameof(TBase)}",
                         nameof(type));
-                }
 
                 if (!type.GetInterfaces().Contains(typeof(TBase)))
-                {
                     throw new ArgumentException($"Type {type} does not inherit from {typeof(TBase)}", nameof(type));
-                }
 
                 if (_ids.ContainsKey(type) == false)
-                {
                     _ids[type] = _nextId++;
-                }
 
                 return _ids[type];
             }
@@ -67,10 +59,14 @@ namespace OpenAOE.Engine.Utility
             /// <summary>
             /// Creates a new Accessor for a given type.
             /// </summary>
-            /// <param name="dataType">The type of Data to retrieve; note that this parameter must be a
-            /// subtype of Data</param>
+            /// <param name="dataType">
+            /// The type of Data to retrieve; note that this parameter must be a
+            /// subtype of Data
+            /// </param>
             public Accessor(Type dataType)
-                : this(Factory.GetId(dataType)) { }
+                : this(Factory.GetId(dataType))
+            {
+            }
 
             /// <summary>
             /// Directly construct a ComponentAccessor with the given id.
@@ -94,13 +90,15 @@ namespace OpenAOE.Engine.Utility
             public Type Type => Factory.GetType(this);
 
             #region Equality Checks
+
             /// <summary>
             /// Indicates whether this instance and a specified object are equal.
             /// </summary>
-            public override bool Equals(Object obj)
+            public override bool Equals(object obj)
             {
-                return obj is Accessor && this == (Accessor)obj;
+                return obj is Accessor && (this == (Accessor) obj);
             }
+
             /// <summary>
             /// Returns a hash code for this instance.
             /// </summary>
@@ -108,6 +106,7 @@ namespace OpenAOE.Engine.Utility
             {
                 return Id.GetHashCode();
             }
+
             /// <summary>
             /// Indicates whether this instance and a specified object are equal.
             /// </summary>
@@ -115,6 +114,7 @@ namespace OpenAOE.Engine.Utility
             {
                 return x.Id == y.Id;
             }
+
             /// <summary>
             /// Indicates whether this instance and a specified object are not equal.
             /// </summary>
@@ -122,6 +122,7 @@ namespace OpenAOE.Engine.Utility
             {
                 return !(x == y);
             }
+
             #endregion
         }
 

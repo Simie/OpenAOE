@@ -10,18 +10,19 @@ namespace OpenAOE.Services.Config.Implementation
         internal TomlConfigValueProvider(TomlTable table)
         {
             if (table == null)
-            {
                 throw new ArgumentNullException(nameof(table));
-            }
             _table = table;
         }
 
         public TomlConfigValueProvider(string toml)
         {
-            try {
-                var table = Nett.Toml.ReadString(toml);
+            try
+            {
+                var table = Toml.ReadString(toml);
                 _table = table;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 throw new ArgumentException("Error while reading TOML stream", e);
             }
         }
@@ -30,7 +31,7 @@ namespace OpenAOE.Services.Config.Implementation
         {
             var table = _table.TryGet<TomlTable>(category);
             var k = table?.TryGet<TomlObject>(key);
-            if (k != null) {
+            if (k != null)
                 try
                 {
                     value = k.Get<T>();
@@ -40,7 +41,6 @@ namespace OpenAOE.Services.Config.Implementation
                 {
                     // ignored
                 }
-            }
 
             value = default(T);
             return false;

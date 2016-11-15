@@ -17,23 +17,25 @@ namespace OpenAOE.Services
 
     public class GameEngineEventArgs : EventArgs
     {
+        public Event Event { get; }
+
+        public IEngine Engine { get; }
+
         public GameEngineEventArgs(Event @event, IEngine engine)
         {
             Event = @event;
             Engine = engine;
         }
-
-        public Event Event { get; }
-        public IEngine Engine { get; }
     }
 
     public interface IGameEngineService
     {
-        event EventHandler<EngineChangedEventArgs> EngineChanged;
-        event EventHandler<GameEngineEventArgs> EngineEvent;
-         
         [CanBeNull]
         IEngine Engine { get; }
+
+        event EventHandler<EngineChangedEventArgs> EngineChanged;
+
+        event EventHandler<GameEngineEventArgs> EngineEvent;
 
         void Tick();
     }

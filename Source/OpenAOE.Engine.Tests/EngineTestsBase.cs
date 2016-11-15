@@ -2,15 +2,13 @@
 using Ninject.Extensions.Logging;
 using Ninject.MockingKernel;
 using Ninject.MockingKernel.Moq;
-using OpenAOE.Engine.Entity;
 
 namespace OpenAOE.Engine.Tests
 {
     public class EngineTestsBase
     {
-        protected IKernel Kernel = new MoqMockingKernel(new NinjectSettings(), new EngineModule());
-
         protected IEngineFactory Factory;
+        protected IKernel Kernel = new MoqMockingKernel(new NinjectSettings(), new EngineModule());
 
         public EngineTestsBase()
         {

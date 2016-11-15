@@ -13,10 +13,12 @@ namespace OpenAOE.Engine.Tests
     public class EngineFactoryTests : EngineTestsBase
     {
         [Test]
-        public void CheckReturnsEngineInstance()
+        public void CheckEnginesHaveDifferentServices()
         {
-            var engine = Factory.Create(new List<EntityData>(), new List<EntityTemplate>());
-            engine.ShouldNotBeNull();
+            var engine1 = (RuntimeEngine) Factory.Create(new List<EntityData>(), new List<EntityTemplate>());
+            var engine2 = (RuntimeEngine) Factory.Create(new List<EntityData>(), new List<EntityTemplate>());
+
+            engine1.EntityService.ShouldNotBeSameAs(engine2.EntityService);
         }
 
         [Test]
@@ -29,40 +31,42 @@ namespace OpenAOE.Engine.Tests
         }
 
         [Test]
-        public void CheckEnginesHaveDifferentServices()
+        public void CheckReturnsEngineInstance()
         {
-            var engine1 = (RuntimeEngine)Factory.Create(new List<EntityData>(), new List<EntityTemplate>());
-            var engine2 = (RuntimeEngine)Factory.Create(new List<EntityData>(), new List<EntityTemplate>());
-
-            engine1.EntityService.ShouldNotBeSameAs(engine2.EntityService);
+            var engine = Factory.Create(new List<EntityData>(), new List<EntityTemplate>());
+            engine.ShouldNotBeNull();
         }
 
         [Test]
         public void EnsureSnapshotEntitiesLoad()
         {
-            var entitySnapshot = new List<EntityData>()
+            var entitySnapshot = new List<EntityData>
             {
                 new EntityData(0, new IComponent[] {new SimpleComponent(), new OtherSimpleComponent()}),
-                new EntityData(1, new IComponent[] {}),
+                new EntityData(1, new IComponent[] {})
             };
 
             var engine = Factory.Create(entitySnapshot, new List<EntityTemplate>());
 
             engine.Entities.Count.ShouldBe(2);
-            engine.Entities.Any(p => p.Id == 0 && p.HasComponent<ISimpleComponent>() && p.HasComponent<IOtherSimpleComponent>()).ShouldBeTrue();
-            engine.Entities.Any(p => p.Id == 1 && !p.HasComponent<ISimpleComponent>() && !p.HasComponent<IOtherSimpleComponent>()).ShouldBeTrue();
+            engine.Entities.Any(
+                    p => (p.Id == 0) && p.HasComponent<ISimpleComponent>() && p.HasComponent<IOtherSimpleComponent>())
+                .ShouldBeTrue();
+            engine.Entities.Any(
+                    p => (p.Id == 1) && !p.HasComponent<ISimpleComponent>() && !p.HasComponent<IOtherSimpleComponent>())
+                .ShouldBeTrue();
         }
 
         [Test]
         public void EnsureTemplateEntitiesLoad()
         {
-            var templates = new List<EntityTemplate>()
+            var templates = new List<EntityTemplate>
             {
                 new EntityTemplate("Test1", new IComponent[] {new SimpleComponent(), new OtherSimpleComponent()}),
-                new EntityTemplate("Test2", new IComponent[] {}),
+                new EntityTemplate("Test2", new IComponent[] {})
             };
 
-            var engine = (RuntimeEngine)Factory.Create(new List<EntityData>(), templates);
+            var engine = (RuntimeEngine) Factory.Create(new List<EntityData>(), templates);
 
             Should.NotThrow(() =>
             {

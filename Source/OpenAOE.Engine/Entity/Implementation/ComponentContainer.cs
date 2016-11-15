@@ -9,6 +9,7 @@ namespace OpenAOE.Engine.Entity.Implementation
     internal sealed class ComponentContainer
     {
         public IComponent Current { get; }
+
         public IComponent Next { get; }
 
         /// <summary>

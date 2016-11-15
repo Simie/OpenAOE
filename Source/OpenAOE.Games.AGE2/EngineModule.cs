@@ -1,14 +1,13 @@
 ﻿using Ninject.Modules;
 using OpenAOE.Engine;
 using OpenAOE.Engine.System;
-using OpenAOE.Games.AGE2.Implementation;
 using OpenAOE.Games.AGE2.Services;
 using OpenAOE.Games.AGE2.Services.Implementation;
 using OpenAOE.Games.AGE2.Systems;
 
 namespace OpenAOE.Games.AGE2
 {
-    class EngineModule : NinjectModule, IEngineModule
+    internal class EngineModule : NinjectModule, IEngineModule
     {
         public override void Load()
         {

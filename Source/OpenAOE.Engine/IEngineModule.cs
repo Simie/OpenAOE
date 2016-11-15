@@ -8,6 +8,5 @@ namespace OpenAOE.Engine
     /// </summary>
     public interface IEngineModule : INinjectModule
     {
-         
     }
 }

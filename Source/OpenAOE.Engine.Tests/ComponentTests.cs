@@ -15,10 +15,7 @@ namespace OpenAOE.Engine.Tests
             IComponent c1 = new SimpleComponent();
             IComponent c2 = new OtherSimpleComponent();
 
-            Should.Throw<ArgumentException>(() =>
-            {
-                c1.CopyTo(c2);
-            });
+            Should.Throw<ArgumentException>(() => { c1.CopyTo(c2); });
         }
     }
 }

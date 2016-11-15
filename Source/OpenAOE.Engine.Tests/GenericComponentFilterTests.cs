@@ -11,37 +11,6 @@ namespace OpenAOE.Engine.Tests
     public class GenericComponentFilterTests
     {
         [Test]
-        public void FilterMatchesSingleComponent()
-        {
-            var componentMock = new Mock<IHasComponents>();
-            componentMock.Setup(s => s.HasComponent<ISimpleComponent>()).Returns(true);
-
-            var filter = new GenericComponentFilter<ISimpleComponent>();
-            filter.Filter(componentMock.Object).Should().BeTrue();
-        }
-
-        [Test]
-        public void FilterFailsSingleMissingComponent()
-        {
-            var componentMock = new Mock<IHasComponents>();
-            componentMock.Setup(s => s.HasComponent<ISimpleComponent>()).Returns(false);
-
-            var filter = new GenericComponentFilter<ISimpleComponent>();
-            filter.Filter(componentMock.Object).Should().BeFalse();
-        }
-
-        [Test]
-        public void FilterMatchesTwoComponents()
-        {
-            var componentMock = new Mock<IHasComponents>();
-            componentMock.Setup(s => s.HasComponent<ISimpleComponent>()).Returns(true);
-            componentMock.Setup(s => s.HasComponent<IOtherSimpleComponent>()).Returns(true);
-
-            var filter = new GenericComponentFilter<ISimpleComponent, IOtherSimpleComponent>();
-            filter.Filter(componentMock.Object).Should().BeTrue();
-        }
-
-        [Test]
         public void DoubleFilterFailsSingleMissingComponent()
         {
             var componentMock = new Mock<IHasComponents>();
@@ -61,6 +30,37 @@ namespace OpenAOE.Engine.Tests
 
             var filter = new GenericComponentFilter<ISimpleComponent, IOtherSimpleComponent>();
             filter.Filter(componentMock.Object).Should().BeFalse();
+        }
+
+        [Test]
+        public void FilterFailsSingleMissingComponent()
+        {
+            var componentMock = new Mock<IHasComponents>();
+            componentMock.Setup(s => s.HasComponent<ISimpleComponent>()).Returns(false);
+
+            var filter = new GenericComponentFilter<ISimpleComponent>();
+            filter.Filter(componentMock.Object).Should().BeFalse();
+        }
+
+        [Test]
+        public void FilterMatchesSingleComponent()
+        {
+            var componentMock = new Mock<IHasComponents>();
+            componentMock.Setup(s => s.HasComponent<ISimpleComponent>()).Returns(true);
+
+            var filter = new GenericComponentFilter<ISimpleComponent>();
+            filter.Filter(componentMock.Object).Should().BeTrue();
+        }
+
+        [Test]
+        public void FilterMatchesTwoComponents()
+        {
+            var componentMock = new Mock<IHasComponents>();
+            componentMock.Setup(s => s.HasComponent<ISimpleComponent>()).Returns(true);
+            componentMock.Setup(s => s.HasComponent<IOtherSimpleComponent>()).Returns(true);
+
+            var filter = new GenericComponentFilter<ISimpleComponent, IOtherSimpleComponent>();
+            filter.Filter(componentMock.Object).Should().BeTrue();
         }
     }
 }

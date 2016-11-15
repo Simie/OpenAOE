@@ -16,15 +16,9 @@ namespace OpenAOE.Games.AGE2.Data.Components
         void AdjustValue(float amount);
     }
 
-    class Health : Component<Health, IHealth, IWriteableHealth>, IHealth, IWriteableHealth, IAsyncComponent
+    internal class Health : Component<Health, IHealth, IWriteableHealth>, IHealth, IWriteableHealth, IAsyncComponent
     {
-        private float _value;
-
-        public float Value
-        {
-            get { return _value; }
-            private set { _value = value; }
-        }
+        public float Value { get; private set; }
 
         public void AdjustValue(float amount)
         {

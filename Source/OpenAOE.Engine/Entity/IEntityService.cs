@@ -12,29 +12,30 @@ namespace OpenAOE.Engine.Entity
         IReadOnlyList<EngineEntity> Entities { get; }
 
         /// <summary>
-        /// Get the entity with the specified ID. 
+        /// Get the entity with the specified ID.
         /// Thread Safe.
         /// </summary>
         /// <param name="id">Unique ID for the entity to be fetched.</param>
-        /// <returns>The entity with <paramref name="id"/> as the Id, or null if not found.</returns>
+        /// <returns>The entity with <paramref name="id" /> as the Id, or null if not found.</returns>
         [CanBeNull]
         EngineEntity GetEntity(uint id);
 
         /// <summary>
-        /// Create a new entity with the given <paramref name="prototype"/>. 
+        /// Create a new entity with the given <paramref name="prototype" />.
         /// Can only be called from a synchronous system (i.e. no other systems running at the same time).
         /// </summary>
         /// <remarks>
-        /// The reason for the synchronous system restriction is to prevent different IDs being assigned on client machines that execute
+        /// The reason for the synchronous system restriction is to prevent different IDs being assigned on client machines
+        /// that execute
         /// in a different order due to thread scheduling.
         /// </remarks>
         /// <param name="prototype"></param>
-        /// <exception cref="ArgumentException">If a prototype with name <paramref name="prototype"/> is not found.</exception>
+        /// <exception cref="ArgumentException">If a prototype with name <paramref name="prototype" /> is not found.</exception>
         /// <returns>The created entity.</returns>
         EngineEntity CreateEntity([NotNull] string prototype);
 
         /// <summary>
-        /// Remove <paramref name="entity"/> from the simulation. 
+        /// Remove <paramref name="entity" /> from the simulation.
         /// Thread safe.
         /// </summary>
         void RemoveEntity([NotNull] EngineEntity entity);

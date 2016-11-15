@@ -16,42 +16,49 @@ namespace OpenAOE.Utilities
     {
         public IComponentFilter Filter { get; }
 
-        public event Action<EntityBag, IReadOnlyEntity> Added;
-        public event Action<EntityBag, IReadOnlyEntity> Removed;
-
-        public IReadOnlyList<IReadOnlyEntity> Contents { get { return _contents; } }
+        public IReadOnlyList<IReadOnlyEntity> Contents => _contents;
 
         private readonly List<IReadOnlyEntity> _contents = new List<IReadOnlyEntity>();
         private readonly IGameEngineService _engineService;
 
-        public static EntityBag Create<T1>(IGameEngineService gameEngine) 
-            where T1 : class, IComponent
-        {
-            return new EntityBag(gameEngine, new GenericComponentFilter<T1>());
-        }
-
-        public static EntityBag Create<T1, T2>(IGameEngineService gameEngine) 
-            where T1 : class, IComponent
-            where T2 : class, IComponent
-        {
-            return new EntityBag(gameEngine, new GenericComponentFilter<T1, T2>());
-        }
-
-        public static EntityBag Create<T1, T2, T3>(IGameEngineService gameEngine) 
-            where T1 : class, IComponent
-            where T2 : class, IComponent
-            where T3 : class, IComponent
-        {
-            return new EntityBag(gameEngine, new GenericComponentFilter<T1, T2, T3>());
-        }
-
-        EntityBag(IGameEngineService engineService, IComponentFilter componentFilter)
+        private EntityBag(IGameEngineService engineService, IComponentFilter componentFilter)
         {
             Filter = componentFilter;
             _engineService = engineService;
             OnEngineChanged(this, new EngineChangedEventArgs(engineService.Engine));
             engineService.EngineChanged += OnEngineChanged;
             engineService.EngineEvent += OnEngineEvent;
+        }
+
+        public void Dispose()
+        {
+            _engineService.EngineChanged -= OnEngineChanged;
+            _engineService.EngineEvent -= OnEngineEvent;
+        }
+
+        public event Action<EntityBag, IReadOnlyEntity> Added;
+
+        public event Action<EntityBag, IReadOnlyEntity> Removed;
+
+        public static EntityBag Create<T1>(IGameEngineService gameEngine)
+            where T1 : class, IComponent
+        {
+            return new EntityBag(gameEngine, new GenericComponentFilter<T1>());
+        }
+
+        public static EntityBag Create<T1, T2>(IGameEngineService gameEngine)
+            where T1 : class, IComponent
+            where T2 : class, IComponent
+        {
+            return new EntityBag(gameEngine, new GenericComponentFilter<T1, T2>());
+        }
+
+        public static EntityBag Create<T1, T2, T3>(IGameEngineService gameEngine)
+            where T1 : class, IComponent
+            where T2 : class, IComponent
+            where T3 : class, IComponent
+        {
+            return new EntityBag(gameEngine, new GenericComponentFilter<T1, T2, T3>());
         }
 
         private void AddEntity(IReadOnlyEntity entity)
@@ -63,27 +70,19 @@ namespace OpenAOE.Utilities
         private void RemoveEntity(IReadOnlyEntity entity)
         {
             if (_contents.Remove(entity))
-            {
                 Removed?.Invoke(this, entity);
-            }
         }
-        
+
         private void OnEngineChanged(object sender, EngineChangedEventArgs engineChangedEventArgs)
         {
             // Clear existing entities
             for (var i = _contents.Count - 1; i >= 0; i--)
-            {
                 RemoveEntity(_contents[i]);
-            }
 
             // Add new entities
             foreach (var newEntity in engineChangedEventArgs.NewEngine.Entities)
-            {
                 if (Filter.Filter(newEntity))
-                {
                     AddEntity(newEntity);
-                }
-            }
         }
 
         private void OnEngineEvent(object sender, GameEngineEventArgs gameEngineEventArgs)
@@ -100,12 +99,6 @@ namespace OpenAOE.Utilities
                 var e = (EntityRemoved) gameEngineEventArgs.Event;
                 RemoveEntity(gameEngineEventArgs.Engine.Entities.Single(p => p.Id == e.EntityId));
             }
-        }
-
-        public void Dispose()
-        {
-            _engineService.EngineChanged -= OnEngineChanged;
-            _engineService.EngineEvent -= OnEngineEvent;
         }
     }
 }

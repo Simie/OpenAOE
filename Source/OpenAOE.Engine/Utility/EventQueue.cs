@@ -6,9 +6,9 @@ using OpenAOE.Engine.Data;
 namespace OpenAOE.Engine.Utility
 {
     // TODO
-    class EventQueue : IEventDispatcher
+    internal class EventQueue : IEventDispatcher
     {
-        private readonly ConcurrentQueue<Event> _eventQueue = new ConcurrentQueue<Event>(); 
+        private readonly ConcurrentQueue<Event> _eventQueue = new ConcurrentQueue<Event>();
 
         public void Post<T>(T e) where T : Event
         {
@@ -21,11 +21,9 @@ namespace OpenAOE.Engine.Utility
             Event e;
 
             while (_eventQueue.TryDequeue(out e))
-            {
                 events.Add(e);
-            }
 
             return events;
-        } 
+        }
     }
 }

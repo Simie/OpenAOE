@@ -11,17 +11,12 @@ namespace OpenAOE.Services
 {
     public class TempGameEngineService : IGameEngineService
     {
-        public event EventHandler<EngineChangedEventArgs> EngineChanged;
-        public event EventHandler<GameEngineEventArgs> EngineEvent;
-
-        public IEngine Engine { get; }
-
-        private static List<EntityTemplate> TestTemplates = new List<EntityTemplate>()
+        private static readonly List<EntityTemplate> TestTemplates = new List<EntityTemplate>
         {
-            new EntityTemplate("Unit", new List<IComponent>()
+            new EntityTemplate("Unit", new List<IComponent>
             {
-                new Transform() {},
-                new Movable()
+                new Transform(),
+                new Movable
                 {
                     TargetPosition = null,
                     MoveSpeed = 5f
@@ -29,12 +24,12 @@ namespace OpenAOE.Services
             })
         };
 
-        private static List<EntityData> TestData = new List<EntityData>()
+        private static readonly List<EntityData> TestData = new List<EntityData>
         {
-            new EntityData(0, new List<IComponent>()
+            new EntityData(0, new List<IComponent>
             {
-                new Transform() {},
-                new Movable()
+                new Transform(),
+                new Movable
                 {
                     TargetPosition = new FixVector2(20, 20),
                     MoveSpeed = 8f
@@ -42,11 +37,13 @@ namespace OpenAOE.Services
             })
         };
 
-        private readonly List<Command> _commands = new List<Command>();
+        public IEngine Engine { get; }
 
-        private readonly ILogger _logger;
+        private readonly List<Command> _commands = new List<Command>();
         private readonly IEngineFactory _engineFactory;
         private readonly IInputService _inputService;
+
+        private readonly ILogger _logger;
 
         public TempGameEngineService(ILogger logger, IEngineFactory engineFactory, IInputService inputService)
         {
@@ -60,20 +57,13 @@ namespace OpenAOE.Services
             Engine = engineFactory.Create(TestData, TestTemplates);
         }
 
-        private void OnMouseDown(object sender, MouseEvent mouseEvent)
-        {
-            _commands.Add(new MoveCommand(0, new FixVector2(mouseEvent.X, mouseEvent.Y)));
-        }
-
         public void Tick()
         {
             if (Engine == null)
                 return;
-            
+
             if (_commands.Count > 0)
-            {
                 _logger.Info("Executing tick with {0} commands.", _commands.Count);
-            }
 
             var input = new EngineTickInput(_commands);
 
@@ -85,9 +75,16 @@ namespace OpenAOE.Services
             Engine.Synchronize();
 
             foreach (var resultEvent in tick.Result.Events)
-            {
                 EngineEvent?.Invoke(this, new GameEngineEventArgs(resultEvent, Engine));
-            }
+        }
+
+        public event EventHandler<EngineChangedEventArgs> EngineChanged;
+
+        public event EventHandler<GameEngineEventArgs> EngineEvent;
+
+        private void OnMouseDown(object sender, MouseEvent mouseEvent)
+        {
+            _commands.Add(new MoveCommand(0, new FixVector2(mouseEvent.X, mouseEvent.Y)));
         }
     }
 }

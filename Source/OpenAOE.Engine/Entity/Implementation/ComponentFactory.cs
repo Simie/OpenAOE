@@ -20,7 +20,7 @@ namespace OpenAOE.Engine.Entity.Implementation
 
         public IComponent Create(Type interfaceType)
         {
-            return (IComponent)_kernel.Get(interfaceType);
+            return (IComponent) _kernel.Get(interfaceType);
         }
     }
 }

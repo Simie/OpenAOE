@@ -13,7 +13,7 @@ namespace OpenAOE
 {
     public static class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             // Create a logger for the bootstrap process
             var log = LogManager.GetCurrentClassLogger(typeof(Program));
@@ -26,11 +26,8 @@ namespace OpenAOE
             string config = null;
 
             if (!File.Exists(configPath))
-            {
                 log.Warn("Config file not found. Defaults will be used.");
-            }
             else
-            {
                 try
                 {
                     config = File.ReadAllText(configPath);
@@ -39,13 +36,12 @@ namespace OpenAOE
                 {
                     log.Error(e, $"Error while reading config file at {configPath}");
                 }
-            }
 
             // Create the global config service
             var configService = new ConfigService(new NLogLogger(typeof(ConfigService)),
                 new TomlConfigValueProvider(config ?? ""));
 
-            var settings = new NinjectSettings()
+            var settings = new NinjectSettings
             {
                 LoadExtensions = false
             };

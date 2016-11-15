@@ -1,22 +1,20 @@
-﻿using System;
-using Ninject.Extensions.Logging;
+﻿using Ninject.Extensions.Logging;
 using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.System;
 using OpenAOE.Games.AGE2.Data.Commands;
 using OpenAOE.Games.AGE2.Data.Components;
+using OpenAOE.Games.AGE2.Services;
 
 namespace OpenAOE.Games.AGE2.Systems
 {
-    class UnitMoveSystem : FilteredSystem<ITransform, IMovable>, Triggers.IOnEntityTick, Triggers.IOnCommand<MoveCommand>
+    internal class UnitMoveSystem : FilteredSystem<ITransform, IMovable>, Triggers.IOnEntityTick,
+        Triggers.IOnCommand<MoveCommand>
     {
-        private readonly IEntityService _entityService;
-        private readonly ITimeService _timeService;
-        private readonly ILogger _logger;
+        public override string Name => nameof(UnitMoveSystem);
 
-        public override string Name
-        {
-            get { return nameof(UnitMoveSystem); }
-        }
+        private readonly IEntityService _entityService;
+        private readonly ILogger _logger;
+        private readonly ITimeService _timeService;
 
         public UnitMoveSystem(IEntityService entityService, ITimeService timeService, ILogger logger)
         {
@@ -50,9 +48,7 @@ namespace OpenAOE.Games.AGE2.Systems
             var movable = entity.Current<IMovable>();
 
             if (!movable.TargetPosition.HasValue)
-            {
                 return;
-            }
 
             var transform = entity.Current<ITransform>();
             var diff = movable.TargetPosition.Value - transform.Position;
@@ -70,7 +66,7 @@ namespace OpenAOE.Games.AGE2.Systems
             }
 
             var moveAmount = movable.MoveSpeed*_timeService.Step;
-            entity.Modify<IWriteableTransform>().Position = transform.Position + moveAmount * diff.Normalized;
+            entity.Modify<IWriteableTransform>().Position = transform.Position + moveAmount*diff.Normalized;
         }
     }
 }

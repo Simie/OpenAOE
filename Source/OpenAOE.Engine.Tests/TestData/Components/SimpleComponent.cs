@@ -12,7 +12,8 @@ namespace OpenAOE.Engine.Tests.TestData.Components
         int Value { set; }
     }
 
-    class SimpleComponent : Component<SimpleComponent, ISimpleComponent, IWriteableSimpleComponent>, ISimpleComponent, IWriteableSimpleComponent
+    internal class SimpleComponent : Component<SimpleComponent, ISimpleComponent, IWriteableSimpleComponent>,
+        ISimpleComponent, IWriteableSimpleComponent
     {
         public int Value { get; set; }
 

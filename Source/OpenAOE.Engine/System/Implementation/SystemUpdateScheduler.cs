@@ -12,16 +12,6 @@ namespace OpenAOE.Engine.System.Implementation
     /// TODO: Use IAccessGate to prevent access to IEntityService.CreateEntity during concurrent system execution.
     internal class SystemUpdateScheduler
     {
-        public class UpdateBurst
-        {
-            public IReadOnlyCollection<ISystemInstance> Systems { get; }
-
-            public UpdateBurst(IReadOnlyCollection<ISystemInstance> systems)
-            {
-                Systems = systems;
-            }
-        }
-
         public IReadOnlyList<UpdateBurst> UpdateBursts { get; private set; }
 
         public SystemUpdateScheduler(IReadOnlyList<ISystemInstance> systemInstances)
@@ -33,10 +23,20 @@ namespace OpenAOE.Engine.System.Implementation
             // TODO
             systemList.Sort((p, q) => sorted.IndexOf(p.System).CompareTo(sorted.IndexOf(q.System)));
 
-            UpdateBursts = new List<UpdateBurst>()
+            UpdateBursts = new List<UpdateBurst>
             {
                 new UpdateBurst(systemList)
             };
+        }
+
+        public class UpdateBurst
+        {
+            public IReadOnlyCollection<ISystemInstance> Systems { get; }
+
+            public UpdateBurst(IReadOnlyCollection<ISystemInstance> systems)
+            {
+                Systems = systems;
+            }
         }
     }
 }

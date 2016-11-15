@@ -1,5 +1,4 @@
-﻿using Ninject;
-using Ninject.Modules;
+﻿using Ninject.Modules;
 using OpenAOE.Engine.Entity;
 using OpenAOE.Engine.Entity.Implementation;
 using OpenAOE.Engine.System;
@@ -8,7 +7,7 @@ using OpenAOE.Engine.Utility;
 
 namespace OpenAOE.Engine.Implementation
 {
-    class InternalEngineModule : NinjectModule, IEngineModule
+    internal class InternalEngineModule : NinjectModule, IEngineModule
     {
         public override void Load()
         {

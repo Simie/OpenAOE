@@ -2,7 +2,6 @@
 using Moq;
 using Ninject.Extensions.Logging;
 using NUnit.Framework;
-using OpenAOE.Services;
 using OpenAOE.Services.Config;
 using OpenAOE.Services.Config.Implementation;
 
@@ -11,8 +10,6 @@ namespace OpenAOE.Tests
     [TestFixture]
     public class ConfigServiceTests
     {
-        private ConfigService _configService;
-
         [SetUp]
         public void Setup()
         {
@@ -27,11 +24,24 @@ Overridden=10
 "));
         }
 
+        private ConfigService _configService;
+
         [Test]
-        public void TestReadString()
+        public void ChangedValuesPropogate()
         {
-            var value = _configService.GetConfig("TestCategory", "TestString", "Non-default Value");
-            value.Value.Should().Be("Value", "it is defined in the config string");
+            var mutable = _configService.GetWritableConfig("TestMutable", "TestKey2", "Default Value");
+            var test = _configService.GetWritableConfig("TestMutable", "TestKey2", "Default Value");
+
+            mutable.Value.Should().Be(test.Value, "they are the same config.");
+            mutable.Value = "Changed Value";
+            test.Value.Should().Be(mutable.Value).And.Be("Changed Value");
+        }
+
+        [Test]
+        public void IncorrectTypeUsesDefaultValue()
+        {
+            var config = _configService.GetConfig("TestCategory", "TestString", 50);
+            config.Value.Should().Be(50);
         }
 
         [Test]
@@ -44,10 +54,16 @@ Overridden=10
         }
 
         [Test]
-        public void IncorrectTypeUsesDefaultValue()
+        public void TestChangedEvent()
         {
-            var config = _configService.GetConfig("TestCategory", "TestString", 50);
-            config.Value.Should().Be(50);
+            var mutable = _configService.GetWritableConfig("TestMutable", "TestKey", "Default Value");
+            mutable.MonitorEvents();
+
+            mutable.Value = "Non-default Value";
+            mutable.ShouldRaise(nameof(mutable.Changed))
+                .WithSender(mutable)
+                .WithArgs<ConfigChangedEvent<string>>(
+                    e => (e.NewValue == "Non-default Value") && (e.OldValue == "Default Value"));
         }
 
         [Test]
@@ -65,27 +81,10 @@ Overridden=10
         }
 
         [Test]
-        public void TestChangedEvent()
+        public void TestReadString()
         {
-            var mutable = _configService.GetWritableConfig("TestMutable", "TestKey", "Default Value");
-            mutable.MonitorEvents();
-
-            mutable.Value = "Non-default Value";
-            mutable.ShouldRaise(nameof(mutable.Changed))
-                .WithSender(mutable)
-                .WithArgs<ConfigChangedEvent<string>>(
-                    e => e.NewValue == "Non-default Value" && e.OldValue == "Default Value");
-        }
-
-        [Test]
-        public void ChangedValuesPropogate()
-        {
-            var mutable = _configService.GetWritableConfig("TestMutable", "TestKey2", "Default Value");
-            var test = _configService.GetWritableConfig("TestMutable", "TestKey2", "Default Value");
-
-            mutable.Value.Should().Be(test.Value, "they are the same config.");
-            mutable.Value = "Changed Value";
-            test.Value.Should().Be(mutable.Value).And.Be("Changed Value");
+            var value = _configService.GetConfig("TestCategory", "TestString", "Non-default Value");
+            value.Value.Should().Be("Value", "it is defined in the config string");
         }
     }
 }

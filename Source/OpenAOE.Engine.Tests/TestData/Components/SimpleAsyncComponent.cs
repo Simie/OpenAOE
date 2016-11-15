@@ -13,12 +13,13 @@ namespace OpenAOE.Engine.Tests.TestData.Components
         void AddValue(int amount);
     }
 
-    class SimpleAsyncComponent : Component<SimpleAsyncComponent, ISimpleAsyncComponent, IWriteableSimpleAsyncComponent>,
+    internal class SimpleAsyncComponent :
+        Component<SimpleAsyncComponent, ISimpleAsyncComponent, IWriteableSimpleAsyncComponent>,
         ISimpleAsyncComponent, IWriteableSimpleAsyncComponent
     {
-        private int _value;
+        public int Value => _value;
 
-        public int Value { get { return _value; } }
+        private int _value;
 
         public void AddValue(int amount)
         {

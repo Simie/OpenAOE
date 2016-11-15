@@ -31,30 +31,28 @@ namespace OpenAOE.Engine.System.Implementation
 
         public void OnCommand(Command command)
         {
-            _handler.OnCommand((T)command);
+            _handler.OnCommand((T) command);
         }
     }
 
     internal static class CommandHandlerUtil
     {
-        private static MethodInfo _createCommandHandlerMethod =
+        private static readonly MethodInfo _createCommandHandlerMethod =
             typeof(CommandHandlerUtil).GetMethod(nameof(CreateCommandHandler),
                 BindingFlags.NonPublic | BindingFlags.Static);
 
         public static IEnumerable<ICommandHandler> GetCommandHandlers(object obj)
         {
             foreach (var inter in obj.GetType().GetInterfaces())
-            {
-                if (inter.IsGenericType && inter.GetGenericTypeDefinition() == typeof(Triggers.IOnCommand<>))
+                if (inter.IsGenericType && (inter.GetGenericTypeDefinition() == typeof(Triggers.IOnCommand<>)))
                 {
                     var method = _createCommandHandlerMethod.MakeGenericMethod(inter.GetGenericArguments().First());
 
-                    yield return (ICommandHandler) method.Invoke(null, new [] {obj});
+                    yield return (ICommandHandler) method.Invoke(null, new[] {obj});
                 }
-            }
         }
 
-        static ICommandHandler CreateCommandHandler<T>(Triggers.IOnCommand<T> handler) where T : Command
+        private static ICommandHandler CreateCommandHandler<T>(Triggers.IOnCommand<T> handler) where T : Command
         {
             return new CommandHandler<T>(handler);
         }

@@ -11,7 +11,9 @@ namespace OpenAOE.Engine.Exceptions
         }
 
         public Type ComponentType { get; }
+
         public uint EntityId { get; }
+
         public Reasons Reason { get; }
 
         public override string Message

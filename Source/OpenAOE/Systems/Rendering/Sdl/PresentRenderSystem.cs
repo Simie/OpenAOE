@@ -1,13 +1,15 @@
 ﻿using OpenAOE.Engine.System;
 using OpenAOE.Services.Sdl;
+using SDL2;
 
 namespace OpenAOE.Systems.Rendering.Sdl
 {
     [ExecuteOrder(typeof(ClearRenderSystem), ExecuteOrderAttribute.Positions.After)]
     public class PresentRenderSystem : ISystem
     {
-        private readonly SdlMainWindow _sdlWindow;
         public string Name => nameof(PresentRenderSystem);
+
+        private readonly SdlMainWindow _sdlWindow;
 
         public PresentRenderSystem(SdlMainWindow sdlWindow)
         {
@@ -16,7 +18,7 @@ namespace OpenAOE.Systems.Rendering.Sdl
 
         public void Tick()
         {
-            SDL2.SDL.SDL_RenderPresent(_sdlWindow.RenderHandle);
+            SDL.SDL_RenderPresent(_sdlWindow.RenderHandle);
         }
     }
 }

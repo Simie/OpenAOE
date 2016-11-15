@@ -37,6 +37,5 @@ namespace OpenAOE.Engine.Tests
 
             mock2.Verify(c => c.CopyTo(mock1.Object), Times.Exactly(2));
         }
-
     }
 }

@@ -4,7 +4,7 @@ using OpenAOE.Services;
 
 namespace OpenAOE
 {
-    class Application : IDisposable
+    internal class Application : IDisposable
     {
         private readonly ILogger _logger;
         private readonly IMainWindow _mainWindow;
@@ -21,6 +21,10 @@ namespace OpenAOE
             _logger.Info("Starting Application");
         }
 
+        public void Dispose()
+        {
+        }
+
         private void MainWindowOnCloseRequested(object sender, EventArgs eventArgs)
         {
             _logger.Info("MainWindow close requested.");
@@ -32,16 +36,9 @@ namespace OpenAOE
             _logger.Info("Running");
 
             while (_shouldRun)
-            {
                 _systemManager.Tick();
-            }
 
             _logger.Info("Finished");
-        }
-
-        public void Dispose()
-        {
-            
         }
     }
 }

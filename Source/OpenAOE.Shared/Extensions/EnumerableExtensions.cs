@@ -5,7 +5,6 @@ namespace OpenAOE.Extensions
 {
     public static class EnumerableExtensions
     {
-
         /// <summary>
         /// Topological sort
         /// </summary>

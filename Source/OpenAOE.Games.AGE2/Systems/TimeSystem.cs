@@ -1,17 +1,14 @@
 ﻿using OpenAOE.Engine.System;
-using OpenAOE.Games.AGE2.Implementation;
+using OpenAOE.Games.AGE2.Services.Implementation;
 
 namespace OpenAOE.Games.AGE2.Systems
 {
     /// <summary>
     /// Advances the simulation time at the start of the frame.
     /// </summary>
-    class TimeSystem : ISystem, Triggers.IOnTick
+    internal class TimeSystem : ISystem, Triggers.IOnTick
     {
-        public string Name
-        {
-            get { return nameof(TimeService); }
-        }
+        public string Name => nameof(TimeService);
 
         private readonly TimeService _timeService;
 

@@ -34,7 +34,7 @@ namespace OpenAOE.Engine.Utility
         /// <summary>
         /// The next integer to use.
         /// </summary>
-        private static int _nextId = 0;
+        private static int _nextId;
 
         /// <summary>
         /// The mapping from Data types to their integers
@@ -49,36 +49,32 @@ namespace OpenAOE.Engine.Utility
         public static int GetId(Type type)
         {
             if (!type.IsInterface)
-            {
                 throw new ArgumentException(
                     $"Type {type} is not an interface. Did you use a component implementation instead of an interface?",
                     nameof(type));
-            }
 
-            if (type == typeof (IComponent) || type == typeof(IWriteableComponent) || type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IWriteableComponent<>))
-            {
+            if ((type == typeof(IComponent)) || (type == typeof(IWriteableComponent)) ||
+                (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(IWriteableComponent<>))))
                 throw new ArgumentException(
-                    $"Cannot create accessor from {typeof (IComponent)} or {typeof(IWriteableComponent)}",
+                    $"Cannot create accessor from {typeof(IComponent)} or {typeof(IWriteableComponent)}",
                     nameof(type));
-            }
 
             // If the Type is a writable component, find the read-only interface.
-            var writeableComponentType = type.GetInterfaces().SingleOrDefault(p => p.IsGenericType && p.GetGenericTypeDefinition() == typeof(IWriteableComponent<>));
+            var writeableComponentType =
+                type.GetInterfaces()
+                    .SingleOrDefault(
+                        p => p.IsGenericType && (p.GetGenericTypeDefinition() == typeof(IWriteableComponent<>)));
             if (writeableComponentType != null)
             {
                 var genericArguments = writeableComponentType.GetGenericArguments();
                 type = genericArguments.Single();
             }
 
-            if (!type.GetInterfaces().Contains(typeof (IComponent)))
-            {
+            if (!type.GetInterfaces().Contains(typeof(IComponent)))
                 throw new ArgumentException($"Type {type} does not inherit from {typeof(IComponent)}", nameof(type));
-            }
 
             if (_ids.ContainsKey(type) == false)
-            {
                 _ids[type] = _nextId++;
-            }
 
             return _ids[type];
         }

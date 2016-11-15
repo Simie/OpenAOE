@@ -1,17 +1,14 @@
 ﻿using Ninject.Extensions.Logging;
-using OpenAOE.Engine.System;
 
-namespace OpenAOE.Games.AGE2.Implementation
+namespace OpenAOE.Games.AGE2.Services.Implementation
 {
-    class TimeService : ITimeService
+    internal class TimeService : ITimeService
     {
-        private readonly ILogger _logger;
         public double CurrentTime { get; private set; }
 
-        public double Step
-        {
-            get { return 0.1; }
-        }
+        public double Step => 0.1;
+
+        private readonly ILogger _logger;
 
         public TimeService(ILogger logger)
         {

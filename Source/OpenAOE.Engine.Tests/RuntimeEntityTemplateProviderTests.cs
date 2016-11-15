@@ -12,19 +12,13 @@ namespace OpenAOE.Engine.Tests
     public class RuntimeEntityTemplateProviderTests
     {
         [Test]
-        public void ThrowsOnDuplicateTemplateKey()
+        public void PopulatesExceptionWhenTemplateNotFound()
         {
-            Action act = () =>
-            {
-                var templateProvider = new RuntimeEntityTemplateProvider(new EntityTemplate[]
-                {
-                    new EntityTemplate("TestKey1", new IComponent[0]),
-                    new EntityTemplate("TestKey1", new IComponent[0]),
-                    new EntityTemplate("TestKey3", new IComponent[0]),
-                });
-            };
+            var templateProvider = new RuntimeEntityTemplateProvider(new EntityTemplate[0]);
+            var templateName = "NonExistantTemplate";
 
-            act.ShouldThrow<ArgumentException>();
+            Action act = () => templateProvider.Get(templateName);
+            act.ShouldThrow<EntityTemplateNotFoundException>().And.TemplateKey.Should().Be(templateName);
         }
 
         [Test]
@@ -36,13 +30,19 @@ namespace OpenAOE.Engine.Tests
         }
 
         [Test]
-        public void PopulatesExceptionWhenTemplateNotFound()
+        public void ThrowsOnDuplicateTemplateKey()
         {
-            var templateProvider = new RuntimeEntityTemplateProvider(new EntityTemplate[0]);
-            var templateName = "NonExistantTemplate";
+            Action act = () =>
+            {
+                var templateProvider = new RuntimeEntityTemplateProvider(new[]
+                {
+                    new EntityTemplate("TestKey1", new IComponent[0]),
+                    new EntityTemplate("TestKey1", new IComponent[0]),
+                    new EntityTemplate("TestKey3", new IComponent[0])
+                });
+            };
 
-            Action act = () => templateProvider.Get(templateName);
-            act.ShouldThrow<EntityTemplateNotFoundException>().And.TemplateKey.Should().Be(templateName);
+            act.ShouldThrow<ArgumentException>();
         }
     }
 }

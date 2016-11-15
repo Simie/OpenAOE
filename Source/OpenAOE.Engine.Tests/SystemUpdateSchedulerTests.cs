@@ -15,11 +15,12 @@ namespace OpenAOE.Engine.Tests
     {
         public class SystemFake : ISystem
         {
-            public string Name => nameof(SystemFake);
             public IComponentFilter Filter
             {
                 get { throw new NotImplementedException(); }
             }
+
+            public string Name => nameof(SystemFake);
         }
 
         internal class SystemInstanceFake : ISystemInstance
@@ -60,12 +61,12 @@ namespace OpenAOE.Engine.Tests
         [Test]
         public void SchedulerContainsAllSystems()
         {
-            var systems = new List<ISystemInstance>()
+            var systems = new List<ISystemInstance>
             {
                 new SystemInstanceFake(),
                 new SystemInstanceFake(),
                 new SystemInstanceFake(),
-                new SystemInstanceFake(),
+                new SystemInstanceFake()
             };
 
             var updateScheduler = new SystemUpdateScheduler(systems);

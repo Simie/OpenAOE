@@ -13,6 +13,7 @@ namespace OpenAOE.Services
             Y = y;
         }
     }
+
     public interface IInputService
     {
         event EventHandler<MouseEvent> MouseDown;

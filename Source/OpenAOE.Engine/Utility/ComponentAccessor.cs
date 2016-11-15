@@ -33,10 +33,14 @@ namespace OpenAOE.Engine.Utility
         /// <summary>
         /// Creates a new ComponentAccessor that accesses the specified Data type.
         /// </summary>
-        /// <param name="dataType">The type of Data to retrieve; note that this parameter must be a
-        /// subtype of Data</param>
+        /// <param name="dataType">
+        /// The type of Data to retrieve; note that this parameter must be a
+        /// subtype of Data
+        /// </param>
         public ComponentAccessor(Type dataType)
-            : this(ComponentAccessorFactory.GetId(dataType)) {}
+            : this(ComponentAccessorFactory.GetId(dataType))
+        {
+        }
 
         /// <summary>
         /// Directly construct a ComponentAccessor with the given id.
@@ -62,10 +66,11 @@ namespace OpenAOE.Engine.Utility
         /// <summary>
         /// Indicates whether this instance and a specified object are equal.
         /// </summary>
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
-            return obj is ComponentAccessor && this == (ComponentAccessor)obj;
+            return obj is ComponentAccessor && (this == (ComponentAccessor) obj);
         }
+
         /// <summary>
         /// Returns a hash code for this instance.
         /// </summary>
@@ -73,6 +78,7 @@ namespace OpenAOE.Engine.Utility
         {
             return Id.GetHashCode();
         }
+
         /// <summary>
         /// Indicates whether this instance and a specified object are equal.
         /// </summary>
@@ -80,6 +86,7 @@ namespace OpenAOE.Engine.Utility
         {
             return x.Id == y.Id;
         }
+
         /// <summary>
         /// Indicates whether this instance and a specified object are not equal.
         /// </summary>
