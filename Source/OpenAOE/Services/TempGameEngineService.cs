@@ -4,6 +4,7 @@ using Ninject.Extensions.Logging;
 using OpenAOE.Engine;
 using OpenAOE.Engine.Data;
 using OpenAOE.Engine.Entity;
+using OpenAOE.Games.AGE2.Data.Commands;
 using OpenAOE.Games.AGE2.Data.Components;
 
 namespace OpenAOE.Services
@@ -13,7 +14,7 @@ namespace OpenAOE.Services
         public event EventHandler<EngineChangedEventArgs> EngineChanged;
         public event EventHandler<GameEngineEventArgs> EngineEvent;
 
-        public IEngine Engine { get { return _engine; } }
+        public IEngine Engine { get; }
 
         private static List<EntityTemplate> TestTemplates = new List<EntityTemplate>()
         {
@@ -41,30 +42,42 @@ namespace OpenAOE.Services
             })
         };
 
+        private readonly List<Command> _commands = new List<Command>();
+
         private readonly ILogger _logger;
         private readonly IEngineFactory _engineFactory;
-        private readonly IEngine _engine;
+        private readonly IInputService _inputService;
 
-        public TempGameEngineService(ILogger logger, IEngineFactory engineFactory)
+        public TempGameEngineService(ILogger logger, IEngineFactory engineFactory, IInputService inputService)
         {
             _logger = logger;
             _engineFactory = engineFactory;
+            _inputService = inputService;
+
+            _inputService.MouseDown += OnMouseDown;
 
             _logger.Info("Creating a game engine");
-            _engine = engineFactory.Create(TestData, TestTemplates);
+            Engine = engineFactory.Create(TestData, TestTemplates);
+        }
+
+        private void OnMouseDown(object sender, MouseEvent mouseEvent)
+        {
+            _commands.Add(new MoveCommand(0, new FixVector2(mouseEvent.X, mouseEvent.Y)));
         }
 
         public void Tick()
         {
             if (Engine == null)
                 return;
+            
+            if (_commands.Count > 0)
+            {
+                _logger.Info("Executing tick with {0} commands.", _commands.Count);
+            }
 
-            EngineTickInput input;
-            //if (i == 1) {
-            //    input = new EngineTickInput(new Command[] { new MoveCommand(0, new FixVector2(20, 20)) });
-            //} else {
-            input = new EngineTickInput();
-            //}
+            var input = new EngineTickInput(_commands);
+
+            _commands.Clear();
 
             var tick = Engine.Tick(input);
             tick.Start();

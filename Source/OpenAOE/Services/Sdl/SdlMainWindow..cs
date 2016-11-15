@@ -1,18 +1,20 @@
 ﻿using System;
 using Ninject.Extensions.Logging;
 using OpenAOE.Services.Config;
-using SDL2;
+using static SDL2.SDL;
 
 namespace OpenAOE.Services.Sdl
 {
-    public class SdlMainWindow : IDisposable, IMainWindow
+    public class SdlMainWindow : IDisposable, IMainWindow, IInputService
     {
+        public event EventHandler<MouseEvent> MouseDown;
+
         public int Width
         {
             get
             {
                 int w, h;
-                SDL.SDL_GetWindowSize(_window, out w, out h);
+                SDL_GetWindowSize(_window, out w, out h);
                 return w;
             }
         }
@@ -22,7 +24,7 @@ namespace OpenAOE.Services.Sdl
             get
             {
                 int w, h;
-                SDL.SDL_GetWindowSize(_window, out w, out h);
+                SDL_GetWindowSize(_window, out w, out h);
                 return h;
             }
         }
@@ -54,15 +56,15 @@ namespace OpenAOE.Services.Sdl
 
             _logger.Info("Creating window and renderer with size {0}x{1}", _windowWidth.Value, _windowHeight.Value);
 
-            if (SDL.SDL_CreateWindowAndRenderer(_windowWidth.Value, _windowHeight.Value, SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE, out _window,
+            if (SDL_CreateWindowAndRenderer(_windowWidth.Value, _windowHeight.Value, SDL_WindowFlags.SDL_WINDOW_RESIZABLE, out _window,
                 out _renderer) < 0)
             {
-                var error = SDL.SDL_GetError();
+                var error = SDL_GetError();
                 _logger.Fatal("Failed to create window. SDL Error: {0}", error);
                 throw new Exception($"Failed to create SDL window. {error}");
             }
 
-            SDL.SDL_SetWindowTitle(_window, "OpenAOE");
+            SDL_SetWindowTitle(_window, "OpenAOE");
         }
 
         private void OnWindowSizeConfigChanged(IWriteableConfig<int> sender, ConfigChangedEvent<int> args)
@@ -72,24 +74,30 @@ namespace OpenAOE.Services.Sdl
 
         public void PumpEvents()
         {
-            SDL.SDL_Event evnt;
+            SDL_Event evnt;
 
-            while (SDL.SDL_PollEvent(out evnt) != 0)
+            while (SDL_PollEvent(out evnt) != 0)
             {
                 switch (evnt.type)
                 {
-                    case SDL.SDL_EventType.SDL_QUIT:
+                    case SDL_EventType.SDL_MOUSEBUTTONDOWN:
+                    {
+                        _logger.Info($"MouseDown ({evnt.button.x}, {evnt.button.y})");
+                        MouseDown?.Invoke(this, new MouseEvent(evnt.button.x, evnt.button.y));
+                        break;
+                    }
+                    case SDL_EventType.SDL_QUIT:
                     {
                         _logger.Info("SDL_Quit");
                         CloseRequested?.Invoke(this, EventArgs.Empty);
                         break;
                     }
-                    case SDL.SDL_EventType.SDL_WINDOWEVENT:
+                    case SDL_EventType.SDL_WINDOWEVENT:
                     {
-                        if (evnt.window.windowEvent == SDL.SDL_WindowEventID.SDL_WINDOWEVENT_RESIZED)
+                        if (evnt.window.windowEvent == SDL_WindowEventID.SDL_WINDOWEVENT_RESIZED)
                         {
                             int h, w;
-                            SDL.SDL_GetWindowSize(_window, out w, out h);
+                            SDL_GetWindowSize(_window, out w, out h);
                             _windowWidth.Value = w;
                             _windowHeight.Value = h;
                         }
@@ -103,16 +111,16 @@ namespace OpenAOE.Services.Sdl
                 var width = _windowWidth.Value;
                 var height = _windowHeight.Value;
                 _logger.Info("Resizing window to {0}x{1}", width, height);
-                SDL.SDL_SetWindowSize(_window, width, height);
-                SDL.SDL_RenderSetLogicalSize(_renderer, width, height);
+                SDL_SetWindowSize(_window, width, height);
+                SDL_RenderSetLogicalSize(_renderer, width, height);
                 _refreshWindow = false;
             }
         }
 
         public void Dispose()
         {
-            SDL.SDL_DestroyRenderer(_window);
-            SDL.SDL_DestroyWindow(_window);
+            SDL_DestroyRenderer(_window);
+            SDL_DestroyWindow(_window);
         }
     }
 }

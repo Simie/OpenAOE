@@ -84,6 +84,7 @@
     <Compile Include="Services\Config\IConfigValueProvider.cs" />
     <Compile Include="Services\Config\Implementation\TomlConfigValueProvider.cs" />
     <Compile Include="Services\IGameEngineService.cs" />
+    <Compile Include="Services\IInputService.cs" />
     <Compile Include="Services\TempGameEngineService.cs" />
     <Compile Include="Systems\GameEngineTickSystem.cs" />
     <Compile Include="Services\IMainWindow.cs" />

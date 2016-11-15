@@ -12,7 +12,7 @@ namespace OpenAOE
         {
             Bind<SystemManager>().ToSelf().InSingletonScope();
             Bind<Application>().ToSelf().InSingletonScope();
-            Bind<IMainWindow, SdlMainWindow>().To<SdlMainWindow>().InSingletonScope();
+            Bind<IMainWindow, IInputService, SdlMainWindow>().To<SdlMainWindow>().InSingletonScope();
             Bind<IGameEngineService>().To<TempGameEngineService>().InSingletonScope();
 
             Kernel.Bind(p =>
